@@ -1,0 +1,57 @@
+{
+	"$schema": "https://www.schemastore.org/package.json",
+	"name": "rmit-full-stack-dev-group",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "./backend/bin/www",
+	"scripts": {
+		"predev": "node --env-file=.env envCheck.js",
+		"dev": "nodemon --exec 'node -r dotenv/config' --ext 'js json' ./backend/bin/www",
+		"build": "vite build",
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix .",
+		"check": "tsc -p backend && tsc -p frontend"
+	},
+	"dependencies": {
+		"@prisma/client": "^6.13.0",
+		"@reduxjs/toolkit": "^2.8.2",
+		"debug": "~2.6.9",
+		"dotenv": "^17.2.1",
+		"express": "^5.1.0",
+		"express-session": "^1.18.2",
+		"mongoose": "^8.17.1",
+		"morgan": "^1.10.1",
+		"react": "^19.1.1",
+		"react-dom": "^19.1.1",
+		"react-redux": "^9.2.0",
+		"react-router": "^7.8.0",
+		"vite-express": "^0.21.1",
+		"zod": "^4.0.16"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.32.0",
+		"@stylistic/eslint-plugin": "^5.2.3",
+		"@types/debug": "^4.1.12",
+		"@types/express": "^5.0.3",
+		"@types/express-session": "^1.18.2",
+		"@types/mongoose": "^5.11.96",
+		"@types/morgan": "^1.9.10",
+		"@types/node": "^24.2.1",
+		"@types/react": "^19.1.9",
+		"@types/react-dom": "^19.1.7",
+		"@vitejs/plugin-react": "^5.0.0",
+		"eslint": "^9.32.0",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-hooks": "^5.2.0",
+		"eslint-plugin-react-refresh": "^0.4.20",
+		"eslint-plugin-simple-import-sort": "^12.1.1",
+		"globals": "^16.3.0",
+		"nodemon": "^3.1.10",
+		"typescript": "^5.9.2",
+		"vite": "^7.1.1"
+	},
+	"imports": {
+		"#root/*": "./backend/*"
+	}
+}

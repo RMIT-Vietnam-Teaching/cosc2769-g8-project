@@ -1,20 +1,32 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import Express from 'express';
+import logger from 'morgan';
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+import apiRouter from './api.router.js';
+import middleware from './middleware.js';
 
-var app = express();
+const app = Express();
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(Express.static('public', {
+	dotfiles: 'ignore',
+	extensions: ['js', 'css', 'png', 'jpg', 'jpeg', 'svg'],
+	index: false,
+	redirect: false,
+	fallthrough: true,
+}));
 
-module.exports = app;
+app.use('/api', middleware.jsonResponseHelper);
+
+// Only used sub path of /api so that react-router can handle the rest
+app.use('/api', Express.json());
+app.use('/api', Express.urlencoded({ extended: true }));
+app.use('/api', middleware.jsonResponseHelper);
+app.use('/api', apiRouter);
+app.use('/api', middleware.notFound);
+app.use('/api', middleware.error);
+
+// Only letting react router handle GET requests
+app.use('/', middleware.onlyGetRequest);
+
+export default app;

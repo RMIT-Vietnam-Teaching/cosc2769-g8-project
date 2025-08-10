@@ -1,0 +1,41 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"typeRoots": ["../node_modules/@types"],
+
+		"paths": {
+			"#/*": ["./*"],
+		},
+
+		"noEmit": true,
+		"allowJs": true, // Enable JavaScript support
+		"checkJs": true, // Set to true if you want basic type checking in JS files (like JSDoc)
+
+		"lib": ["ES2024", "DOM", "DOM.Iterable"],
+		"target": "es2024", // Or "ESNext" for the very latest features
+		"module": "esnext", // Or "ESNext" if you're fully committed to ESM, "CommonJS" if exclusively CJS
+		"esModuleInterop": true, // Allows default imports from modules with no default export (common with CJS/ESM interop)
+
+		"moduleResolution": "bundler",
+		"moduleDetection": "force",
+		"jsx": "react-jsx",
+		"resolveJsonModule": true,
+		"resolvePackageJsonImports": false,
+		"resolvePackageJsonExports": false,
+
+		"strict": true, // Enables a set of strict type-checking options (good practice)
+		"alwaysStrict": false,
+		"noImplicitAny": false,
+		"noImplicitThis": false,
+		"useUnknownInCatchVariables": false,
+
+		"erasableSyntaxOnly": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true,
+
+		"skipLibCheck": true, // Skip type checking of declaration files (improves performance, useful for node_modules)
+		"forceConsistentCasingInFileNames": true // Ensures consistent casing for file names
+	},
+	"include": ["."],
+	"exclude": ["../node_modules", "dist"]
+}
