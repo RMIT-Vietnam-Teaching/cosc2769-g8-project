@@ -16,6 +16,8 @@
 	"dependencies": {
 		"@prisma/client": "^6.13.0",
 		"@reduxjs/toolkit": "^2.8.2",
+		"@types/bcrypt": "^6.0.0",
+		"bcrypt": "^6.0.0",
 		"debug": "~2.6.9",
 		"dotenv": "^17.2.1",
 		"express": "^5.1.0",
