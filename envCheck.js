@@ -1,4 +1,7 @@
 const requiredEnv = [
+	'NODE_ENV',
+	'PORT',
+	'DATABASE_URL',
 ];
 
 requiredEnv.forEach(key => {

@@ -1,12 +1,17 @@
 import Express from 'express';
+import { connect } from 'mongoose';
 import logger from 'morgan';
 
 import apiRouter from './api.router.js';
 import middleware from './middleware.js';
 
+connect(process.env.DATABASE_URL);
+
 const app = Express();
 
 app.use(logger('dev'));
+
+app.set('env', process.env.NODE_ENV);
 
 app.use(Express.static('public', {
 	dotfiles: 'ignore',
