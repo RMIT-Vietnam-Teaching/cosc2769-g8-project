@@ -31,7 +31,6 @@ app.set('port', port);
 // Create HTTP server.
 const server = createServer(app);
 
-
 // Event listener for HTTP server "error" event.
 const onError = (error) => {
 	if (error.syscall !== 'listen') {

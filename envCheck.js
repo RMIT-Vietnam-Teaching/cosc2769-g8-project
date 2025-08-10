@@ -4,7 +4,7 @@ const requiredEnv = [
 	'DATABASE_URL',
 ];
 
-requiredEnv.forEach(key => {
+requiredEnv.forEach((key) => {
 	if (typeof process.env[key] !== 'string') {
 		console.log(`Env ${key} is missing! Please check .env.template and add ${key} into .env`);
 		process.exit(1);

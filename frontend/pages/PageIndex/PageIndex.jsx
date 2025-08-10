@@ -4,8 +4,8 @@ import reactLogo from '#/assets/react.svg';
 import { useAppDispatch, useAppSelector } from '#/hooks/redux';
 import { increment } from '#/redux/slices/counterSlide';
 
-export const  PageIndex = () => {
-	const count = useAppSelector((state) => state.counter.value);
+export const PageIndex = () => {
+	const count = useAppSelector(state => state.counter.value);
 	const dispatch = useAppDispatch();
 
 	return (

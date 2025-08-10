@@ -21,7 +21,10 @@ export default defineConfig([
 			'@stylistic': stylistic,
 			'@simpleSort': simpleImportSort,
 		},
-		extends: ['js/recommended'],
+		extends: [
+			'js/recommended',
+			stylistic.configs.recommended,
+		],
 		rules: {
 			'no-unused-vars': ['error', {
 				varsIgnorePattern: '^_',
@@ -36,6 +39,7 @@ export default defineConfig([
 			'@stylistic/indent': ['warn', 'tab'],
 			'@stylistic/jsx-indent-props': ['warn', 'tab'],
 			'@stylistic/indent-binary-ops': ['warn', 'tab'],
+			'@stylistic/no-tabs': ['error', { allowIndentationTabs: true }],
 			'@stylistic/quotes': ['warn', 'single'],
 			'@stylistic/quote-props': ['error', 'as-needed'],
 			'@stylistic/jsx-quotes': ['warn', 'prefer-single'],
@@ -50,6 +54,15 @@ export default defineConfig([
 			'@stylistic/arrow-spacing': 'warn',
 			'@stylistic/linebreak-style': ['error', 'unix'],
 			'@stylistic/eol-last': 'warn',
+			'@stylistic/brace-style': [
+				'error', '1tbs',
+				{ allowSingleLine: false },
+			],
+			'@stylistic/arrow-parens': [
+				'error', 'as-needed',
+				{ requireForBlockBody: true },
+			],
+			'@stylistic/jsx-one-expression-per-line': 'off',
 
 			'@simpleSort/imports': ['warn', {
 				groups: [[
