@@ -13,6 +13,7 @@ frontend/dist-ssr
 frontend/*.local
 
 **/tsconfig.tsbuildinfo
+.cached
 
 # Editor directories and files
 .vscode/*

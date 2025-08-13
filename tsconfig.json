@@ -1,22 +1,17 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"compilerOptions": {
-		"baseUrl": ".",
+		"composite": true,
+		"declaration": true,
+		"rootDir": ".",
+		"outDir": "./.cached/ts",
 
-		"paths": {
-			"#root/*.js": ["./*.js"],
-		},
-
-		"noEmit": true,
-		"lib": ["ES2024", "ESNext.Array", "ESNext.Collection", "ESNext.Iterator"],
-		"target": "es2022", // Or "ESNext" for the very latest features
-		"module": "nodenext", // Or "ESNext" if you're fully committed to ESM, "CommonJS" if exclusively CJS
-		"moduleResolution": "node16", // Crucial for resolving modules in Node.js environments
 		"esModuleInterop": true, // Allows default imports from modules with no default export (common with CJS/ESM interop)
 
 		"allowJs": true, // Enable JavaScript support
 		"checkJs": true, // Set to true if you want basic type checking in JS files (like JSDoc)
 		"skipLibCheck": true, // Skip type checking of declaration files (improves performance, useful for node_modules)
+		"emitDeclarationOnly": true,
 
 		"strict": true, // Enables a set of strict type-checking options (good practice)
 		"alwaysStrict": false,
@@ -30,5 +25,11 @@
 
 		"forceConsistentCasingInFileNames": true, // Ensures consistent casing for file names
 	},
-	"include": ["**/*.js", "./types/**/*.d.ts"],
+	"files": [],
+	"include": [],
+	"exclude": ["./node_modules", "**/dist"],
+	"references": [
+		{ "path": "./tsconfig.backend.json" },
+		{ "path": "./tsconfig.frontend.json" },
+	]
 }

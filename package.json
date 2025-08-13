@@ -11,9 +11,9 @@
 		"build": "vite build",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix .",
-		"check": "tsc -p backend && tsc -p frontend",
-		"check:backend": "tsc -p backend",
-		"check:frontend": "tsc -p frontend"
+		"check": "tsc -b tsconfig.json",
+		"check:backend": "tsc -b tsconfig.backend.json",
+		"check:frontend": "tsc -b tsconfig.frontend.json"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^2.8.2",

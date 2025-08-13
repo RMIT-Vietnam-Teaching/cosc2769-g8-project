@@ -1,0 +1,24 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "./tsconfig",
+	"compilerOptions": {
+		"paths": {
+			"#/*": ["./frontend/*"],
+		},
+
+		"lib": ["ES2024", "DOM", "DOM.Iterable"],
+		"target": "es2024", // Or "ESNext" for the very latest features
+		"module": "esnext", // Or "ESNext" if you're fully committed to ESM, "CommonJS" if exclusively CJS
+		"moduleResolution": "bundler",
+		"moduleDetection": "force",
+		"jsx": "react-jsx",
+		"resolveJsonModule": true,
+		"resolvePackageJsonImports": false,
+		"resolvePackageJsonExports": false,
+	},
+	"include": [
+		"./frontend/**/*.js",
+		"./frontend/**/*.jsx",
+		"./frontend/vite-env.d.ts"
+	],
+}
