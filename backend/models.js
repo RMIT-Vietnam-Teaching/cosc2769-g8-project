@@ -10,11 +10,7 @@
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 
-// ----------------------
-// Validation regex
-// ----------------------
-const USERNAME_REGEX = /^[A-Za-z0-9]{8,15}$/;
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
+import accountHelper from './helpers/account.helper.js';
 
 // All schemas add createdAt/updatedAt automatically
 const timeOpts = { timestamps: true };
@@ -28,7 +24,6 @@ const BaseUserSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			unique: true,
-			match: USERNAME_REGEX,
 		},
 		password: {
 			type: String,
@@ -46,34 +41,14 @@ const BaseUserSchema = new mongoose.Schema(
 		...timeOpts,
 		collection: 'users',
 		discriminatorKey: 'role',
+		methods: {
+			/** @param {string} candidate */
+			comparePassword: async function (candidate) {
+				return await bcrypt.compare(candidate, this.password);
+			},
+		},
 	},
 );
-
-// ---------- Password hashing ----------
-BaseUserSchema.pre('save', async function (next) {
-	if (!this.isModified('password')) return next();
-
-	if (!PASSWORD_REGEX.test(this.password)) {
-		return next(
-			new Error(
-				'Password must be 8‑20 chars, include upper, lower, digit and one of !@#$%^&*',
-			),
-		);
-	}
-
-	try {
-		const salt = await bcrypt.genSalt(10);
-		this.password = await bcrypt.hash(this.password, salt);
-		return next();
-	} catch (err) {
-		return next(err);
-	}
-});
-
-/** @param {string} candidate */
-BaseUserSchema.methods.comparePassword = function (candidate) {
-	return bcrypt.compare(candidate, this.password);
-};
 
 export const User = mongoose.model('User', BaseUserSchema);
 
@@ -98,14 +73,14 @@ const VendorSchema = new mongoose.Schema(
 // Ensure businessName & businessAddress are unique **among vendors only**
 VendorSchema.index(
 	{ businessName: 1 },
-	{ unique: true, partialFilterExpression: { role: 'Vendor' } },
+	{ unique: true, partialFilterExpression: { role: accountHelper.role.VENDOR } },
 );
 VendorSchema.index(
 	{ businessAddress: 1 },
-	{ unique: true, partialFilterExpression: { role: 'Vendor' } },
+	{ unique: true, partialFilterExpression: { role: accountHelper.role.VENDOR } },
 );
 
-export const Vendor = User.discriminator('Vendor', VendorSchema);
+export const Vendor = User.discriminator(accountHelper.role.VENDOR, VendorSchema);
 
 // =================================================
 // Customer schema
@@ -125,7 +100,7 @@ const CustomerSchema = new mongoose.Schema(
 	},
 	timeOpts,
 );
-export const Customer = User.discriminator('Customer', CustomerSchema);
+export const Customer = User.discriminator(accountHelper.role.CUSTOMER, CustomerSchema);
 
 // =================================================
 // Distribution Hub schema
@@ -152,7 +127,7 @@ const ShipperSchema = new mongoose.Schema(
 	},
 	timeOpts,
 );
-export const Shipper = User.discriminator('Shipper', ShipperSchema);
+export const Shipper = User.discriminator(accountHelper.role.SHIPPER, ShipperSchema);
 
 // =================================================
 // Product schema

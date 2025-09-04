@@ -1,8 +1,12 @@
+import MongoStore from 'connect-mongo';
+import { millisecondsInDay, secondsInDay } from 'date-fns/constants';
 import Express from 'express';
+import session from 'express-session';
 import { connect } from 'mongoose';
 import logger from 'morgan';
 
 import apiRouter from './api.router.js';
+import { httpLogger } from './logger.js';
 import middleware from './middleware.js';
 
 connect(process.env.DATABASE_URL);
@@ -26,6 +30,29 @@ app.use('/api', middleware.jsonResponseHelper);
 // Only used sub path of /api so that react-router can handle the rest
 app.use('/api', Express.json());
 app.use('/api', Express.urlencoded({ extended: true }));
+
+app.use('/api', session({
+	secret: process.env.SESSION_SECRET_KEY,
+	resave: false,
+	saveUninitialized: false,
+	store: MongoStore.create({
+		mongoUrl: process.env.MONGO_URL,
+		collectionName: 'login_sessions',
+		ttl: 1 * secondsInDay,
+		autoRemove: 'interval',
+		autoRemoveInterval: 10,
+		stringify: false,
+	}),
+	cookie: {
+		maxAge: 14 * millisecondsInDay,
+		secure: process.env.NODE_ENV === 'production',
+		httpOnly: true,
+		sameSite: 'lax',
+	},
+}));
+
+app.use('/api', httpLogger);
+
 app.use('/api', middleware.jsonResponseHelper);
 app.use('/api', apiRouter);
 app.use('/api', middleware.notFound);

@@ -1,11 +1,20 @@
 import { Router } from 'express';
-import seedDataController from './controllers/seedData.controller.js';
+
+import accountController from './controllers/account.controller.js';
 import orderController from './controllers/order.controller.js';
+import seedDataController from './controllers/seedData.controller.js';
+import middleware from './middleware.js';
 
 const apiRouter = Router();
 
 // Seed data routes
 apiRouter.get('/seed-mongodb-data', seedDataController.start);
+
+// Account
+apiRouter.post('/login', middleware.isNotLoggedIn, accountController.login);
+apiRouter.post('/logout', accountController.logout);
+apiRouter.get('/account', accountController.fetch);
+apiRouter.post('/signup', accountController.fetch);
 
 // Order routes for shipper dashboard
 apiRouter.get('/orders', orderController.getOrders);
