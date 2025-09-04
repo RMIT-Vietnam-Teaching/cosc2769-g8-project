@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 import {
 	DistributionHub,
-	Order,
 	Product,
 	User,
+	Order,
 } from '#root/models.js'; // Replace with the correct path
 
 const seedDataController = {};
@@ -14,11 +14,16 @@ const seedDataController = {};
 // =================================================
 const vendorId = new mongoose.Types.ObjectId();
 const customerId = new mongoose.Types.ObjectId();
+const customer2Id = new mongoose.Types.ObjectId();
+const customer3Id = new mongoose.Types.ObjectId();
 const hubId = new mongoose.Types.ObjectId();
 const shipperId = new mongoose.Types.ObjectId();
 const productId_1 = new mongoose.Types.ObjectId();
 const productId_2 = new mongoose.Types.ObjectId();
-const orderId = new mongoose.Types.ObjectId();
+const productId_3 = new mongoose.Types.ObjectId();
+const orderId_1 = new mongoose.Types.ObjectId();
+const orderId_2 = new mongoose.Types.ObjectId();
+const orderId_3 = new mongoose.Types.ObjectId();
 
 // =================================================
 // Sample Data Objects
@@ -44,7 +49,27 @@ const sampleData = {
 			profilePicture: 'customer-profile-pic.jpg',
 			role: 'Customer',
 			name: 'John Doe',
-			address: '456 Elm St, Anytown',
+			address: '456 Elm St, Melbourne VIC 3000',
+		},
+		{
+			// This will be a Customer 2
+			_id: customer2Id,
+			username: 'customerUser2',
+			password: 'Password@123',
+			profilePicture: 'customer2-profile-pic.jpg',
+			role: 'Customer',
+			name: 'Jane Smith',
+			address: '789 Collins St, Melbourne VIC 3001',
+		},
+		{
+			// This will be a Customer 3
+			_id: customer3Id,
+			username: 'customerUser3',
+			password: 'Password@123',
+			profilePicture: 'customer3-profile-pic.jpg',
+			role: 'Customer',
+			name: 'Bob Wilson',
+			address: '321 Bourke St, Melbourne VIC 3002',
 		},
 		{
 			// This will be a Shipper
@@ -60,7 +85,7 @@ const sampleData = {
 		{
 			_id: hubId,
 			name: 'Main Distribution Hub',
-			address: '789 Warehouse Rd, Anytown',
+			address: '789 Warehouse Rd, Melbourne',
 		},
 	],
 	products: [
@@ -70,7 +95,7 @@ const sampleData = {
 			name: 'Honeycrisp Apples',
 			price: 2.99,
 			image: 'apple-image.jpg',
-			description: 'Sweet and crisp organic apples.',
+			description: 'Sweet and crisp organic apples from local orchards.',
 		},
 		{
 			_id: productId_2,
@@ -78,28 +103,49 @@ const sampleData = {
 			name: 'Picked Bananas',
 			price: 1.5,
 			image: 'banana-image.jpg',
-			description: 'Bananas from local farmers.',
+			description: 'Fresh bananas from local farmers, perfectly ripe.',
+		},
+		{
+			_id: productId_3,
+			vendor: vendorId,
+			name: 'Fresh Oranges',
+			price: 3.25,
+			image: 'orange-image.jpg',
+			description: 'Juicy Valencia oranges, great source of vitamin C.',
 		},
 	],
 	orders: [
 		{
-			_id: orderId,
+			_id: orderId_1,
 			customer: customerId,
-			hub: hubId,
-			items: [
-				{
-					product: productId_1,
-					quantity: 5,
-					price: 2.99, // Snapshot price
-				},
-				{
-					product: productId_2,
-					quantity: 3,
-					price: 1.5,
-				},
+			products: [
+				{ product: productId_1, quantity: 2 },
+				{ product: productId_2, quantity: 1 },
 			],
-			totalPrice: 19.45, // (5 * 2.99) + (3 * 1.5)
-			status: 'active',
+			totalAmount: 7.48,
+			status: 'Pending',
+			createdAt: new Date(),
+		},
+		{
+			_id: orderId_2,
+			customer: customer2Id,
+			products: [
+				{ product: productId_3, quantity: 3 },
+			],
+			totalAmount: 9.75,
+			status: 'Shipped',
+			createdAt: new Date(),
+		},
+		{
+			_id: orderId_3,
+			customer: customer3Id,
+			products: [
+				{ product: productId_1, quantity: 1 },
+				{ product: productId_3, quantity: 2 },
+			],
+			totalAmount: 9.49,
+			status: 'Delivered',
+			createdAt: new Date(),
 		},
 	],
 };

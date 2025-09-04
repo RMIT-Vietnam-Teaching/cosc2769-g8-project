@@ -1,0 +1,49 @@
+/* Custom styles for PageShipper */
+.album {
+  min-height: 100vh;
+}
+
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.btn-group .btn {
+  margin-right: 0.25rem;
+}
+
+.btn-group .btn:last-child {
+  margin-right: 0;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-text {
+  margin-bottom: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.text-body-secondary {
+  font-size: 0.875rem;
+}
+
+/* Loading state styles */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+/* Error state styles */
+.error {
+  color: #dc3545;
+  text-align: center;
+  padding: 2rem;
+}

@@ -6,8 +6,7 @@
 	"type": "module",
 	"main": "./backend/bin/www",
 	"scripts": {
-		"predev": "node --env-file=.env envCheck.js",
-		"dev": "nodemon --exec 'node -r dotenv/config' --ext 'js json' ./backend/bin/www",
+		"dev": "nodemon --exec \"node -r dotenv/config\" --ext js,json ./backend/bin/www",
 		"build": "vite build",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix .",
