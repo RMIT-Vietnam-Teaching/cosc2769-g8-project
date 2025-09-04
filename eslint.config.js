@@ -125,5 +125,22 @@ export default defineConfig([
 			reactHooks.configs['recommended-latest'],
 			reactRefresh.configs.vite,
 		],
+		rules: {
+			'@stylistic/jsx-one-expression-per-line': 'off',
+			'@stylistic/jsx-closing-tag-location': ['warn', 'line-aligned'],
+			'@stylistic/jsx-max-props-per-line': ['warn', { maximum: 5, when: 'multiline' }],
+			'@stylistic/jsx-wrap-multilines': ['warn', {
+				declaration: 'parens',
+				assignment: 'parens',
+				return: 'parens',
+				arrow: 'parens',
+				condition: 'parens',
+				logical: 'parens',
+				prop: 'parens',
+				propertyValue: 'parens',
+			}],
+			'react/prop-types': 'off',
+			'react-hooks/exhaustive-deps': 'off',
+		},
 	},
 ]);
