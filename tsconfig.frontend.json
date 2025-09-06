@@ -19,6 +19,8 @@
 	"include": [
 		"./frontend/**/*.js",
 		"./frontend/**/*.jsx",
+		"./frontend/**/*.ts",
+		"./frontend/**/*.tsx",
 		"./frontend/vite-env.d.ts"
 	],
 }

@@ -27,6 +27,7 @@
 		"react-dom": "^19.1.1",
 		"react-redux": "^9.2.0",
 		"react-router": "^7.8.0",
+		"react-router-dom": "^7.8.2",
 		"vite-express": "^0.21.1",
 		"zod": "^4.0.16"
 	},
@@ -50,6 +51,7 @@
 		"eslint-plugin-simple-import-sort": "^12.1.1",
 		"globals": "^16.3.0",
 		"nodemon": "^3.1.10",
+		"react-devtools": "^6.1.5",
 		"typescript": "^5.9.2",
 		"vite": "^7.1.1"
 	},

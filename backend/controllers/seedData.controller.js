@@ -94,7 +94,7 @@ const sampleData = {
 			vendor: vendorId,
 			name: 'Honeycrisp Apples',
 			price: 2.99,
-			image: 'apple-image.jpg',
+			image: 'https://source.unsplash.com/gDPaDDy6_WE/800x600',
 			description: 'Sweet and crisp organic apples from local orchards.',
 		},
 		{
@@ -102,7 +102,7 @@ const sampleData = {
 			vendor: vendorId,
 			name: 'Picked Bananas',
 			price: 1.5,
-			image: 'banana-image.jpg',
+			image: 'https://source.unsplash.com/0v_1TPz1uXw/800x600',
 			description: 'Fresh bananas from local farmers, perfectly ripe.',
 		},
 		{
