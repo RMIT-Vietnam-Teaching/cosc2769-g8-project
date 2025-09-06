@@ -42,8 +42,8 @@ export const userSlice = createSlice({
 		info: state => state.info,
 		isAuthenticated: state => state.isAuthenticated,
 		isChecked: state => state.isChecked,
-		isAdmin: state => state.info?.role === 'admin',
 		id: state => state.info?.id ?? null,
+		role: state => state.info?.role,
 	},
 });
 

@@ -1,6 +1,5 @@
 import Bootstrap from 'bootstrap';
-
-export {};
+import { UIMatch } from 'react-router';
 
 declare global {
 	namespace app {
@@ -19,44 +18,39 @@ declare global {
 				)
 			);
 
-		interface User {
-			id: number;
-			email: string;
-			name: string;
-			role: string;
+		type UserRole = 'Vendor' | 'Shipper' | 'Customer';
+
+		type AppUIMatch = UIMatch & {
+			handle?: {
+				requireAuth: boolean;
+				/** roles == null => accept all role */
+				roles?: UserRole[];
+			}
 		}
 
-		interface Genre {
-			genre_id: number;
+		type AppLayoutUIMatch = UIMatch & {
+			handle: {
+				defaultRouteForRole: {
+					[key in UserRole]: string
+				},
+			}
+		}
+
+		interface User {
+			id: number;
 			name: string;
+			role: UserRole;
+		}
+
+		interface Hub {
+			_id: string;
+			name: string;
+			address: string;
 		}
 
 		interface SelectOption<T> {
 			value: T;
 			label: string;
-		}
-
-		interface Book {
-			book_id: number;
-			title: string;
-			description: string;
-			publication_date: string;
-			is_online: boolean;
-			allow_borrow: boolean;
-			copy_count: number;
-			borrow_count: number;
-			publisher: {
-				id: number;
-				name: string;
-			};
-			authors: {
-				id: number;
-				name: string;
-			}[];
-			genres: {
-				id: number;
-				name: string;
-			}[];
 		}
 	}
 

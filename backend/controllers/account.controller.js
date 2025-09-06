@@ -1,3 +1,4 @@
+import { millisecondsInDay } from 'date-fns/constants';
 import { z } from 'zod/v4';
 
 import accountHelper from '#root/helpers/account.helper.js';
@@ -9,33 +10,21 @@ import { Customer, DistributionHub, Shipper, User, Vendor } from '#root/models.j
 const accountController = {};
 
 const newBaseUserSchema = z.strictObject({
-	username: z.string(
-		'Invalid value',
-	).min(
-		8, 'Must be at lest 8 characters!',
-	).max(
-		15, 'Must be at most 15 characters!',
-	).regex(
-		/[a-zA-Z0-9]*/, 'Must not contain invalid character(s)!',
-	),
-	password: z.string(
-		'Invalid value',
-	).min(
-		8, 'Must be at lest 8 characters!',
-	).max(
-		20, 'Must be at most 20 characters!',
-	).regex(
-		/.*[A-Z].*/, 'Must contain at least 1 uppercase letter!',
-	).regex(
-		/.*[a-z].*/, 'Must contain at least 1 lowercase letter!',
-	).regex(
-		/.*[0-9].*/, 'Must contain at least 1 digit!',
-	).regex(
-		/.*[!@#$%^&*].*/, 'Must contain at least 1 special character!',
-	).regex(
-		/[a-zA-Z0-9!@#$%^&*]*/, 'Must not contain invalid character(s)!',
-	),
-	profilePicture: z.url('Invalid ').optional(),
+	username: z
+		.string('Invalid value')
+		.refine(({ length: len }) => len >= 8 && len <= 15, 'Must be 8 - 15 characters')
+		.regex(/[a-zA-Z0-9]*/, 'Must not contain invalid character(s)!'),
+	password: z
+		.string('Invalid value')
+		.refine(({ length: len }) => len >= 8 && len <= 20, 'Must be 8 - 20 characters')
+		.refine(
+			x => x.match(/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).*/) != null,
+			'Must include lowercase, uppercase, digit and special character!',
+		).regex(
+			/^[a-zA-Z0-9!@#$%^&*]*$/, 'Must not contain invalid character(s)!',
+		),
+	confirmPassword: z.string('Invalid value'),
+	profilePicture: z.string().optional(),
 });
 
 const textFieldSchema = z
@@ -61,11 +50,18 @@ const newUserSchema = z.discriminatedUnion('role', [
 		name: textFieldSchema,
 		address: textFieldSchema,
 	}),
-]);
+]).check(({ value: { password, confirmPassword }, issues }) => {
+	if (password.length !== 0 && confirmPassword.length === 0) {
+		issues.push(validationHelper.customIssue(['confirmPassword'], 'Please fill in to confirm your password!'));
+	} else if (password.length !== 0 && confirmPassword !== password) {
+		issues.push(validationHelper.customIssue(['confirmPassword'], 'Must match entered password!'));
+	}
+});
 
 /** @type {app.AsyncRequestHandler} */
 accountController.signup = async (req, res) => {
-	const validation = newUserSchema.safeParse(req.body);
+	const body = { ...req.body, profilePicture: req.file?.filename ?? undefined };
+	const validation = newUserSchema.safeParse(body);
 	if (validation.success) {
 		const data = validation.data;
 
@@ -106,7 +102,7 @@ accountController.signup = async (req, res) => {
 
 				await Vendor.create({
 					...data,
-					password: accountHelper.hashPassword(data.password),
+					password: await accountHelper.hashPassword(data.password),
 				});
 
 				return res.jsonOk();
@@ -117,13 +113,13 @@ accountController.signup = async (req, res) => {
 				}
 				await Shipper.create({
 					...data,
-					password: accountHelper.hashPassword(data.password),
+					password: await accountHelper.hashPassword(data.password),
 				});
 				return res.jsonOk();
 			} else if (data.role === accountHelper.role.CUSTOMER) {
 				await Customer.create({
 					...data,
-					password: accountHelper.hashPassword(data.password),
+					password: await accountHelper.hashPassword(data.password),
 				});
 				return res.jsonOk();
 			}
@@ -149,21 +145,25 @@ accountController.login = async (req, res) => {
 	if (validation.success) {
 		try {
 			const { username, password, remember, role } = validation.data;
-			const customer = role === accountHelper.role.CUSTOMER ? await Customer.findOne({ username }) : null;
-			const shipper = role === accountHelper.role.SHIPPER ? await Shipper.findOne({ username }) : null;
-			const vendor = role === accountHelper.role.SHIPPER ? await Vendor.findOne({ username }) : null;
+			const customer = role === accountHelper.role.CUSTOMER ? await Customer.findOne({ username }, '+password') : null;
+			const shipper = role === accountHelper.role.SHIPPER ? await Shipper.findOne({ username }, '+password') : null;
+			const vendor = role === accountHelper.role.VENDOR ? await Vendor.findOne({ username }, '+password') : null;
 			const user = customer ?? shipper ?? vendor;
 
 			if (user === null) {
-				return res.jsonErrorMsg(['Invalid username/password']);
+				console.log('Not Exist!!');
+				return res.jsonErrorMsg(['Invalid username/password!']);
 			}
 
 			if (!(await user.comparePassword(password))) {
-				return res.jsonErrorMsg(['Invalid username/password']);
+				console.log('Wrong Password!!');
+				return res.jsonErrorMsg(['Invalid username/password!']);
 			}
 
-			if (!remember) {
-				req.session.cookie.maxAge = undefined;
+			if (remember) {
+				req.session.cookie.maxAge = 14 * millisecondsInDay;
+			} else {
+				req.session.cookie.maxAge = 1 * millisecondsInDay;
 			}
 
 			if (customer != null) {
@@ -192,15 +192,16 @@ accountController.login = async (req, res) => {
 			res.jsonInternalErrorMsg(['Unable to login! Please try again later.']);
 		}
 	} else {
-		res.jsonErrorMsg(['Invalid email/password']);
+		logger.error('LogIn Validation Error %o', validation.error);
+		res.jsonErrorMsg(['Invalid username/password!']);
 	}
 };
 
 /** @type {app.RequestHandler} */
 accountController.fetch = (req, res) => {
+	console.log('Fetch user data');
 	if (req.session.user == null) {
-		res.status(responseHelper.status.UNAUTHENTICATED).jsonErrorMsg(['Unauthenticated.']);
-		return;
+		return res.status(responseHelper.status.UNAUTHENTICATED).jsonErrorMsg(['Unauthenticated.']);
 	} else {
 		res.jsonData(req.session.user);
 	}

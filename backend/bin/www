@@ -70,7 +70,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'development') {
 	// Bind Vite with express
 	ViteExpress.bind(app, server);
 }
