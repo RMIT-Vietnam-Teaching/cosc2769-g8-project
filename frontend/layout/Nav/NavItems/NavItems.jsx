@@ -40,6 +40,11 @@ export const NavItems = () => {
 				</NavLink>
 			</li>
 		) : (<>
+			<li className='nav-item'>
+				<NavLink className='nav-link' to='/shipper'>
+					Shipper
+				</NavLink>
+			</li>
 			<li className='nav-item dropdown'>
 				<a className='nav-link active dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
 					<MdAccountCircle /> {user.name}
