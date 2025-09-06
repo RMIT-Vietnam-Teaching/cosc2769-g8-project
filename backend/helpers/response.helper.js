@@ -1,6 +1,7 @@
 const responseHelper = {};
 
 responseHelper.status = /** @type {const} */ ({
+	PROCESSING: 102,
 	OK: 200,
 	CREATED: 201,
 	BAD_REQUEST: 400,

@@ -23,7 +23,7 @@ middleware.upload = multer({ storage: storage });
  * @type {app.Middleware}
  */
 middleware.notFound = (_, res) => {
-	res.status(responseHelper.status.NOT_FOUND).end();
+	res.status(responseHelper.status.NOT_FOUND).jsonErrorMsg(['Not Found!']);
 };
 
 /**
@@ -33,7 +33,7 @@ middleware.notFound = (_, res) => {
  */
 middleware.error = (error, _, res, __) => {
 	console.error(error);
-	res.status(responseHelper.status.INTERNAL_ERROR).end();
+	res.jsonInternalErrorMsg(['Unexpected error!']);
 };
 
 /**
@@ -42,20 +42,33 @@ middleware.error = (error, _, res, __) => {
  * @type {app.Middleware}
  */
 middleware.jsonResponseHelper = (_, res, next) => {
+	res.status(responseHelper.status.PROCESSING);
 	res.jsonOk = () => {
-		res.status(responseHelper.status.OK).json(jsonHelper.ok());
+		if (res.statusCode === responseHelper.status.PROCESSING) {
+			res.status(responseHelper.status.OK);
+		}
+		res.json(jsonHelper.ok());
 	};
 	res.jsonData = (data) => {
-		res.status(responseHelper.status.OK).json(jsonHelper.data(data));
+		if (res.statusCode === responseHelper.status.PROCESSING) {
+			res.status(responseHelper.status.OK);
+		}
+		res.json(jsonHelper.data(data));
 	};
 	res.jsonRedirect = (url) => {
 		res.status(responseHelper.status.OK).json(jsonHelper.redirect(url));
 	};
 	res.jsonError = (error) => {
-		res.status(responseHelper.status.BAD_REQUEST).json(jsonHelper.error(error));
+		if (res.statusCode === responseHelper.status.PROCESSING) {
+			res.status(responseHelper.status.BAD_REQUEST);
+		}
+		res.json(jsonHelper.error(error));
 	};
 	res.jsonErrorMsg = (errorMsgs) => {
-		res.status(responseHelper.status.BAD_REQUEST).json(jsonHelper.errorMsg(errorMsgs));
+		if (res.statusCode === responseHelper.status.PROCESSING) {
+			res.status(responseHelper.status.BAD_REQUEST);
+		}
+		res.json(jsonHelper.errorMsg(errorMsgs));
 	};
 	res.jsonInternalErrorMsg = (errorMsgs) => {
 		res.status(responseHelper.status.INTERNAL_ERROR).json(jsonHelper.errorMsg(errorMsgs));
