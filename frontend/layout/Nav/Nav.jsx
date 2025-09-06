@@ -6,7 +6,7 @@ export const Nav = () => (<>
 	<nav className='layout__nav navbar navbar-expand d-none d-md-flex shadow'>
 		<div className='container-fluid'>
 			<Link className='navbar-brand' to='/'>
-				📚 Library System
+				🛒 Shop
 			</Link>
 			<ul className='navbar-nav'>
 				<NavItems />
@@ -17,7 +17,7 @@ export const Nav = () => (<>
 	<nav className='layout__nav navbar d-md-none shadow'>
 		<div className='container-fluid'>
 			<Link className='navbar-brand' to='/'>
-				📚 Library System
+				🛒 Shop
 			</Link>
 			<button className='navbar-toggler' type='button' data-bs-toggle='offcanvas' data-bs-target='#offcanvasNavbar' data-bs-theme='dark' aria-controls='offcanvasNavbar' aria-label='Toggle navigation'>
 				<span className='navbar-toggler-icon'></span>
@@ -25,7 +25,7 @@ export const Nav = () => (<>
 			<div className='offcanvas offcanvas-end' tabIndex={-1} id='offcanvasNavbar' aria-labelledby='offcanvasNavbarLabel'>
 				<div className='offcanvas-header'>
 					<h5 className='offcanvas-title' id='offcanvasNavbarLabel'>
-						📚 Menu
+						🛒 Shop
 					</h5>
 					<button type='button' className='btn-close' data-bs-dismiss='offcanvas' aria-label='Close'></button>
 				</div>

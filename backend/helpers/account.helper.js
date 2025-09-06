@@ -9,7 +9,7 @@ accountHelper.role = /** @type {const} */({
 });
 
 accountHelper.hashPassword = async (/** @type {string} */password) => await bcrypt.hash(
-	password, process.env.BCRYPT_SALT_ROUNDS,
+	password, Number(process.env.BCRYPT_SALT_ROUNDS),
 );
 
 export default accountHelper;

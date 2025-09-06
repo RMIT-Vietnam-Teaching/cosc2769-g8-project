@@ -23,14 +23,24 @@ helper.get = (url, data, options) => {
 };
 
 /**
- * @template T
- * @type {(url: Input, data?: Record<string, any> | null, options?: Options) => ResponsePromise<T> }
+ * @type {(url: Input, data?: Record<string, any> | null, options?: Options) => ResponsePromise<any> }
  */
 helper.post = (url, data, options) => {
 	return ky.post(url, {
 		throwHttpErrors: false,
 		...(options ?? {}),
 		json: data ?? undefined,
+	});
+};
+
+/**
+ * @type {(url: Input, data?: FormData, options?: Options) => ResponsePromise<any> }
+ */
+helper.postForm = (url, data, options) => {
+	return ky.post(url, {
+		throwHttpErrors: false,
+		...(options ?? {}),
+		body: data
 	});
 };
 

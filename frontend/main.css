@@ -1,0 +1,51 @@
+input.form-control, input.form-check-input, .react-select__container {
+	--my-input-outline-width: 3px;
+}
+input.form-control.is-invalid, input.form-check-input.is-invalid, .react-select__container.is-invalid {
+	--bs-border-color: var(--bs-form-invalid-border-color);
+	--my-input-outline-width: 1px;
+}
+input.form-control:hover:not(:active, :focus) {
+	outline: var(--my-input-outline-width) solid var(--bs-border-color);
+}
+textarea.form-control:hover:not(:active, :focus) {
+	outline: var(--my-input-outline-width) solid var(--bs-border-color);
+}
+input.form-check-input:hover:not(:active, :focus) {
+	outline: var(--my-input-outline-width) solid var(--bs-border-color);
+}
+
+.react-select__container {
+	border-radius: var(--bs-border-radius);
+	border: var(--bs-border-width) solid var(--bs-border-color);
+
+	&:focus-within {
+		border-color: #86b7fe!important;
+		color: var(--bs-body-color);
+		box-shadow: 0 0 0 .25rem rgba(13,110,253,.25);
+	}
+	&:hover:not(:focus-within) {
+		outline: var(--my-input-outline-width) solid var(--bs-border-color) !important;
+	}
+	.react-select__control {
+		border-radius: var(--bs-border-radius);
+		border-width: 0;
+	}
+}
+
+.top-content {
+	top: calc(var(--my-nav-height) + 5px);
+}
+
+.top-content:has(~ .modal.show), .modal.show ~ .top-content {
+    top: 0!important;
+}
+
+.table-fixed {
+	table-layout: fixed;
+}
+
+body>div:has(sup) {
+	display: none;
+}
+

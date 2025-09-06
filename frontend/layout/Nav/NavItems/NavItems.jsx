@@ -40,25 +40,11 @@ export const NavItems = () => {
 				</NavLink>
 			</li>
 		) : (<>
-			{user.role === 'reader' && (
-				<li className='nav-item'>
-					<NavLink className='nav-link' to='/browse'>
-						Browse
-					</NavLink>
-				</li>
-			)}
 			<li className='nav-item dropdown'>
 				<a className='nav-link active dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
 					<MdAccountCircle /> {user.name}
 				</a>
 				<ul className='dropdown-menu dropdown-menu-end'>
-					{user.role === 'reader' && (
-						<li>
-							<NavLink className='dropdown-item' to='/my-books'>
-								My Books
-							</NavLink>
-						</li>
-					)}
 					<li>
 						<a className='dropdown-item' href='#' onClick={handleLogOut}>
 							<MdOutlineLogout /> Log Out

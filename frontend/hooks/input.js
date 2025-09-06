@@ -53,3 +53,16 @@ export const useSelect = (initialValue) => {
 
 	return /** @type {const} */([value, setValue, handleChange]);
 };
+
+/**
+ * @param {boolean} initialValue
+ */
+export const useToggler = (initialValue) => {
+	const [value, setValue] = useState(initialValue);
+
+	const handleChange = useCallback(() => {
+		setValue(x => x === true ? false : true);
+	}, [setValue]);
+
+	return /** @type {const} */([value, setValue, handleChange]);
+};

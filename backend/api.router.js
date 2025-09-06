@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import accountController from './controllers/account.controller.js';
+import hubController from './controllers/hub.controller.js';
 import orderController from './controllers/order.controller.js';
 import seedDataController from './controllers/seedData.controller.js';
 import middleware from './middleware.js';
@@ -14,7 +15,10 @@ apiRouter.get('/seed-mongodb-data', seedDataController.start);
 apiRouter.post('/login', middleware.isNotLoggedIn, accountController.login);
 apiRouter.post('/logout', accountController.logout);
 apiRouter.get('/account', accountController.fetch);
-apiRouter.post('/signup', accountController.fetch);
+apiRouter.post('/signup', middleware.upload.single('profilePicture'), accountController.signup);
+
+// Hub
+apiRouter.get('/hubs', hubController.listAll);
 
 // Order routes for shipper dashboard
 apiRouter.get('/orders', orderController.getOrders);

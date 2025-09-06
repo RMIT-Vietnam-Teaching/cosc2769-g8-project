@@ -28,7 +28,6 @@ const BaseUserSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			required: true,
-			// hashed string – never expose by default
 			select: false,
 		},
 		profilePicture: {

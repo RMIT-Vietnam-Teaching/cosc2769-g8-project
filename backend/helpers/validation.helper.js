@@ -56,7 +56,7 @@ validationHelper.setIssuesPath = (path, issues) => issues.map(i => i.path == nul
 /**
  * @param {PropertyKey[]} path
  * @param {string} message
- * @returns {$ZodIssueCustom}
+ * @returns {$ZodRawIssue}
  */
 validationHelper.customIssue = (path, message) => ({
 	code: 'custom',

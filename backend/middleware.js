@@ -1,7 +1,21 @@
+import multer from 'multer';
+
 import jsonHelper from './helpers/json.helper.js';
 import responseHelper from './helpers/response.helper.js';
 
 const middleware = {};
+
+const storage = multer.diskStorage({
+	destination: function (_req, _file, cb) {
+		cb(null, './public');
+	},
+	filename: function (_req, file, cb) {
+		const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E5);
+		cb(null, `/uploads/${uniqueSuffix}-${file.originalname}`);
+	},
+});
+
+middleware.upload = multer({ storage: storage });
 
 /**
  * Not Found middleware
