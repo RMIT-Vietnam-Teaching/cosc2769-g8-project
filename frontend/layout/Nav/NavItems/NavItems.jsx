@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { MdAccountCircle, MdOutlineLogin, MdOutlineLogout } from 'react-icons/md';
+import { MdAccountCircle, MdOutlineLogin, MdOutlineLogout, MdPerson } from 'react-icons/md';
 import { NavLink } from 'react-router';
 
 import { fetchHelper } from '#/helpers/fetch';
@@ -50,6 +50,12 @@ export const NavItems = () => {
 					<MdAccountCircle /> {user.name}
 				</a>
 				<ul className='dropdown-menu dropdown-menu-end'>
+					<li>
+						<NavLink className='dropdown-item' to='/my-account'>
+							<MdPerson /> My Account
+						</NavLink>
+					</li>
+					<li><hr className='dropdown-divider' /></li>
 					<li>
 						<a className='dropdown-item' href='#' onClick={handleLogOut}>
 							<MdOutlineLogout /> Log Out

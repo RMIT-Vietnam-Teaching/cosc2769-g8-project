@@ -4,6 +4,7 @@ import { accountHelper } from './helpers/account';
 import { Layout } from './layout/Layout';
 import { PageIndex } from './pages/PageIndex/PageIndex';
 import { PageLogin } from './pages/PageLogin/PageLogin';
+import { PageMyAccount } from './pages/PageMyAccount/PageMyAccount';
 import PageShipper from './pages/PageShipper/PageShipper';
 import { PageSignup } from './pages/PageSignup/PageSignup';
 import { PageSignupCustomer } from './pages/PageSignupCustomer/PageSignupCustomer';
@@ -24,6 +25,11 @@ export const appRouter = createBrowserRouter([{
 			handle: { requireAuth: true },
 			path: '/index',
 			Component: PageIndex,
+		},
+		{
+			handle: { requireAuth: true },
+			path: '/my-account',
+			Component: PageMyAccount,
 		},
 		{
 			handle: { requireAuth: false },

@@ -29,4 +29,25 @@ helper.signUp = async (_, formData) => {
 	}
 };
 
+/**
+ * @typedef {{ success: boolean, error: Record<string, string[]> }} UpdateProfilePictureState
+ * @param {UpdateProfilePictureState} _
+ * @param {FormData} formData
+ * @returns {Promise<UpdateProfilePictureState>}
+ */
+helper.updateProfilePicture = async (_, formData) => {
+	try {
+		/** @type {app.Response} */
+		const res = await fetchHelper.postForm('/api/account/profile-picture', formData).json();
+		await new Promise(resolve => setTimeout(resolve, 400));
+		if (res.success) {
+			return { success: true, error: {} };
+		}
+		return { success: false, error: res.error };
+	} catch (e) {
+		console.error(e);
+		return { success: false, error: { __global: ['[Network] Unable to update profile picture!'] } };
+	}
+};
+
 export const accountHelper = helper;

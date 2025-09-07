@@ -15,6 +15,8 @@ apiRouter.get('/seed-mongodb-data', seedDataController.start);
 apiRouter.post('/login', middleware.isNotLoggedIn, accountController.login);
 apiRouter.post('/logout', accountController.logout);
 apiRouter.get('/account', accountController.fetch);
+apiRouter.get('/account/profile', accountController.fetchProfile);
+apiRouter.post('/account/profile-picture', middleware.upload.single('profilePicture'), accountController.updateProfilePicture);
 apiRouter.post('/signup', middleware.upload.single('profilePicture'), accountController.signup);
 
 // Hub
