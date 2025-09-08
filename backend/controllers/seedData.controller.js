@@ -118,33 +118,36 @@ const sampleData = {
 		{
 			_id: orderId_1,
 			customer: customerId,
-			products: [
-				{ product: productId_1, quantity: 2 },
-				{ product: productId_2, quantity: 1 },
+			hub: hubId,
+			items: [
+				{ product: productId_1, quantity: 2, price: 2.99 },
+				{ product: productId_2, quantity: 1, price: 1.5 },
 			],
-			totalAmount: 7.48,
-			status: 'Pending',
+			totalPrice: 7.48,
+			status: 'active',
 			createdAt: new Date(),
 		},
 		{
 			_id: orderId_2,
 			customer: customer2Id,
-			products: [
-				{ product: productId_3, quantity: 3 },
+			hub: hubId,
+			items: [
+				{ product: productId_3, quantity: 3, price: 3.25 },
 			],
-			totalAmount: 9.75,
-			status: 'Shipped',
+			totalPrice: 9.75,
+			status: 'active',
 			createdAt: new Date(),
 		},
 		{
 			_id: orderId_3,
 			customer: customer3Id,
-			products: [
-				{ product: productId_1, quantity: 1 },
-				{ product: productId_3, quantity: 2 },
+			hub: hubId,
+			items: [
+				{ product: productId_1, quantity: 1, price: 2.99 },
+				{ product: productId_3, quantity: 2, price: 3.25 },
 			],
-			totalAmount: 9.49,
-			status: 'Delivered',
+			totalPrice: 9.49,
+			status: 'delivered',
 			createdAt: new Date(),
 		},
 	],
