@@ -97,7 +97,12 @@ export const PageMyAccount = () => {
 
 	const getProfilePictureUrl = () => {
 		if (profileData.profilePicture) {
-			return `/uploads/${profileData.profilePicture}`;
+			// Handle both old format (with /uploads/ prefix) and new format (filename only)
+			if (profileData.profilePicture.startsWith('/uploads/')) {
+				return profileData.profilePicture; // Old format, use as is
+			} else {
+				return `/uploads/${profileData.profilePicture}`; // New format, add prefix
+			}
 		}
 		return '/vite.svg'; // Default image
 	};
