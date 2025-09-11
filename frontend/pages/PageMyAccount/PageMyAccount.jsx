@@ -1,6 +1,6 @@
 import { useActionState, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { FaUser, FaCamera, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaCamera } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import { clsx } from 'clsx';
 
@@ -58,15 +58,6 @@ export const PageMyAccount = () => {
 			window.location.reload();
 		}
 	}, [updatePictureState.success]);
-
-	const handleLogout = async () => {
-		try {
-			await fetchHelper.post('/api/logout').json();
-			navigate('/login');
-		} catch (err) {
-			console.error('Logout error:', err);
-		}
-	};
 
 	const handleProfilePictureClick = () => {
 		profilePictureRef.current?.click();
@@ -277,18 +268,6 @@ export const PageMyAccount = () => {
 							</div>
 						</div>
 					</div>
-				</div>
-
-				{/* Actions */}
-				<div className="actions-section">
-					<button 
-						type="button" 
-						className="btn-logout"
-						onClick={handleLogout}
-					>
-						<FaSignOutAlt className="me-2" />
-						Logout
-					</button>
 				</div>
 
 				{/* Update Picture Error Display */}

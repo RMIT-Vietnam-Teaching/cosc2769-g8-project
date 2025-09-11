@@ -114,31 +114,6 @@
   border-bottom: 1px solid #f3f4f6;
 }
 
-.actions-section {
-  border-top: 1px solid #e5e7eb;
-  padding-top: 1.5rem;
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.btn-logout {
-  flex: 1;
-  min-width: 120px;
-  background-color: #dc2626;
-  color: white;
-  border: 1px solid #dc2626;
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.btn-logout:hover {
-  background-color: #b91c1c;
-  border-color: #b91c1c;
-}
-
 /* Phone styles (up to 576px) */
 @media (max-width: 575.98px) {
   .my-account-container {
@@ -187,17 +162,6 @@
   .profile-field-value {
     font-size: 0.875rem;
     padding: 0.375rem 0;
-  }
-
-  .actions-section {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .btn-logout {
-    flex: none;
-    width: 100%;
-    text-align: center;
   }
 
   /* Stack form fields vertically on phone */
@@ -249,15 +213,6 @@
     height: 30px;
   }
 
-  .actions-section {
-    justify-content: space-between;
-  }
-
-  .btn-logout {
-    flex: 0 1 auto;
-    min-width: 140px;
-  }
-
   /* Adjust form field layout for tablet */
   .profile-field .col-sm-3 {
     flex: 0 0 30%;
@@ -304,16 +259,6 @@
   .profile-info-section {
     padding-top: 2rem;
     margin-bottom: 2rem;
-  }
-
-  .actions-section {
-    padding-top: 2rem;
-    justify-content: flex-end;
-  }
-
-  .btn-logout {
-    flex: 0 1 auto;
-    min-width: 150px;
   }
 
   /* Desktop form field layout */
@@ -400,11 +345,6 @@
   outline-offset: 2px;
 }
 
-.btn-logout:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .my-account-card {
@@ -420,7 +360,6 @@
 @media (prefers-reduced-motion: reduce) {
   .profile-picture,
   .camera-overlay,
-  .btn-logout,
   .my-account-card {
     transition: none;
   }
