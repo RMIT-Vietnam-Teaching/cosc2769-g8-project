@@ -122,23 +122,6 @@
   flex-wrap: wrap;
 }
 
-.btn-edit {
-  flex: 1;
-  min-width: 120px;
-  background-color: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.btn-edit:hover {
-  background-color: #e5e7eb;
-  color: #1f2937;
-}
-
 .btn-logout {
   flex: 1;
   min-width: 120px;
@@ -211,7 +194,6 @@
     gap: 0.75rem;
   }
 
-  .btn-edit,
   .btn-logout {
     flex: none;
     width: 100%;
@@ -271,7 +253,6 @@
     justify-content: space-between;
   }
 
-  .btn-edit,
   .btn-logout {
     flex: 0 1 auto;
     min-width: 140px;
@@ -330,7 +311,6 @@
     justify-content: flex-end;
   }
 
-  .btn-edit,
   .btn-logout {
     flex: 0 1 auto;
     min-width: 150px;
@@ -420,7 +400,6 @@
   outline-offset: 2px;
 }
 
-.btn-edit:focus,
 .btn-logout:focus {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
@@ -435,17 +414,12 @@
   .profile-picture {
     border-width: 4px;
   }
-
-  .btn-edit {
-    border-width: 2px;
-  }
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .profile-picture,
   .camera-overlay,
-  .btn-edit,
   .btn-logout,
   .my-account-card {
     transition: none;

@@ -1,6 +1,6 @@
 import { useActionState, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { FaCamera, FaEdit, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaUser, FaCamera, FaSignOutAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import { clsx } from 'clsx';
 
@@ -173,7 +173,7 @@ export const PageMyAccount = () => {
 				{/* Profile Information */}
 				<div className="profile-info-section">
 					<h5 className="profile-info-title mb-3">
-						<FaEdit className="text-secondary" />
+						<FaUser className="text-secondary" />
 						Profile Information
 					</h5>
 					
@@ -281,10 +281,6 @@ export const PageMyAccount = () => {
 
 				{/* Actions */}
 				<div className="actions-section">
-					<button type="button" className="btn-edit">
-						<FaEdit className="me-2" />
-						Edit Profile
-					</button>
 					<button 
 						type="button" 
 						className="btn-logout"
