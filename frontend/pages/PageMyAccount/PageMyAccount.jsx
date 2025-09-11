@@ -7,6 +7,7 @@ import { clsx } from 'clsx';
 import { accountHelper } from '#/helpers/account';
 import { fetchHelper } from '#/helpers/fetch';
 import { useAppSelector } from '#/hooks/redux';
+import './PageMyAccount.css';
 
 export const PageMyAccount = () => {
 	const navigate = useNavigate();
@@ -73,8 +74,8 @@ export const PageMyAccount = () => {
 
 	if (loading) {
 		return (
-			<div className="container-fluid h-100 d-flex justify-content-center align-items-center">
-				<div className="spinner-border text-primary" role="status">
+			<div className="loading-container">
+				<div className="spinner-border text-primary loading-spinner" role="status">
 					<span className="visually-hidden">Loading...</span>
 				</div>
 			</div>
@@ -83,8 +84,8 @@ export const PageMyAccount = () => {
 
 	if (error) {
 		return (
-			<div className="container-fluid h-100 d-flex justify-content-center align-items-center">
-				<div className="alert alert-danger" role="alert">
+			<div className="error-container">
+				<div className="alert alert-danger error-alert" role="alert">
 					{error}
 				</div>
 			</div>
@@ -107,175 +108,201 @@ export const PageMyAccount = () => {
 		return '/vite.svg'; // Default image
 	};
 
-	const renderRoleSpecificFields = () => {
-		switch (user.info?.role) {
-			case accountHelper.role.VENDOR:
-				return (
-					<>
-						<div className="row mb-3">
-							<label className="col-sm-3 col-form-label fw-medium">Business Name:</label>
-							<div className="col-sm-9">
-								<input type="text" className="form-control-plaintext" readOnly value={profileData.businessName} />
-							</div>
-						</div>
-						<div className="row mb-3">
-							<label className="col-sm-3 col-form-label fw-medium">Business Address:</label>
-							<div className="col-sm-9">
-								<input type="text" className="form-control-plaintext" readOnly value={profileData.businessAddress} />
-							</div>
-						</div>
-					</>
-				);
-			case accountHelper.role.CUSTOMER:
-				return (
-					<>
-						<div className="row mb-3">
-							<label className="col-sm-3 col-form-label fw-medium">Name:</label>
-							<div className="col-sm-9">
-								<input type="text" className="form-control-plaintext" readOnly value={profileData.name} />
-							</div>
-						</div>
-						<div className="row mb-3">
-							<label className="col-sm-3 col-form-label fw-medium">Address:</label>
-							<div className="col-sm-9">
-								<input type="text" className="form-control-plaintext" readOnly value={profileData.address} />
-							</div>
-						</div>
-					</>
-				);
-			case accountHelper.role.SHIPPER:
-				return (
-					<div className="row mb-3">
-						<label className="col-sm-3 col-form-label fw-medium">Distribution Hub:</label>
-						<div className="col-sm-9">
-							<input 
-								type="text" 
-								className="form-control-plaintext" 
-								readOnly 
-								value={profileData.hub ? `${profileData.hub.name} - ${profileData.hub.address}` : 'No hub assigned'} 
-							/>
-						</div>
-					</div>
-				);
-			default:
-				return null;
-		}
-	};
-
 	return (<>
 		<title>My Account</title>
-		<div className="container-fluid h-100">
-			<div className="row justify-content-center h-100">
-				<div className="col-12 col-md-10 col-lg-8 col-xl-6 d-flex flex-column justify-content-center">
-					<div className="my-4 p-4 rounded-2 shadow bg-body">
-						{/* Header */}
-						<div className="d-flex justify-content-between align-items-center mb-4">
-							<h3 className="mb-0 d-flex align-items-center gap-2">
-								<FaUser className="text-primary" />
-								My Account
-							</h3>
-							<span className="badge bg-primary fs-6">{user.info?.role}</span>
-						</div>
+		<div className="my-account-container">
+			<div className="my-account-card">
+				{/* Header */}
+				<div className="my-account-header d-flex justify-content-between align-items-center">
+					<h3 className="my-account-title mb-0">
+						<FaUser className="text-primary" />
+						My Account
+					</h3>
+					<span className="role-badge">{user.info?.role}</span>
+				</div>
 
-						{/* Profile Picture Section */}
-						<div className="text-center mb-4">
-							<div className="position-relative d-inline-block">
-								<img
-									src={getProfilePictureUrl()}
-									alt="Profile"
-									className="rounded-circle border border-3 border-primary"
-									style={{ width: '120px', height: '120px', objectFit: 'cover', cursor: 'pointer' }}
-									onClick={handleProfilePictureClick}
-								/>
-								<div 
-									className="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-									style={{ width: '32px', height: '32px', cursor: 'pointer' }}
-									onClick={handleProfilePictureClick}
-								>
-									<FaCamera size={14} />
+				{/* Profile Picture Section */}
+				<div className="profile-picture-section">
+					<div className="profile-picture-container">
+						<img
+							src={getProfilePictureUrl()}
+							alt="Profile"
+							className={clsx("profile-picture", isUpdatingPicture && "uploading")}
+							onClick={handleProfilePictureClick}
+							tabIndex={0}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault();
+									handleProfilePictureClick();
+								}
+							}}
+						/>
+						<div 
+							className="camera-overlay"
+							onClick={handleProfilePictureClick}
+							tabIndex={0}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault();
+									handleProfilePictureClick();
+								}
+							}}
+						>
+							<FaCamera size={14} />
+						</div>
+					</div>
+					<p className="text-muted mt-2 mb-0">Click to change profile picture</p>
+				</div>
+
+				{/* Profile Picture Upload Form */}
+				<form action={updatePictureAction} className="d-none">
+					<input
+						ref={profilePictureRef}
+						type="file"
+						name="profilePicture"
+						accept="image/*"
+						onChange={(e) => {
+							if (e.target.files?.[0]) {
+								// Auto-submit the form when file is selected
+								e.target.closest('form')?.requestSubmit();
+							}
+						}}
+					/>
+				</form>
+
+				{/* Profile Information */}
+				<div className="profile-info-section">
+					<h5 className="profile-info-title mb-3">
+						<FaEdit className="text-secondary" />
+						Profile Information
+					</h5>
+					
+					<div className="profile-field">
+						<div className="row">
+							<div className="col-sm-3">
+								<label className="profile-field-label">Username:</label>
+							</div>
+							<div className="col-sm-9">
+								<div className="profile-field-value">{profileData.username}</div>
+							</div>
+						</div>
+					</div>
+
+					<div className="profile-field">
+						<div className="row">
+							<div className="col-sm-3">
+								<label className="profile-field-label">Role:</label>
+							</div>
+							<div className="col-sm-9">
+								<div className="profile-field-value">{profileData.role}</div>
+							</div>
+						</div>
+					</div>
+
+					{/* Role-specific fields */}
+					{user.info?.role === accountHelper.role.VENDOR && (
+						<>
+							<div className="profile-field">
+								<div className="row">
+									<div className="col-sm-3">
+										<label className="profile-field-label">Business Name:</label>
+									</div>
+									<div className="col-sm-9">
+										<div className="profile-field-value">{profileData.businessName}</div>
+									</div>
 								</div>
 							</div>
-							<p className="text-muted mt-2 mb-0">Click to change profile picture</p>
-						</div>
+							<div className="profile-field">
+								<div className="row">
+									<div className="col-sm-3">
+										<label className="profile-field-label">Business Address:</label>
+									</div>
+									<div className="col-sm-9">
+										<div className="profile-field-value">{profileData.businessAddress}</div>
+									</div>
+								</div>
+							</div>
+						</>
+					)}
 
-						{/* Profile Picture Upload Form */}
-						<form action={updatePictureAction} className="d-none">
-							<input
-								ref={profilePictureRef}
-								type="file"
-								name="profilePicture"
-								accept="image/*"
-								onChange={(e) => {
-									if (e.target.files?.[0]) {
-										// Auto-submit the form when file is selected
-										e.target.closest('form')?.requestSubmit();
-									}
-								}}
-							/>
-						</form>
+					{user.info?.role === accountHelper.role.CUSTOMER && (
+						<>
+							<div className="profile-field">
+								<div className="row">
+									<div className="col-sm-3">
+										<label className="profile-field-label">Name:</label>
+									</div>
+									<div className="col-sm-9">
+										<div className="profile-field-value">{profileData.name}</div>
+									</div>
+								</div>
+							</div>
+							<div className="profile-field">
+								<div className="row">
+									<div className="col-sm-3">
+										<label className="profile-field-label">Address:</label>
+									</div>
+									<div className="col-sm-9">
+										<div className="profile-field-value">{profileData.address}</div>
+									</div>
+								</div>
+							</div>
+						</>
+					)}
 
-						{/* Profile Information */}
-						<div className="border-top pt-4">
-							<h5 className="mb-3 d-flex align-items-center gap-2">
-								<FaEdit className="text-secondary" />
-								Profile Information
-							</h5>
-							
-							<div className="row mb-3">
-								<label className="col-sm-3 col-form-label fw-medium">Username:</label>
+					{user.info?.role === accountHelper.role.SHIPPER && (
+						<div className="profile-field">
+							<div className="row">
+								<div className="col-sm-3">
+									<label className="profile-field-label">Distribution Hub:</label>
+								</div>
 								<div className="col-sm-9">
-									<input type="text" className="form-control-plaintext" readOnly value={profileData.username} />
-								</div>
-							</div>
-
-							<div className="row mb-3">
-								<label className="col-sm-3 col-form-label fw-medium">Role:</label>
-								<div className="col-sm-9">
-									<input type="text" className="form-control-plaintext" readOnly value={profileData.role} />
-								</div>
-							</div>
-
-							{renderRoleSpecificFields()}
-
-							<div className="row mb-3">
-								<label className="col-sm-3 col-form-label fw-medium">Member Since:</label>
-								<div className="col-sm-9">
-									<input 
-										type="text" 
-										className="form-control-plaintext" 
-										readOnly 
-										value={new Date(profileData.createdAt).toLocaleDateString()} 
-									/>
+									<div className="profile-field-value">
+										{profileData.hub ? `${profileData.hub.name} - ${profileData.hub.address}` : 'No hub assigned'}
+									</div>
 								</div>
 							</div>
 						</div>
+					)}
 
-						{/* Actions */}
-						<div className="border-top pt-4 d-flex justify-content-between">
-							<button type="button" className="btn btn-outline-secondary">
-								<FaEdit className="me-2" />
-								Edit Profile
-							</button>
-							<button 
-								type="button" 
-								className="btn btn-danger"
-								onClick={handleLogout}
-							>
-								<FaSignOutAlt className="me-2" />
-								Logout
-							</button>
-						</div>
-
-						{/* Update Picture Error Display */}
-						{!isUpdatingPicture && Object.keys(updatePictureState.error).length > 0 && (
-							<div className="alert alert-danger mt-3" role="alert">
-								{Object.values(updatePictureState.error).flat().map((error, index) => (
-									<div key={index}>{error}</div>
-								))}
+					<div className="profile-field">
+						<div className="row">
+							<div className="col-sm-3">
+								<label className="profile-field-label">Member Since:</label>
 							</div>
-						)}
+							<div className="col-sm-9">
+								<div className="profile-field-value">
+									{new Date(profileData.createdAt).toLocaleDateString()}
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
+
+				{/* Actions */}
+				<div className="actions-section">
+					<button type="button" className="btn-edit">
+						<FaEdit className="me-2" />
+						Edit Profile
+					</button>
+					<button 
+						type="button" 
+						className="btn-logout"
+						onClick={handleLogout}
+					>
+						<FaSignOutAlt className="me-2" />
+						Logout
+					</button>
+				</div>
+
+				{/* Update Picture Error Display */}
+				{!isUpdatingPicture && Object.keys(updatePictureState.error).length > 0 && (
+					<div className="alert alert-danger mt-3" role="alert">
+						{Object.values(updatePictureState.error).flat().map((error, index) => (
+							<div key={index}>{error}</div>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 
