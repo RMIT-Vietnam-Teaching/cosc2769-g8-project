@@ -207,6 +207,68 @@ accountController.fetch = (req, res) => {
 	}
 };
 
+/** @type {app.AsyncRequestHandler} */
+accountController.fetchProfile = async (req, res) => {
+	console.log('Fetch detailed user profile');
+	if (req.session.user == null) {
+		return res.status(responseHelper.status.UNAUTHENTICATED).jsonErrorMsg(['Unauthenticated.']);
+	}
+
+	try {
+		const userId = req.session.user.id;
+		const role = req.session.user.role;
+		
+		let userData = null;
+		
+		if (role === accountHelper.role.VENDOR) {
+			userData = await Vendor.findById(userId).select('-password');
+		} else if (role === accountHelper.role.CUSTOMER) {
+			userData = await Customer.findById(userId).select('-password');
+		} else if (role === accountHelper.role.SHIPPER) {
+			userData = await Shipper.findById(userId).populate('hub').select('-password');
+		}
+		
+		if (userData == null) {
+			return res.status(responseHelper.status.NOT_FOUND).jsonErrorMsg(['User not found.']);
+		}
+		
+		res.jsonData(userData);
+	} catch (error) {
+		logger.error('Fetch Profile Error %o', error);
+		res.jsonInternalErrorMsg(['Unable to fetch profile data.']);
+	}
+};
+
+/** @type {app.AsyncRequestHandler} */
+accountController.updateProfilePicture = async (req, res) => {
+	if (req.session.user == null) {
+		return res.status(responseHelper.status.UNAUTHENTICATED).jsonErrorMsg(['Unauthenticated.']);
+	}
+
+	if (!req.file) {
+		return res.jsonError({ profilePicture: ['No file uploaded.'] });
+	}
+
+	try {
+		const userId = req.session.user.id;
+		const role = req.session.user.role;
+		const filename = req.file.filename;
+		
+		if (role === accountHelper.role.VENDOR) {
+			await Vendor.findByIdAndUpdate(userId, { profilePicture: filename });
+		} else if (role === accountHelper.role.CUSTOMER) {
+			await Customer.findByIdAndUpdate(userId, { profilePicture: filename });
+		} else if (role === accountHelper.role.SHIPPER) {
+			await Shipper.findByIdAndUpdate(userId, { profilePicture: filename });
+		}
+		
+		res.jsonOk();
+	} catch (error) {
+		logger.error('Update Profile Picture Error %o', error);
+		res.jsonInternalErrorMsg(['Unable to update profile picture.']);
+	}
+};
+
 /** @type {app.RequestHandler} */
 accountController.logout = (req, res) => {
 	req.session.destroy((error) => {

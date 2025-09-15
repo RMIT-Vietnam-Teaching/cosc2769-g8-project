@@ -52,11 +52,20 @@ const PageShipper = () => {
     try {
       setLoading(true);
       setError(null);
+      console.log('Attempting to fetch orders...'); // Debug log
       const ordersData = await orderService.getAllOrders();
+      console.log('Fetched orders:', ordersData); // Debug log
+      console.log('Orders data type:', typeof ordersData); // Debug log
+      console.log('Is orders data an array?', Array.isArray(ordersData)); // Debug log
       setOrders(Array.isArray(ordersData) ? ordersData : []);
     } catch (err) {
+      console.error('Failed to load orders:', err); // This should show the actual error
+      console.error('Error details:', {
+        message: err.message,
+        stack: err.stack,
+        name: err.name
+      }); // More detailed error logging
       setError(err.message);
-      console.error('Failed to load orders:', err);
       setOrders([]);
     } finally {
       setLoading(false);

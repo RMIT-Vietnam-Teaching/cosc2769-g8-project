@@ -32,7 +32,7 @@ const BaseUserSchema = new mongoose.Schema(
 		},
 		profilePicture: {
 			type: String, // store the filename or S3/Cloudinary key
-			required: true,
+			required: false, // Made optional since the signup form allows this to be empty
 			minlength: 5,
 		},
 	},
