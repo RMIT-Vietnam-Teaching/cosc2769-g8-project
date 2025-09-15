@@ -11,6 +11,9 @@ import { PageSignupCustomer } from './pages/PageSignupCustomer/PageSignupCustome
 import { PageSignupShipper } from './pages/PageSignupShipper/PageSignupShipper';
 import { PageSignupVendor } from './pages/PageSignupVendor/PageSignupVendor';
 
+import PageCustomer from './pages/PageCustomer/pageCustomer';
+import ProductDetail from './pages/PageCustomer/productDetail';
+
 export const appRouter = createBrowserRouter([{
 	Component: Layout,
 	handle: {
@@ -60,6 +63,14 @@ export const appRouter = createBrowserRouter([{
 			handle: { requireAuth: true, roles: [accountHelper.role.SHIPPER] },
 			path: '/shipper',
 			Component: PageShipper,
+		},
+		{
+			path: '/customer',
+			Component: PageCustomer,
+		},
+		{
+			path: '/product/:id',
+			Component: ProductDetail,
 		},
 		{
 			handle: { requireAuth: true, roles: [] },
