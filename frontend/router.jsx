@@ -17,7 +17,7 @@ export const appRouter = createBrowserRouter([{
 	Component: Layout,
 	handle: {
 		defaultRouteForRole: {
-			[accountHelper.role.CUSTOMER]: '/index',
+			[accountHelper.role.CUSTOMER]: '/customer',
 			[accountHelper.role.SHIPPER]: '/shipper',
 			[accountHelper.role.VENDOR]: '/index',
 		},
@@ -69,7 +69,7 @@ export const appRouter = createBrowserRouter([{
 			Component: PageCustomer,
 		},
 		{
-			handle: { requireAuth: true, roles: [accountHelper.role.VENDOR] },
+			handle: { requireAuth: true, roles: [accountHelper.role.CUSTOMER] },
 			path: '/product/:id',
 			Component: ProductDetail,
 		},
