@@ -1,19 +1,24 @@
 import React from 'react';
-import {useParams} from "react-router";
-import seedProductData from "./seedProductData";
-import {displayPrice} from "./productCard";
+import { useParams } from "react-router";
+import seedProductData from "./SeedProductData";
+import { displayPrice } from "./ProductCard";
+import {useDispatch, useSelector} from "react-redux";
+import {productsActions, productsReducer, productsSelectors} from "#/redux/slices/productSlice";
 
-interface ProductDetailProps {
+interface ProductType {
 	id: string;
 	name: string;
 	price: number;
 	description: string;
-	image: string | string[];
+	image: string[];
 }
 
 const ProductDetail = () => {
 	const { id } = useParams();
 	const product = seedProductData.find(product => product.id === id);
+	const dispatch = useDispatch();
+	const currentState = useSelector(productsSelectors.products);
+	const isNotAvailable = currentState.find(product => product.id === id) === undefined;
 
 	if (!product) {
 		return (
@@ -22,6 +27,7 @@ const ProductDetail = () => {
 			</div>
 		);
 	}
+
 	const images = Array.isArray(product.image) ? product.image : [product.image];
 
 	return (
@@ -65,7 +71,12 @@ const ProductDetail = () => {
 					<h1 className='display-10 mb-3'>{product.name}</h1>
 					<div className='h3 text-secondary mb-4'>{displayPrice(product.price)}</div>
 					<p className='fs-5 text-muted mb-4'>{product.description}</p>
-					<button type='button' className='btn btn-dark btn-lg rounded-5 w-50'>Add to cart</button>
+					<button
+						type='button'
+						className='btn btn-dark btn-lg rounded-5 w-50'
+						onClick={() => (dispatch(productsActions.addToCard(product)))}
+						disabled={!isNotAvailable}
+					>Add to cart</button>
 				</div>
 			</div>
 		</div>
