@@ -203,6 +203,14 @@ export default defineConfig([
 					multilineDetection: 'brackets',
 				},
 			],
+			'no-unused-vars': 'off',
+			'@typescript-eslint/no-unused-vars': ['error', {
+				varsIgnorePattern: '^_',
+				argsIgnorePattern: '^_',
+				caughtErrorsIgnorePattern: '^_',
+				destructuredArrayIgnorePattern: '^_',
+				ignoreRestSiblings: true,
+			}],
 		},
 	},
 ]);

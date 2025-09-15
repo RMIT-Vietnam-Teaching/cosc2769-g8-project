@@ -88,7 +88,7 @@ export const PageSignupShipper = () => {
 							<div className='px-3'>
 								<label className='form-label fw-medium' htmlFor='username'>Username:</label>
 								<input
-									id='username' type='username' name='username' placeholder='8 - 15 letters/digits'
+									id='username' type='text' name='username' placeholder='8 - 15 letters/digits'
 									className={clsx('form-control', !isSigningUp && state.error.username != null && 'is-invalid')}
 									value={username} onChange={handleUsername}
 								/>
