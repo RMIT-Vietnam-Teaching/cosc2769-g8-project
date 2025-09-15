@@ -10,6 +10,12 @@ interface ProductType {
 	image: string[];
 }
 
+interface ProductCardProps {
+	product: ProductType;
+	showDelete?: boolean;
+	onDelete?: Function;
+}
+
 export const displayPrice = (price: number) : string => {
 	return price.toLocaleString('vi-VN', {
 		style: 'currency',
@@ -17,7 +23,7 @@ export const displayPrice = (price: number) : string => {
 	})
 }
 
-const ProductCard = ({ product }: { product: ProductType }) => {
+const ProductCard = ({ product, showDelete = false, onDelete }: ProductCardProps) => {
     const navigate = useNavigate();
 	const imgSrc = Array.isArray(product.image) ? product.image[0] : product.image;
 
@@ -31,6 +37,14 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 					<h5 className='card-title'>{product.name}</h5>
 					<p className='card-title'>{displayPrice(product.price)}</p>
 				</div>
+				{showDelete && (
+					<div className='card-footer bg-transparent border-0'>
+						<button type='button' className='btn btn-outline-danger w-100' onClick={(e) => { e.stopPropagation(); onDelete(product.id); }}>
+							Delete
+						</button>
+					</div>
+				)}
+
 			</div>
 		</div>
     )

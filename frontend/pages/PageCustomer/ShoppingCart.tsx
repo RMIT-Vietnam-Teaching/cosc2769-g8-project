@@ -1,11 +1,16 @@
 import {useDispatch, useSelector} from "react-redux";
-import {productsSelectors} from "#/redux/slices/productSlice";
+import {productsActions, productsSelectors} from "#/redux/slices/productSlice";
 import ProductCard from "#/pages/PageCustomer/ProductCard";
 
 const ShoppingCart = () => {
 	const dispatch = useDispatch();
 	const products = useSelector(productsSelectors.products);
 	const cartCount = products.length;
+
+	const handleDelete = (id: string) => {
+		dispatch(productsActions.removeToCard(id));
+	};
+
 
 	return (
 		<div className='container py-4'>
@@ -16,6 +21,8 @@ const ShoppingCart = () => {
 						<ProductCard
 							key={String(p.id)}
 							product={p}
+							showDelete
+							onDelete={(id) => handleDelete(id)}
 						/>
 					))}
 				</div>
