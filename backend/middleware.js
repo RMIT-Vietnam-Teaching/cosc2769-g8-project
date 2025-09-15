@@ -2,6 +2,7 @@ import multer from 'multer';
 
 import jsonHelper from './helpers/json.helper.js';
 import responseHelper from './helpers/response.helper.js';
+import accountHelper from './helpers/account.helper.js';
 
 const middleware = {};
 
@@ -107,6 +108,17 @@ middleware.isNotLoggedIn = (req, res, next) => {
 		next();
 	} else {
 		res.jsonErrorMsg(['Only for unauthenticated!']);
+	}
+};
+
+/** @type {app.Middleware} */
+middleware.isVendor = (req, res, next) => {
+	if (req.session.user?.role !== accountHelper.role.VENDOR) {
+		res
+			.status(req.session.user == null ? responseHelper.status.UNAUTHENTICATED : responseHelper.status.UNAUTHORIZED)
+			.json(jsonHelper.errorMsg(['Only for vendors!']));
+	} else {
+		next();
 	}
 };
 

@@ -6,7 +6,6 @@ import { millisecondsInDay } from 'date-fns/constants';
 import Express from 'express';
 import session from 'express-session';
 import { connect } from 'mongoose';
-import logger from 'morgan';
 
 import apiRouter from './api.router.js';
 import { httpLogger } from './logger.js';
@@ -16,9 +15,9 @@ connect(process.env.DATABASE_URL);
 
 const app = Express();
 
-app.use(logger('dev'));
-
 app.set('env', process.env.NODE_ENV);
+
+app.use('/api', httpLogger);
 
 if (env.NODE_ENV === 'production') {
 	app.use(Express.static('dist', {
@@ -37,8 +36,6 @@ app.use(Express.static('public', {
 	redirect: false,
 	fallthrough: true,
 }));
-
-app.use('/api', middleware.jsonResponseHelper);
 
 // Only used sub path of /api so that react-router can handle the rest
 app.use('/api', Express.json());
@@ -61,8 +58,6 @@ app.use('/api', session({
 		sameSite: 'lax',
 	},
 }));
-
-app.use('/api', httpLogger);
 
 app.use('/api', middleware.jsonResponseHelper);
 app.use('/api', apiRouter);
