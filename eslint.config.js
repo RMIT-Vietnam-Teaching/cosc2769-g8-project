@@ -56,13 +56,13 @@ export default defineConfig([
 			'@stylistic/eol-last': 'warn',
 			'@stylistic/brace-style': [
 				'error', '1tbs',
-				{ allowSingleLine: false },
+				{ allowSingleLine: true },
 			],
 			'@stylistic/arrow-parens': [
 				'error', 'as-needed',
 				{ requireForBlockBody: true },
 			],
-			'@stylistic/jsx-one-expression-per-line': 'off',
+			'@stylistic/multiline-ternary': ['warn', 'never'],
 
 			'@simpleSort/imports': ['warn', {
 				groups: [[
@@ -90,8 +90,7 @@ export default defineConfig([
 					// Style imports.
 					'^.+\\.s?css$',
 				]],
-			},
-			],
+			}],
 		},
 	},
 
@@ -109,7 +108,10 @@ export default defineConfig([
 		languageOptions: {
 			ecmaVersion: 'latest',
 			sourceType: 'module',
-			globals: { ...globals.browser },
+			globals: {
+				...globals.browser,
+				bootstrap: 'readonly',
+			},
 			parserOptions: {
 				ecmaFeatures: { jsx: true },
 			},
@@ -125,5 +127,22 @@ export default defineConfig([
 			reactHooks.configs['recommended-latest'],
 			reactRefresh.configs.vite,
 		],
+		rules: {
+			'@stylistic/jsx-one-expression-per-line': 'off',
+			'@stylistic/jsx-closing-tag-location': ['warn', 'line-aligned'],
+			'@stylistic/jsx-max-props-per-line': ['warn', { maximum: 5, when: 'multiline' }],
+			'@stylistic/jsx-wrap-multilines': ['warn', {
+				declaration: 'parens',
+				assignment: 'parens',
+				return: 'parens',
+				arrow: 'parens',
+				condition: 'parens',
+				logical: 'parens',
+				prop: 'parens',
+				propertyValue: 'parens',
+			}],
+			'react/prop-types': 'off',
+			'react-hooks/exhaustive-deps': 'off',
+		},
 	},
 ]);

@@ -1,27 +1,36 @@
 const jsonHelper = {};
 
-jsonHelper.ok = () => ({
-	success: true,
-});
+/** @returns {{ success: true }} */
+jsonHelper.ok = () => ({ success: true });
 
-jsonHelper.data = (data) => ({
-	success: true,
-	data,
-});
+/**
+ * @template T
+ * @param {T} data
+ * @returns {{ success: true, data: T }}
+ **/
+jsonHelper.data = data => ({ success: true, data });
 
-jsonHelper.redirect = (url) => ({
-	success: true,
-	redirect: url,
-});
+/**
+ * @param {string} redirect
+ * @returns {{ success: true, redirect: string }}
+ **/
+jsonHelper.redirect = redirect => ({ success: true, redirect });
 
-jsonHelper.error = (error) => ({
-	success: false,
-	error,
-});
+/**
+ * @template T
+ * @param {T} error
+ * @returns {{ success: false, error: T }}
+ **/
+const createError = error => ({ success: false, error });
 
-jsonHelper.errorMsg = (errorMsgs) => ({
-	success: false,
-	errorMsgs,
-});
+/**
+ * @template {{[k: string]: string[]}} T
+ * @param {T} errorGroups
+ * @returns {{ success: false, error: {[k in keyof T]: T[k] }}}
+ */
+jsonHelper.error = errorGroups => createError(errorGroups);
+
+/** @param {string[]} errorMsgs */
+jsonHelper.errorMsg = errorMsgs => jsonHelper.error({ __global: errorMsgs });
 
 export default jsonHelper;

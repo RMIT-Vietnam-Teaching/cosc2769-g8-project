@@ -8,8 +8,10 @@ const orderController = {};
 
 /**
  * Get all orders for shipper dashboard
+ *
+ * @type {app.AsyncRequestHandler}
  */
-orderController.getOrders = async (req, res) => {
+orderController.getOrders = async (_req, res) => {
 	try {
 		const orders = await Order.find()
 			.populate('customer', 'name address username')
@@ -26,11 +28,13 @@ orderController.getOrders = async (req, res) => {
 
 /**
  * Get orders by hub (for specific shipper)
+ *
+ * @type {app.AsyncRequestHandler}
  */
 orderController.getOrdersByHub = async (req, res) => {
 	try {
 		const { hubId } = req.params;
-		
+
 		const orders = await Order.find({ hub: hubId })
 			.populate('customer', 'name address username')
 			.populate('hub', 'name address')
@@ -46,6 +50,8 @@ orderController.getOrdersByHub = async (req, res) => {
 
 /**
  * Get single order details
+ *
+ * @type {app.AsyncRequestHandler}
  */
 orderController.getOrderById = async (req, res) => {
 	try {
@@ -69,6 +75,8 @@ orderController.getOrderById = async (req, res) => {
 
 /**
  * Update order status to delivered
+ *
+ * @type {app.AsyncRequestHandler}
  */
 orderController.markAsDelivered = async (req, res) => {
 	try {
@@ -77,7 +85,7 @@ orderController.markAsDelivered = async (req, res) => {
 		const order = await Order.findByIdAndUpdate(
 			orderId,
 			{ status: 'delivered' },
-			{ new: true }
+			{ new: true },
 		);
 
 		if (!order) {
@@ -93,6 +101,8 @@ orderController.markAsDelivered = async (req, res) => {
 
 /**
  * Update order status to canceled
+ *
+ * @type {app.AsyncRequestHandler}
  */
 orderController.cancelOrder = async (req, res) => {
 	try {
@@ -101,7 +111,7 @@ orderController.cancelOrder = async (req, res) => {
 		const order = await Order.findByIdAndUpdate(
 			orderId,
 			{ status: 'canceled' },
-			{ new: true }
+			{ new: true },
 		);
 
 		if (!order) {
@@ -117,8 +127,10 @@ orderController.cancelOrder = async (req, res) => {
 
 /**
  * Get order statistics
+ *
+ * @type {app.AsyncRequestHandler}
  */
-orderController.getOrderStats = async (req, res) => {
+orderController.getOrderStats = async (_req, res) => {
 	try {
 		const [stats, totalOrders] = await Promise.all([
 			Order.aggregate([
@@ -126,13 +138,13 @@ orderController.getOrderStats = async (req, res) => {
 					$group: {
 						_id: '$status',
 						count: { $sum: 1 },
-						totalValue: { $sum: '$totalPrice' }
-					}
-				}
+						totalValue: { $sum: '$totalPrice' },
+					},
+				},
 			]),
-			Order.countDocuments()
+			Order.countDocuments(),
 		]);
-		
+
 		res.jsonData({ totalOrders, statusBreakdown: stats });
 	} catch (error) {
 		console.error('Error fetching order stats:', error);

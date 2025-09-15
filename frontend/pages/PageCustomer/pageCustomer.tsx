@@ -6,6 +6,7 @@ import ProductCard from "./productCard";
 const PageCustomer = () => {
 
 	return (
+		//TODO: Add one container,
 		<div className='d-flex justify-content-center align-items-center flex-wrap'>
 			<div className='row'>
 				{

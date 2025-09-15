@@ -6,6 +6,8 @@ import { RouterProvider } from 'react-router';
 import { store } from './redux/store';
 import { appRouter } from './router';
 
+import './main.css';
+
 const root = document.getElementById('root');
 
 if (root != null) {

@@ -14,6 +14,8 @@ frontend/*.local
 
 **/tsconfig.tsbuildinfo
 .cached
+public/uploads/**/*
+!**/.gitkeep
 
 # Editor directories and files
 .vscode/*

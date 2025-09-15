@@ -1,29 +1,49 @@
-/* Layout styles */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+:root {
+	--my-nav-height: 60px;
 }
 
-.navbar-brand {
-  font-weight: 600;
-  font-size: 1.5rem;
+.layout__nav {
+	height: var(--my-nav-height);
+
+	background-color: var(--bs-primary);
+	.navbar-brand {
+		color: var(--bs-white);
+	}
+
+	.navbar-toggler {
+		border-color: var(--bs-gray-200);
+	}
+
+	&:not(:has(.offcanvas)) {
+		.nav-link {
+			color: var(--bs-gray-400);
+
+			&:hover:not(.active) {
+				color: var(--bs-gray-200);
+			}
+			
+			&.active {
+				color: var(--bs-white);
+			}
+		}
+	}
+
+	&:has(.offcanvas) {
+		.nav-link {
+			color: var(--bs-gray-500);
+
+			&:hover:not(.active) {
+				color: var(--bs-gray-700);
+			}
+			
+			&.active {
+				color: var(--bs-black);
+			}
+		}
+	}
 }
 
-.nav-link {
-  font-weight: 500;
-  transition: color 0.2s ease-in-out;
-}
-
-.nav-link:hover {
-  color: #ffffff !important;
-}
-
-main {
-  padding-top: 0;
-}
-
-/* Ensure main content doesn't hide behind fixed navbar if needed */
-@media (max-width: 991.98px) {
-  .navbar-nav {
-    padding-top: 1rem;
-  }
+.layout__main {
+	--my-main-height: calc(100vh - var(--my-nav-height));
+	height: var(--my-main-height);
 }
