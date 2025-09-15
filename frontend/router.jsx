@@ -2,6 +2,8 @@ import { createBrowserRouter } from 'react-router';
 
 import { accountHelper } from './helpers/account';
 import { Layout } from './layout/Layout';
+import PageCustomer from './pages/PageCustomer/pageCustomer';
+import ProductDetail from './pages/PageCustomer/productDetail';
 import { PageIndex } from './pages/PageIndex/PageIndex';
 import { PageLogin } from './pages/PageLogin/PageLogin';
 import { PageMyAccount } from './pages/PageMyAccount/PageMyAccount';
@@ -10,9 +12,6 @@ import { PageSignup } from './pages/PageSignup/PageSignup';
 import { PageSignupCustomer } from './pages/PageSignupCustomer/PageSignupCustomer';
 import { PageSignupShipper } from './pages/PageSignupShipper/PageSignupShipper';
 import { PageSignupVendor } from './pages/PageSignupVendor/PageSignupVendor';
-
-import PageCustomer from './pages/PageCustomer/pageCustomer';
-import ProductDetail from './pages/PageCustomer/productDetail';
 
 export const appRouter = createBrowserRouter([{
 	Component: Layout,
@@ -65,10 +64,12 @@ export const appRouter = createBrowserRouter([{
 			Component: PageShipper,
 		},
 		{
+			handle: { requireAuth: true, roles: [accountHelper.role.CUSTOMER] },
 			path: '/customer',
 			Component: PageCustomer,
 		},
 		{
+			handle: { requireAuth: true, roles: [accountHelper.role.VENDOR] },
 			path: '/product/:id',
 			Component: ProductDetail,
 		},
