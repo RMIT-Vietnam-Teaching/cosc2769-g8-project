@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useMatches, useNavigate } from 'react-router';
 
-import { Nav } from './Nav/Nav';
 import { Footer } from './Footer/Footer';
+import { Nav } from './Nav/Nav';
 
 import './Layout.css';
 
@@ -41,8 +41,10 @@ export const Layout = () => {
 		<div className='layout__container vw-100 vh-100 d-flex flex-column'>
 			<Nav />
 
-			<main className='layout__main vw-100 overflow-auto bg-body-tertiary'>
-				{isPathChecked ? <Outlet /> : null}
+			<main className='layout__main vw-100 overflow-auto bg-body-tertiary d-flex flex-column'>
+				<div className='flex-grow-1'>
+					{isPathChecked ? <Outlet /> : null}
+				</div>
 				<Footer />
 			</main>
 		</div>
