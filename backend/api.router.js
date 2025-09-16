@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
 import accountController from './controllers/account.controller.js';
+import customerProductController from './controllers/customerProduct.controller.js';
 import hubController from './controllers/hub.controller.js';
 import orderController from './controllers/order.controller.js';
 import seedDataController from './controllers/seedData.controller.js';
 import vendorController from './controllers/vendor.controller.js';
-import customerProductController from './controllers/customerProduct.controller.js';
 import middleware from './middleware.js';
 
 const apiRouter = Router();
@@ -36,18 +36,19 @@ apiRouter.get('/orders-stats', orderController.getOrderStats);
 apiRouter.get('/customers/products', customerProductController.list);
 apiRouter.get('/customers/product/:id', customerProductController.getById);
 apiRouter.get('/customers/products/name', customerProductController.getByName);
+apiRouter.post('/customer/new-order', orderController.createCustomerOrder);
 
 // Vendors
 apiRouter.get('/vendor/products', middleware.isVendor, vendorController.allProducts);
 apiRouter.get('/vendor/product/:id', middleware.isVendor, vendorController.productById);
 apiRouter.post(
-  '/vendor/new-product',
-  middleware.isVendor,
-  middleware.upload.fields([
-    { name: 'mainImage', maxCount: 1 },
-    { name: 'image' },
-  ]),
-  vendorController.new,
+	'/vendor/new-product',
+	middleware.isVendor,
+	middleware.upload.fields([
+		{ name: 'mainImage', maxCount: 1 },
+		{ name: 'image' },
+	]),
+	vendorController.new,
 );
 
 export default apiRouter;

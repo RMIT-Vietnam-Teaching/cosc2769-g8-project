@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router';
 import Select from 'react-select';
 
@@ -9,6 +10,8 @@ import './PageCustomer.css';
 
 import { reactSelectHelper } from '#/helpers/reactSelect';
 import { useNumberInput, useSelect } from '#/hooks/input';
+import { productsActions } from '#/redux/slices/productSlice';
+import cartSocket from '#/services/cartSocket';
 import productService from '#/services/productService';
 
 interface ProductType {
@@ -26,6 +29,7 @@ const sortOptions = [
 ];
 
 const PageCustomer = () => {
+	const dispatch = useDispatch();
 	const [products, setProducts] = useState<ProductType[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -82,6 +86,24 @@ const PageCustomer = () => {
 			mounted = false;
 		};
 	}, [queries]);
+
+	useEffect(() => {
+		cartSocket.connect();
+		const onUpdated = (evt: any) => {
+			if (evt?.type === 'add' && evt.item) {
+				const item = { ...evt.item, image: Array.isArray(evt.item.image) ? evt.item.image : [evt.item.image] };
+				dispatch(productsActions.addToCard(item));
+			} else if (evt?.type === 'remove' && evt.itemId) {
+				dispatch(productsActions.removeToCard(evt.itemId));
+			} else if (evt?.type === 'clear') {
+				dispatch(productsActions.clearCard());
+			}
+		};
+		cartSocket.on('cart:updated', onUpdated);
+		return () => {
+			cartSocket.off('cart:updated', onUpdated);
+		};
+	}, [dispatch]);
 
 	if (loading) {
 		return <div className='container py-5'><div className='alert alert-info mb-0'>Loading products...</div></div>;
