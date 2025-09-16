@@ -14,7 +14,6 @@ export function initSocket(server) {
   });
 
   io.on('connection', (socket) => {
-    // Optionally associate with a user/session
     const userId = socket.handshake.auth?.userId || socket.id;
     socket.join(`user:${userId}`);
 
@@ -22,7 +21,6 @@ export function initSocket(server) {
 
     // Basic cart events
     socket.on('cart:add', (item) => {
-      // In a real app, persist cart in DB/session; here we just broadcast
       io.to(`user:${userId}`).emit('cart:updated', { type: 'add', item });
     });
 
@@ -35,7 +33,6 @@ export function initSocket(server) {
     });
 
     socket.on('disconnect', () => {
-      // cleanup if necessary
     });
   });
 
