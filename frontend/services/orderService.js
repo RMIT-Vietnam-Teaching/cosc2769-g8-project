@@ -134,35 +134,33 @@ export const orderService = {
 		}
 	},
 
-  // Create new customer order
-  /**
+	// Create new customer order
+	/**
    * @param {Array<{ id?: string, _id?: string, product?: string, name?: string, price: number }>} items - Cart products; will be minimized to {productId, price}
    */
-    async createCustomerOrder(items) {
-        try {
-            const payloadItems = Array.isArray(items)
-                ? items.map((p) => ({
-                    productId: String(p.id ?? ''),
-                    price: Number(p.price),
-                }))
-                : [];
+	async createCustomerOrder(items) {
+		try {
+			const payloadItems = Array.isArray(items) ? items.map(p => ({
+				productId: String(p.id ?? ''),
+				price: Number(p.price),
+			})) : [];
 
-            const response = await fetch(`${API_BASE_URL}/customer/new-order`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items: payloadItems }),
-            });
-            const result = await response.json();
-            if (result.success && result.data) {
-                return result.data;
-            } else {
-                throw new Error(result.errorMsg?.join(', ') || 'Failed to create order');
-            }
-        } catch (error) {
-            console.error('Error creating order:', error);
-            throw error;
-        }
-    }
+			const response = await fetch(`${API_BASE_URL}/customer/new-order`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ items: payloadItems }),
+			});
+			const result = await response.json();
+			if (result.success && result.data) {
+				return result.data;
+			} else {
+				throw new Error(result.errorMsg?.join(', ') || 'Failed to create order');
+			}
+		} catch (error) {
+			console.error('Error creating order:', error);
+			throw error;
+		}
+	},
 };
 
 export default orderService;

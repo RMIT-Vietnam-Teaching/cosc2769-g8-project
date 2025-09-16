@@ -7,7 +7,7 @@
 # ID: s4136776
 */
 // @ts-nocheck
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import orderService from '../../services/orderService.js';
 
@@ -17,8 +17,8 @@ const PageShipper = () => {
 	const [orders, setOrders] = useState([]);
 	const [selectedOrder, setSelectedOrder] = useState(null);
 	const [showModal, setShowModal] = useState(false);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+	const [_loading, setLoading] = useState(true);
+	const [_error, setError] = useState(null);
 	const [confirmationModal, setConfirmationModal] = useState({ show: false, action: null, orderId: null });
 	const [wasDetailModalOpen, setWasDetailModalOpen] = useState(false);
 	// Sorting and pagination states
@@ -423,4 +423,3 @@ const PageShipper = () => {
 };
 
 export default PageShipper;
-

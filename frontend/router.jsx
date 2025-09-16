@@ -10,10 +10,12 @@ import { createBrowserRouter } from 'react-router';
 
 import { accountHelper } from './helpers/account';
 import { Layout } from './layout/Layout';
+import PageAbout from './pages/PageAbout/PageAbout.jsx';
 import PageCustomer from './pages/PageCustomer/PageCustomer.js';
 import ProductDetail from './pages/PageCustomer/ProductDetail.js';
 import { PageLogin } from './pages/PageLogin/PageLogin';
 import { PageMyAccount } from './pages/PageMyAccount/PageMyAccount';
+import PagePrivacy from './pages/PagePrivacy/PagePrivacy.jsx';
 import PageShipper from './pages/PageShipper/PageShipper';
 import { PageSignup } from './pages/PageSignup/PageSignup';
 import { PageSignupCustomer } from './pages/PageSignupCustomer/PageSignupCustomer';
@@ -25,8 +27,6 @@ import { PageVendorProductDetails } from './pages/PageVendorProductDetails/PageV
 import { vendorService } from './services/vendorService';
 
 import ShoppingCart from '#/pages/PageCustomer/ShoppingCart.js';
-import PageAbout from './pages/PageAbout/PageAbout.jsx';
-import PagePrivacy from './pages/PagePrivacy/PagePrivacy.jsx';
 
 export const appRouter = createBrowserRouter([
 	{

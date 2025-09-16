@@ -7,8 +7,8 @@
 # ID: s4131473
 */
 import apple from '../../assets/apple.jpg';
-import orange from '../../assets/orange.jpg';
 import banana from '../../assets/banana.jpg';
+import orange from '../../assets/orange.jpg';
 
 const seedProductData = [
 	{

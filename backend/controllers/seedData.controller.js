@@ -10,9 +10,9 @@ import mongoose from 'mongoose';
 
 import {
 	DistributionHub,
+	Order,
 	Product,
 	User,
-	Order,
 } from '#root/models.js'; // Replace with the correct path
 
 const seedDataController = {};

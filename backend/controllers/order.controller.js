@@ -10,14 +10,15 @@
  * Order Controller - Handles all order-related operations for shipper dashboard
  */
 
-import { DistributionHub, Order } from '#root/models.js';
 import { z } from 'zod';
+
+import { DistributionHub, Order } from '#root/models.js';
 
 const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
 const OrderItemInputSchema = z.object({
 	productId: z.string().regex(objectIdRegex, 'Invalid product id'),
-	price: z.preprocess((v) => Number(v), z.number().nonnegative()),
+	price: z.preprocess(v => Number(v), z.number().nonnegative()),
 });
 
 const NewOrderBodySchema = z.object({
@@ -35,7 +36,7 @@ function parseCustomerNewOrderBody(req) {
 	const hubId = req.body?.hubId;
 	const parsed = NewOrderBodySchema.safeParse({ items: itemsInput, hubId });
 	if (!parsed.success) {
-		const messages = parsed.error.errors.map((e) => e.message || 'Invalid input');
+		const messages = parsed.error.issues.map(e => e.message || 'Invalid input');
 		return { ok: false, errors: messages };
 	}
 	return { ok: true, data: parsed.data };
@@ -196,45 +197,46 @@ orderController.getOrderStats = async (_req, res) => {
  * @type {app.AsyncRequestHandler}
  */
 orderController.createCustomerOrder = async (req, res) => {
-    try {
-        const user = req.session.user;
-        if (!user || !user.id) {
-        return res.jsonErrorMsg(['Unauthenticated.']);
-    }
+	try {
+		const user = req.session.user;
+		if (!user || !user.id) {
+			return res.jsonErrorMsg(['Unauthenticated.']);
+		}
 
-    const parsed = parseCustomerNewOrderBody(req);
-    if (!parsed.ok) {
-        return res.jsonErrorMsg(parsed.errors);
-    }
+		const parsed = parseCustomerNewOrderBody(req);
+		if (!parsed.ok) {
+			return res.jsonErrorMsg(parsed.errors);
+		}
 
-    const { items: itemsInput, hubId: inputHubId } = parsed.data;
+		const { items: itemsInput, hubId: inputHubId } = parsed.data;
 
-    const items = itemsInput.map((it) => ({ product: it.productId, quantity: 1, price: it.price }));
+		const items = itemsInput.map(it => ({ product: it.productId, quantity: 1, price: it.price }));
 
-    const totalPrice = items.reduce((sum, it) => sum + it.price, 0);
+		const totalPrice = items.reduce((sum, it) => sum + it.price, 0);
 
-    let hubId = inputHubId;
-    if (!hubId) {
-        const hub = await DistributionHub.findOne({}, { _id: 1 });
-        if (!hub) {
-            return res.jsonErrorMsg(['No distribution hub configured.']);
-        }
-        hubId = hub._id;
-    }
+		/** @type {string | import('mongoose').Types.ObjectId | undefined} */
+		let hubId = inputHubId;
+		if (!hubId) {
+			const hub = await DistributionHub.findOne({}, { _id: 1 });
+			if (!hub) {
+				return res.jsonErrorMsg(['No distribution hub configured.']);
+			}
+			hubId = hub._id;
+		}
 
-    const order = await Order.create({
-        customer: user.id,
-        hub: hubId,
-        items,
-        totalPrice,
-        status: 'active',
-    });
+		const order = await Order.create({
+			customer: user.id,
+			hub: hubId,
+			items,
+			totalPrice,
+			status: 'active',
+		});
 
-    return res.jsonData(order);
-    } catch (error) {
-        console.error('Error creating customer order:', error);
-        return res.jsonErrorMsg(['Failed to create order']);
-    }
+		return res.jsonData(order);
+	} catch (error) {
+		console.error('Error creating customer order:', error);
+		return res.jsonErrorMsg(['Failed to create order']);
+	}
 };
 
 export default orderController;

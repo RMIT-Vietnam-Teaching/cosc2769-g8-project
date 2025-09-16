@@ -6,15 +6,12 @@
 # Author: Trần Phan Anh Khoa
 # ID: s4136776
 */
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * @import { TypedUseSelectorHook } from 'react-redux'
- * @import { store } from '../redux/store.js'
+ * @import { AppDispatch, RootState } from '../redux/store.js'
  *
- * @typedef {ReturnType<typeof store.getState>} RootState
- * @typedef {typeof store.dispatch} AppDispatch
- * @typedef {typeof store} AppStore
  */
 
 /** @type {() => AppDispatch} */
@@ -22,6 +19,3 @@ export const useAppDispatch = useDispatch.withTypes();
 
 /** @type {TypedUseSelectorHook<RootState>} */
 export const useAppSelector = useSelector;
-
-/** @tpye {() => AppStore} */
-export const useAppStore = useStore;

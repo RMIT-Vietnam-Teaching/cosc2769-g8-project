@@ -6,7 +6,7 @@
 # Author: Nguyễn Hoàng Long
 # ID: s4131459
 */
-import { Link, useLoaderData } from 'react-router';
+import { useLoaderData } from 'react-router';
 
 import { ProductCard } from './ProductCard';
 import { VendorProduct } from './types';
