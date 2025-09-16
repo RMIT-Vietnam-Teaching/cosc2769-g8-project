@@ -1,13 +1,13 @@
-import ky from 'ky';
-
 import { userAction } from './slices/userSlice';
+
+import { fetchHelper } from '#/helpers/fetch';
 
 /**
  * @param {typeof import('./store.js').store} store
  */
 export const initStore = async (store) => {
 	/** @type {app.Response<app.User>} */
-	const res = await ky.get('/api/account', { throwHttpErrors: false }).json();
+	const res = await fetchHelper.get('/api/account');
 
 	if (res.success) {
 		store.dispatch(userAction.setUser(res.data));
