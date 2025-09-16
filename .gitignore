@@ -15,6 +15,12 @@ frontend/*.local
 **/tsconfig.tsbuildinfo
 .cached
 public/uploads/**/*
+!public/uploads/test-product-coffee.png
+!public/uploads/test-product-tea.png
+!public/uploads/test-product-granola.png
+!public/uploads/test-product-oil.png
+!public/uploads/test-product-honey.png
+
 !**/.gitkeep
 
 # Editor directories and files
