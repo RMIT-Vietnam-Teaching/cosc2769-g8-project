@@ -1,3 +1,11 @@
+/*
+# RMIT University Vietnam
+# Course: COSC2769 - Full Stack Development
+# Semester: 2025B
+# Assessment: Assignment 02
+# Author: Lê Đạt Nhơn, Đoàn Đắc Nguyên
+# ID: s4076839, s4131473
+*/
 /**
  * Order Controller - Handles all order-related operations for shipper dashboard
  */

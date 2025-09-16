@@ -1,3 +1,11 @@
+/*
+# RMIT University Vietnam
+# Course: COSC2769 - Full Stack Development
+# Semester: 2025B
+# Assessment: Assignment 02
+# Author: Trần Phan Anh Khoa, Đoàn Đắc Nguyên
+# ID: s4136776, s4131473
+*/
 import { useEffect, useMemo, useState } from 'react';
 import { FaFilter, FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';

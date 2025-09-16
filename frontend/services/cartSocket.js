@@ -1,3 +1,11 @@
+/*
+# RMIT University Vietnam
+# Course: COSC2769 - Full Stack Development
+# Semester: 2025B
+# Assessment: Assignment 02
+# Author: Đoàn Đắc Nguyên
+# ID: s4131473
+*/
 import { io } from 'socket.io-client';
 
 const SOCKET_URL = 'http://localhost:3000';

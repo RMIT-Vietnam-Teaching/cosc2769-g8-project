@@ -1,3 +1,11 @@
+/*
+# RMIT University Vietnam
+# Course: COSC2769 - Full Stack Development
+# Semester: 2025B
+# Assessment: Assignment 02
+# Author: Đoàn Đắc Nguyên, Trần Phan Anh Khoa
+# ID: s4131473, s4136776
+*/
 import { Link } from 'react-router';
 
 // Simple Bootstrap-only footer shared across pages

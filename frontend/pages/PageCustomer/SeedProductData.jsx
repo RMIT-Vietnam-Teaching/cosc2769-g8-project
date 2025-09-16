@@ -1,3 +1,11 @@
+/*
+# RMIT University Vietnam
+# Course: COSC2769 - Full Stack Development
+# Semester: 2025B
+# Assessment: Assignment 02
+# Author: Đoàn Đắc Nguyên
+# ID: s4131473
+*/
 import apple from '../../assets/apple.jpg';
 import orange from '../../assets/orange.jpg';
 import banana from '../../assets/banana.jpg';
