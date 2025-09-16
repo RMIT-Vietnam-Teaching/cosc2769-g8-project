@@ -6,22 +6,22 @@ import { Link, useNavigate } from 'react-router';
 import Select from 'react-select';
 import { clsx } from 'clsx';
 
-import { accountHelper } from '#/helpers/account';
 import { fetchHelper } from '#/helpers/fetch';
 import { reactSelectHelper } from '#/helpers/reactSelect';
 import { useSelect, useTextInput, useToggler } from '#/hooks/input';
+import { accountService } from '#/services/accountService';
 
 export const PageSignupShipper = () => {
 	const navigate = useNavigate();
 
 	const [showPassword, _setShowPassword, handleShowPassword] = useToggler(false);
 	const [showConfirmPassword, _setShowConfirmPassword, handleShowConfirmPassword] = useToggler(false);
-	const [state, signUpAction, isSigningUp] = useActionState(accountHelper.signUp, { success: false, error: {} });
+	const [state, signUpAction, isSigningUp] = useActionState(accountService.signUp, { success: false, error: {} });
 	const [username, _setUsername, handleUsername] = useTextInput('');
 	const [password, _setPassword, handlePassword] = useTextInput('');
 	const [confirmPassword, _setConfirmPassword, handleConfirmPassword] = useTextInput('');
 	const [hubs, getHubsAction, isHubLoading] = useActionState(getHubs, []);
-	const [hub, setHub, handleHub] = useSelect(null);
+	const [hub, _setHub, handleHub] = useSelect(null);
 	const signupToastRef = useRef(/** @type {HTMLDivElement | null} */(null));
 
 	useEffect(() => startTransition(() => getHubsAction()), []);
@@ -88,7 +88,7 @@ export const PageSignupShipper = () => {
 							<div className='px-3'>
 								<label className='form-label fw-medium' htmlFor='username'>Username:</label>
 								<input
-									id='username' type='username' name='username' placeholder='8 - 15 letters/digits'
+									id='username' type='text' name='username' placeholder='8 - 15 letters/digits'
 									className={clsx('form-control', !isSigningUp && state.error.username != null && 'is-invalid')}
 									value={username} onChange={handleUsername}
 								/>

@@ -1,7 +1,13 @@
-input.form-control, input.form-check-input, .react-select__container {
+input.form-control,
+textarea.form-control,
+input.form-check-input,
+.react-select__container {
 	--my-input-outline-width: 3px;
 }
-input.form-control.is-invalid, input.form-check-input.is-invalid, .react-select__container.is-invalid {
+input.form-control.is-invalid,
+textarea.form-control.is-invalid,
+input.form-check-input.is-invalid,
+.react-select__container.is-invalid {
 	--bs-border-color: var(--bs-form-invalid-border-color);
 	--my-input-outline-width: 1px;
 }

@@ -5,15 +5,15 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router';
 import { clsx } from 'clsx';
 
-import { accountHelper } from '#/helpers/account';
 import { useTextInput, useToggler } from '#/hooks/input';
+import { accountService } from '#/services/accountService';
 
 export const PageSignupCustomer = () => {
 	const navigate = useNavigate();
 
 	const [showPassword, _setShowPassword, handleShowPassword] = useToggler(false);
 	const [showConfirmPassword, _setShowConfirmPassword, handleShowConfirmPassword] = useToggler(false);
-	const [state, signUpAction, isSigningUp] = useActionState(accountHelper.signUp, { success: false, error: {} });
+	const [state, signUpAction, isSigningUp] = useActionState(accountService.signUp, { success: false, error: {} });
 	const [name, _setName, handleName] = useTextInput('');
 	const [address, _setAddress, handleAddress] = useTextInput('');
 	const [username, _setUsername, handleUsername] = useTextInput('');

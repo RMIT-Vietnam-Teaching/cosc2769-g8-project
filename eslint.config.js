@@ -6,12 +6,13 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 
 export default defineConfig([
 	{
-		files: ['**/*.{js,jsx}', './backend/bin/www'],
+		files: ['**/*.{js,jsx}', './backend/bin/www', './frontend/**/*.{ts,tsx}'],
 		ignores: ['node_modules/'],
 		languageOptions: {
 			globals: { ...globals.node },
@@ -105,6 +106,7 @@ export default defineConfig([
 
 	{
 		basePath: 'frontend/',
+		files: ['**/*.{js,jsx}'],
 		languageOptions: {
 			ecmaVersion: 'latest',
 			sourceType: 'module',
@@ -143,6 +145,72 @@ export default defineConfig([
 			}],
 			'react/prop-types': 'off',
 			'react-hooks/exhaustive-deps': 'off',
+		},
+	},
+
+	{
+		basePath: 'frontend/',
+		files: ['**/*.{ts,tsx}'],
+		languageOptions: {
+			ecmaVersion: 'latest',
+			sourceType: 'module',
+			globals: {
+				...globals.browser,
+				bootstrap: 'readonly',
+			},
+			parserOptions: {
+				ecmaFeatures: { jsx: true },
+			},
+		},
+		settings: {
+			react: {
+				version: '19.1',
+			},
+		},
+		extends: [
+			tseslint.configs.recommended,
+			react.configs.flat.recommended,
+			react.configs.flat['jsx-runtime'],
+			reactHooks.configs['recommended-latest'],
+			reactRefresh.configs.vite,
+		],
+		rules: {
+			'@stylistic/jsx-one-expression-per-line': 'off',
+			'@stylistic/jsx-closing-tag-location': ['warn', 'line-aligned'],
+			'@stylistic/jsx-max-props-per-line': ['warn', { maximum: 5, when: 'multiline' }],
+			'@stylistic/jsx-wrap-multilines': ['warn', {
+				declaration: 'parens',
+				assignment: 'parens',
+				return: 'parens',
+				arrow: 'parens',
+				condition: 'parens',
+				logical: 'parens',
+				prop: 'parens',
+				propertyValue: 'parens',
+			}],
+			'react/prop-types': 'off',
+			'react-hooks/exhaustive-deps': 'off',
+			'@stylistic/member-delimiter-style': ['warn',
+				{
+					multiline: {
+						delimiter: 'semi',
+						requireLast: true,
+					},
+					singleline: {
+						delimiter: 'comma',
+						requireLast: false,
+					},
+					multilineDetection: 'brackets',
+				},
+			],
+			'no-unused-vars': 'off',
+			'@typescript-eslint/no-unused-vars': ['error', {
+				varsIgnorePattern: '^_',
+				argsIgnorePattern: '^_',
+				caughtErrorsIgnorePattern: '^_',
+				destructuredArrayIgnorePattern: '^_',
+				ignoreRestSiblings: true,
+			}],
 		},
 	},
 ]);
