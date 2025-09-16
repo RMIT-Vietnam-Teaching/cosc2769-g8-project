@@ -4,6 +4,7 @@ import accountController from './controllers/account.controller.js';
 import hubController from './controllers/hub.controller.js';
 import orderController from './controllers/order.controller.js';
 import seedDataController from './controllers/seedData.controller.js';
+import vendorController from './controllers/vendor.controller.js';
 import middleware from './middleware.js';
 
 const apiRouter = Router();
@@ -29,5 +30,18 @@ apiRouter.get('/orders/:orderId', orderController.getOrderById);
 apiRouter.patch('/orders/:orderId/delivered', orderController.markAsDelivered);
 apiRouter.patch('/orders/:orderId/cancel', orderController.cancelOrder);
 apiRouter.get('/orders-stats', orderController.getOrderStats);
+
+// Vendors
+apiRouter.get('/vendor/products', middleware.isVendor, vendorController.allProducts);
+apiRouter.get('/vendor/product/:id', middleware.isVendor, vendorController.productById);
+apiRouter.post(
+  '/vendor/new-product',
+  middleware.isVendor,
+  middleware.upload.fields([
+    { name: 'mainImage', maxCount: 1 },
+    { name: 'image' },
+  ]),
+  vendorController.new,
+);
 
 export default apiRouter;
