@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useMatches, useNavigate } from 'react-router';
 
 import { Nav } from './Nav/Nav';
+import { Footer } from './Footer/Footer';
 
 import './Layout.css';
 
@@ -37,11 +38,12 @@ export const Layout = () => {
 	}, [isUserChecked, isAuthenticated, navigate, pathname]);
 
 	return (
-		<div className='layout__container vw-100 vh-100'>
+		<div className='layout__container vw-100 vh-100 d-flex flex-column'>
 			<Nav />
 
 			<main className='layout__main vw-100 overflow-auto bg-body-tertiary'>
 				{isPathChecked ? <Outlet /> : null}
+				<Footer />
 			</main>
 		</div>
 	);

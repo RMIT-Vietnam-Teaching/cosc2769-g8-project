@@ -5,9 +5,9 @@ const helper = {};
  * @returns {string}
  */
 helper.displayPrice = (price) => {
-	return price.toLocaleString('vi-VN', {
+	return price.toLocaleString('us-EN', {
 		style: 'currency',
-		currency: 'VND',
+		currency: 'USD',
 	});
 };
 
