@@ -207,7 +207,7 @@ export const PageSignupShipper = () => {
 async function getHubs(hubs) {
 	try {
 		/** @type {app.Response<app.Hub[]>} */
-		const res = await fetchHelper.get('/api/hubs').json();
+		const res = await fetchHelper.get('/api/hubs');
 		if (res.success) {
 			return res.data;
 		}

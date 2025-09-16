@@ -24,7 +24,7 @@ export const NavItems = () => {
 		let hasError = false;
 		try {
 			/** @type {app.Response} */
-			const res = await fetchHelper.post('/api/logout').json();
+			const res = await fetchHelper.post('/api/logout');
 			if (res.success) {
 				dispatch(userAction.clearUser());
 			} else {

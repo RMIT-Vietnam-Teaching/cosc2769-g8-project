@@ -11,7 +11,7 @@ export const productService = {
 	async getAll(queries = {}) {
 		try {
 			/** @type {any} */
-			const result = await fetchHelper.get(`${API_BASE_URL}/customers/products`, queries).json();
+			const result = await fetchHelper.get(`${API_BASE_URL}/customers/products`, queries);
 			if (result.success && result.data) {
 				return result.data;
 			} else {
@@ -54,7 +54,7 @@ export const productService = {
 	async searchByName(search) {
 		try {
 			/** @type {app.Response<ProductSearch[]>} */
-			const result = await fetchHelper.get(`${API_BASE_URL}/customers/products/name`, { search }).json();
+			const result = await fetchHelper.get(`${API_BASE_URL}/customers/products/name`, { search });
 			if (result.success) {
 				return result.data;
 			} else {

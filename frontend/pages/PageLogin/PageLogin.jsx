@@ -22,7 +22,7 @@ const login = async (_, form) => {
 		username: form.get('username')?.toString() ?? '',
 		password: form.get('password')?.toString() ?? '',
 		remember: form.has('remember'),
-	}).json();
+	});
 
 	await new Promise(resolve => setTimeout(resolve, 200));
 

@@ -1,9 +1,3 @@
-import ky from 'ky';
-
-/**
- * @import { Input, Options, ResponsePromise } from 'ky'
- */
-
 const helper = {};
 
 helper.status = /** const */ {
@@ -11,85 +5,37 @@ helper.status = /** const */ {
 };
 
 /**
- * @template T
- * @type {(url: Input, data?: Record<string, any> | null, options?: Options) => ResponsePromise<T> }
+ * @type {(url: string | URL, data?: Record<string, any> | null) => Promise<any>}
  */
-helper.get = (url, data, options) => {
-	return ky.get(url, {
-		throwHttpErrors: false,
-		...(options ?? {}),
-		searchParams: new URLSearchParams(data ?? {}),
+helper.get = async (url, data = undefined) => {
+	const newUrl = new URL(url, location.origin);
+	Object.entries(data ?? {}).forEach(([key, value]) => {
+		(Array.isArray(value) ? value : [value]).forEach(v => newUrl.searchParams.append(key, String(v)));
 	});
+	const res = await fetch(newUrl.toString());
+	return await res.json();
 };
 
 /**
- * @type {(url: Input, data?: Record<string, any> | null, options?: Options) => ResponsePromise<any> }
+ * @type {(url: string | URL, data?: Record<string, any> | null) => Promise<any> }
  */
-helper.post = (url, data, options) => {
-	return ky.post(url, {
-		throwHttpErrors: false,
-		...(options ?? {}),
-		json: data ?? undefined,
+helper.post = async (url, data) => {
+	const res = await fetch(url, {
+		method: 'POST',
+		body: JSON.stringify(data),
 	});
+	return await res.json();
 };
 
 /**
- * @type {(url: Input, data?: FormData, options?: Options) => ResponsePromise<any> }
+ * @type {(url: string | URL, data?: FormData) => Promise<any> }
  */
-helper.postForm = (url, data, options) => {
-	return ky.post(url, {
-		throwHttpErrors: false,
-		...(options ?? {}),
-		body: data
+helper.postForm = async (url, data) => {
+	const res = await fetch(url, {
+		method: 'POST',
+		body: data,
 	});
-};
-
-/**
- * @template T
- * @type {(url: Input, data?: Record<string, any> | null, options?: Options) => ResponsePromise<T> }
- */
-helper.put = (url, data, options) => {
-	return ky.put(url, {
-		throwHttpErrors: false,
-		...(options ?? {}),
-		json: data ?? undefined,
-	});
-};
-
-/**
- * @template T
- * @type {(url: Input, data?: Record<string, any> | null, options?: Options) => ResponsePromise<T> }
- */
-helper.patch = (url, data, options) => {
-	return ky.patch(url, {
-		throwHttpErrors: false,
-		...(options ?? {}),
-		json: data ?? undefined,
-	});
-};
-
-/**
- * @template T
- * @type {(url: Input, data?: Record<string, any> | null, options?: Options) => ResponsePromise<T> }
- */
-helper.delete = (url, data, options) => {
-	return ky.delete(url, {
-		throwHttpErrors: false,
-		...(options ?? {}),
-		json: data ?? undefined,
-	});
-};
-
-/**
- * @template T
- * @type {(url: Input, data?: Record<string, any> | null, options?: Options) => ResponsePromise<T> }
- */
-helper.head = (url, data, options) => {
-	return ky.head(url, {
-		throwHttpErrors: false,
-		...(options ?? {}),
-		searchParams: new URLSearchParams(data ?? {}),
-	});
+	return await res.json();
 };
 
 export const fetchHelper = helper;

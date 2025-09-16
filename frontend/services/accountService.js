@@ -11,7 +11,7 @@ export const accountService = {
 	signUp: async (_, formData) => {
 		try {
 		/** @type {app.Response} */
-			const res = await fetchHelper.postForm('/api/signup', formData).json();
+			const res = await fetchHelper.postForm('/api/signup', formData);
 			await new Promise(resolve => setTimeout(resolve, 400));
 			if (res.success) {
 				return { success: true, error: {} };
@@ -32,7 +32,7 @@ export const accountService = {
 	updateProfilePicture: async (_, formData) => {
 		try {
 		/** @type {app.Response} */
-			const res = await fetchHelper.postForm('/api/account/profile-picture', formData).json();
+			const res = await fetchHelper.postForm('/api/account/profile-picture', formData);
 			await new Promise(resolve => setTimeout(resolve, 400));
 			if (res.success) {
 				return { success: true, error: {} };

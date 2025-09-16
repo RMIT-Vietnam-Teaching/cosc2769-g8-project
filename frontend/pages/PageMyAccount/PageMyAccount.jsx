@@ -37,7 +37,7 @@ export const PageMyAccount = () => {
 			try {
 				setLoading(true);
 				/** @type {any} */
-				const response = await fetchHelper.get('/api/account/profile').json();
+				const response = await fetchHelper.get('/api/account/profile');
 				if (response.success) {
 					setProfileData(response.data);
 				} else {
