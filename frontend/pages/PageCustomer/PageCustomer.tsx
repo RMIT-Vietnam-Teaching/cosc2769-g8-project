@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import './PageCustomer.css';
-import ProductCard from "./ProductCard";
-import productService from "#/services/productService";
+import { useEffect, useMemo, useState } from 'react';
+import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
-import { productsActions } from "#/redux/slices/productSlice";
-import cartSocket from "#/services/cartSocket";
+import { useSearchParams } from 'react-router';
+import Select from 'react-select';
+
+import ProductCard from './ProductCard';
+
+import './PageCustomer.css';
+
+import { reactSelectHelper } from '#/helpers/reactSelect';
+import { useNumberInput, useSelect } from '#/hooks/input';
+import { productsActions } from '#/redux/slices/productSlice';
+import cartSocket from '#/services/cartSocket';
+import productService from '#/services/productService';
 
 interface ProductType {
 	id: string;
@@ -14,18 +22,51 @@ interface ProductType {
 	image: string[];
 }
 
+const sortOptions = [
+	{ value: 'latest', label: <div className='d-flex flex-row align-items-center gap-2'><FaSortAmountDown />Latest</div> },
+	{ value: 'priceDesc', label: <div className='d-flex flex-row align-items-center gap-2'><FaSortAmountDown />Price</div> },
+	{ value: 'priceAsc', label: <div className='d-flex flex-row align-items-center gap-2'><FaSortAmountUp />Price</div> },
+];
+
 const PageCustomer = () => {
 	const dispatch = useDispatch();
 	const [products, setProducts] = useState<ProductType[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [queries, setQueries] = useSearchParams();
+
+	const priceFilter = useMemo(() => {
+		const fromStr = (queries.get('priceFrom') ?? '').trim();
+		const toStr = (queries.get('priceTo') ?? '').trim();
+		const from = fromStr === '' ? 0 : Number(fromStr);
+		const to = toStr === '' ? 100000 : Number(toStr);
+		return {
+			from: isNaN(from) ? 0 : from,
+			to: isNaN(to) ? 100000 : to,
+		};
+	}, [queries]);
+
+	const [priceFrom, _setPriceFrom, handlePriceFrom] = useNumberInput(priceFilter.from);
+	const [priceTo, _setPriceTo, handlePriceTo] = useNumberInput(priceFilter.to);
+	const [sort, _setSort, handleSort] = useSelect(
+		sortOptions.find(o => o.value === queries.get('sort')) ?? sortOptions[0],
+	);
+
+	useEffect(() => {
+		if (!queries.has('sort')) {
+			setQueries((q) => {
+				q.set('sort', 'latest');
+				return q;
+			});
+		}
+	}, []);
 
 	useEffect(() => {
 		let mounted = true;
 		(async () => {
 			try {
 				setLoading(true);
-				const list = await productService.getAll();
+				const list = await productService.getAll(Object.fromEntries(queries.entries()));
 				const mapped = list.map((p: any) => ({
 					id: p._id ?? p.id,
 					name: p.name,
@@ -41,8 +82,10 @@ const PageCustomer = () => {
 				if (mounted) setLoading(false);
 			}
 		})();
-		return () => { mounted = false };
-	}, []);
+		return () => {
+			mounted = false;
+		};
+	}, [queries]);
 
 	useEffect(() => {
 		cartSocket.connect();
@@ -70,7 +113,39 @@ const PageCustomer = () => {
 	}
 
 	return (
-		<div className='d-flex justify-content-center align-items-center flex-wrap'>
+		<div className='d-flex justify-content-center align-items-center flex-wrap gap-3 my-4'>
+			<form className='row align-self-end' method='GET'>
+				<label className='col-auto col-form-label'>Price</label>
+				<div className='col-auto'>
+					<input
+						type='number' className='form-control' name='priceFrom' placeholder='from price'
+						value={priceFrom} onChange={handlePriceFrom}
+					/>
+					<div className='position-absolute end-0 top-50 translate-middle-x'>x</div>
+				</div>
+				<div className='col-auto'>
+					<input
+						type='number' className='form-control' name='priceTo' placeholder='from price'
+						value={priceTo} onChange={handlePriceTo}
+					/>
+				</div>
+				<div className='col-auto'>
+					<Select
+						isSearchable={false}
+						className='react-select__container'
+						classNames={reactSelectHelper.classNames}
+						options={sortOptions}
+						value={sort}
+						// @ts-expect-error dont know
+						onChange={handleSort}
+						name='sort'
+					/>
+				</div>
+				<div className='col-auto'>
+					<input type='submit' className='btn btn-primary' value='submit' />
+				</div>
+			</form>
+
 			<div className='row'>
 				{
 					products.map((product: ProductType) => (

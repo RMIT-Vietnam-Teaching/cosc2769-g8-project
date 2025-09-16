@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
 
 import shopIcon from '../../../public/rmit-icon.png';
-
 import { NavItems } from './NavItems/NavItems';
+import { ProductSearch } from './ProductSearch/ProductSearch';
 
 export const Nav = () => (<>
 	<nav className='layout__nav navbar navbar-expand d-none d-md-flex shadow'>
@@ -11,6 +11,7 @@ export const Nav = () => (<>
 				<img src={shopIcon} alt='Shop icon' width='28' height='28' />
 				<span>Shop</span>
 			</Link>
+			<ProductSearch />
 			<ul className='navbar-nav'>
 				<NavItems />
 			</ul>
@@ -23,6 +24,9 @@ export const Nav = () => (<>
 				<img src={shopIcon} alt='Shop icon' width='24' height='24' />
 				<span>Shop</span>
 			</Link>
+
+			<ProductSearch />
+
 			<button className='navbar-toggler' type='button' data-bs-toggle='offcanvas' data-bs-target='#offcanvasNavbar' data-bs-theme='dark' aria-controls='offcanvasNavbar' aria-label='Toggle navigation'>
 				<span className='navbar-toggler-icon'></span>
 			</button>

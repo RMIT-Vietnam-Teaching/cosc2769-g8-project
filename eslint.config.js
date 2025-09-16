@@ -211,6 +211,7 @@ export default defineConfig([
 				destructuredArrayIgnorePattern: '^_',
 				ignoreRestSiblings: true,
 			}],
+			'@typescript-eslint/no-explicit-any': 'off',
 		},
 	},
 ]);
