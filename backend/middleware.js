@@ -1,5 +1,6 @@
 import multer from 'multer';
 
+import accountHelper from './helpers/account.helper.js';
 import jsonHelper from './helpers/json.helper.js';
 import responseHelper from './helpers/response.helper.js';
 
@@ -7,11 +8,11 @@ const middleware = {};
 
 const storage = multer.diskStorage({
 	destination: function (_req, _file, cb) {
-		cb(null, './public/uploads');
+		cb(null, './public');
 	},
 	filename: function (_req, file, cb) {
 		const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E5);
-		cb(null, `${uniqueSuffix}-${file.originalname}`);
+		cb(null, `/uploads/${uniqueSuffix}-${file.originalname}`);
 	},
 });
 
@@ -107,6 +108,17 @@ middleware.isNotLoggedIn = (req, res, next) => {
 		next();
 	} else {
 		res.jsonErrorMsg(['Only for unauthenticated!']);
+	}
+};
+
+/** @type {app.Middleware} */
+middleware.isVendor = (req, res, next) => {
+	if (req.session.user?.role !== accountHelper.role.VENDOR) {
+		res
+			.status(req.session.user == null ? responseHelper.status.UNAUTHENTICATED : responseHelper.status.UNAUTHORIZED)
+			.json(jsonHelper.errorMsg(['Only for vendors!']));
+	} else {
+		next();
 	}
 };
 
