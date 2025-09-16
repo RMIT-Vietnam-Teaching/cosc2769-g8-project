@@ -12,13 +12,13 @@ export const Footer = () => {
 					<div className='col-12 col-md-6'>
 						<ul className='nav nav-underline justify-content-center justify-content-md-end'>
 							<li className='nav-item'>
-								<Link to='/customer' className='nav-link px-2 text-body-secondary'>Main</Link>
+								<Link to='/' className='nav-link px-2 text-body-secondary'>Main</Link>
 							</li>
 							<li className='nav-item'>
-								<Link to='/about' className='nav-link px-2 text-body-secondary'>About</Link>
+								<Link to='/about#top' className='nav-link px-2 text-body-secondary'>About</Link>
 							</li>
 							<li className='nav-item'>
-								<Link to='/privacy' className='nav-link px-2 text-body-secondary'>Privacy</Link>
+								<Link to='/privacy#top' className='nav-link px-2 text-body-secondary'>Privacy</Link>
 							</li>
 						</ul>
 					</div>
