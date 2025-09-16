@@ -1,10 +1,12 @@
 import { useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { FaPlus } from 'react-icons/fa';
 import { FaCartShopping } from 'react-icons/fa6';
 import { MdAccountCircle, MdOutlineLogin, MdOutlineLogout, MdPerson } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router';
 
+import { accountHelper } from '#/helpers/account';
 import { fetchHelper } from '#/helpers/fetch';
 import { useAppDispatch, useAppSelector } from '#/hooks/redux';
 import { productsSelectors } from '#/redux/slices/productSlice.js';
@@ -45,28 +47,42 @@ export const NavItems = () => {
 				</NavLink>
 			</li>
 		) : (<>
-			<li className='nav-item'>
-				<NavLink className='nav-link' to='/cart'>
-					<FaCartShopping />
-					{(() => {
-						return cartCount > 0 ? (
-							<span
-								className='badge rounded-pill bg-danger ms-2'
-								style={{ fontSize: '0.75rem', lineHeight: 1, padding: '0.35rem 0.5rem' }}
-								aria-label={`Items in cart: ${cartCount}`}
-							>
-								{cartCount}
-							</span>
-						) : null;
-					})()}
 
-				</NavLink>
-			</li>
-			<li className='nav-item'>
-				<NavLink className='nav-link' to='/shipper'>
-					Shipper
-				</NavLink>
-			</li>
+			{user.role === accountHelper.role.VENDOR && (
+				<li className='nav-item'>
+					<NavLink className='nav-link' to='/vendor/new-product'>
+						<button className='btn btn-light'>
+							<div className='d-sm-none d-flex flex-row align-items-center gap-2'>
+								<FaPlus />
+								<span className='position-relative' style={{ top: 1 }}>Add</span>
+							</div>
+							<span className='d-none d-sm-inline-block'>
+								Add New Product
+							</span>
+						</button>
+					</NavLink>
+				</li>
+			)}
+
+			{user.role === accountHelper.role.CUSTOMER && (
+				<li className='nav-item'>
+					<NavLink className='nav-link' to='/cart'>
+						<FaCartShopping />
+						{(() => {
+							return cartCount > 0 ? (
+								<span
+									className='badge rounded-pill bg-danger ms-2'
+									style={{ fontSize: '0.75rem', lineHeight: 1, padding: '0.35rem 0.5rem' }}
+									aria-label={`Items in cart: ${cartCount}`}
+								>
+									{cartCount}
+								</span>
+							) : null;
+						})()}
+					</NavLink>
+				</li>
+			)}
+
 			<li className='nav-item dropdown'>
 				<a className='nav-link active dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
 					<MdAccountCircle /> {user.name}

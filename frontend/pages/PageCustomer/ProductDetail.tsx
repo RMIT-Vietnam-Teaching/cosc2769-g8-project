@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from "react-router";
-import { displayPrice } from "./ProductCard";
-import { useDispatch, useSelector } from "react-redux";
-import { productsActions, productsSelectors } from "#/redux/slices/productSlice";
-import productService from "#/services/productService";
-import cartSocket from "#/services/cartSocket";
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router';
+
+import { productHelper } from '#/helpers/product';
+import { productsActions, productsSelectors } from '#/redux/slices/productSlice';
+import cartSocket from '#/services/cartSocket';
+import productService from '#/services/productService';
 
 interface ProductType {
 	id: string;
@@ -47,11 +49,11 @@ const ProductDetail = () => {
 			}
 		})();
 		return () => {
-			mounted = false
+			mounted = false;
 		};
 	}, [id]);
 
- useEffect(() => {
+	useEffect(() => {
 		cartSocket.connect();
 		const onUpdated = (evt: any) => {
 			if (evt?.type === 'add' && evt.item) {
@@ -87,8 +89,26 @@ const ProductDetail = () => {
 
 	const images = Array.isArray(product.image) ? product.image : [product.image];
 
+	const handleAddToCard = () => {
+		dispatch(productsActions.addToCard(product));
+		cartSocket.add(product);
+	};
+
 	return (
-		<div className='container py-5'>
+		<div className='container my-4 d-flex flex-column gap-3'>
+
+			<div className='row'>
+				<div className='col d-flex flex-row justify-content-start'>
+					<Link
+						to='/customer'
+						className='align-items-center border-0 btn btn-outline-secondary d-flex flex-row gap-3 pe-3 ps-2 py-2'
+					>
+						<IoMdArrowRoundBack className='fs-5' />
+						<span className='position-relative'>View Products</span>
+					</Link>
+				</div>
+			</div>
+
 			<div className='row g-4 align-items-start'>
 				<div className='col-6'>
 					<div id='productCarousel' className='carousel slide'>
@@ -126,18 +146,19 @@ const ProductDetail = () => {
 				</div>
 				<div className='col-6'>
 					<h1 className='display-10 mb-3'>{product.name}</h1>
-					<div className='h3 text-secondary mb-4'>{displayPrice(product.price)}</div>
+					<div className='h3 text-secondary mb-4'>{productHelper.displayPrice(product.price)}</div>
 					<p className='fs-5 text-muted mb-4'>{product.description}</p>
 					<button
 						type='button'
 						className='btn btn-dark btn-lg rounded-5 w-50'
-						onClick={() => { dispatch(productsActions.addToCard(product)); cartSocket.add(product); }}
+						onClick={handleAddToCard}
 						disabled={!isNotAvailable}
-					>Add to cart</button>
+					>Add to cart
+					</button>
 				</div>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 export default ProductDetail;

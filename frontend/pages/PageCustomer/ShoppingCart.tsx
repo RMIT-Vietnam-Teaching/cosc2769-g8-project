@@ -1,9 +1,12 @@
-import {useDispatch, useSelector} from "react-redux";
-import {productsActions, productsSelectors} from "#/redux/slices/productSlice";
-import ProductCard from "#/pages/PageCustomer/ProductCard";
-import { useEffect } from "react";
-import cartSocket from "#/services/cartSocket";
-import orderService from "#/services/orderService";
+import { useEffect } from 'react';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router';
+
+import ProductCard from '#/pages/PageCustomer/ProductCard';
+import { productsActions, productsSelectors } from '#/redux/slices/productSlice';
+import cartSocket from '#/services/cartSocket';
+import orderService from '#/services/orderService';
 
 const ShoppingCart = () => {
 	const dispatch = useDispatch();
@@ -47,7 +50,20 @@ const ShoppingCart = () => {
 	};
 
 	return (
-		<div className='container py-4'>
+		<div className='container my-4 d-flex flex-column gap-3'>
+
+			<div className='row'>
+				<div className='col d-flex flex-row justify-content-start'>
+					<Link
+						to='/customer'
+						className='align-items-center border-0 btn btn-outline-secondary d-flex flex-row gap-3 pe-3 ps-2 py-2'
+					>
+						<IoMdArrowRoundBack className='fs-5' />
+						<span className='position-relative'>View Products</span>
+					</Link>
+				</div>
+			</div>
+
 			<div className='d-flex justify-content-between align-items-center mb-4'>
 				<h2 className='mb-0'>Your Cart {cartCount > 0 ? `(${cartCount})` : ''}</h2>
 				{cartCount > 0 && (
@@ -61,7 +77,7 @@ const ShoppingCart = () => {
 							key={String(p.id)}
 							product={p}
 							showDelete
-							onDelete={(id) => handleDelete(id)}
+							onDelete={id => handleDelete(id)}
 						/>
 					))}
 				</div>
@@ -70,7 +86,7 @@ const ShoppingCart = () => {
 			)}
 		</div>
 
-	)
-}
+	);
+};
 
 export default ShoppingCart;

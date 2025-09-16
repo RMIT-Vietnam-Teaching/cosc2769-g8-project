@@ -35,7 +35,7 @@ export const ProductSearch = () => {
 
 	return (
 		<Select
-			placeholder='search for products'
+			placeholder='products'
 			className='react-select__container z-3 product-search__select'
 			classNames={reactSelectHelper.classNames}
 

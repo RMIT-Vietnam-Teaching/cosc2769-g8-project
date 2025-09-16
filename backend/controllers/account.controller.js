@@ -217,9 +217,9 @@ accountController.fetchProfile = async (req, res) => {
 	try {
 		const userId = req.session.user.id;
 		const role = req.session.user.role;
-		
+
 		let userData = null;
-		
+
 		if (role === accountHelper.role.VENDOR) {
 			userData = await Vendor.findById(userId).select('-password');
 		} else if (role === accountHelper.role.CUSTOMER) {
@@ -227,11 +227,11 @@ accountController.fetchProfile = async (req, res) => {
 		} else if (role === accountHelper.role.SHIPPER) {
 			userData = await Shipper.findById(userId).populate('hub').select('-password');
 		}
-		
+
 		if (userData == null) {
 			return res.status(responseHelper.status.NOT_FOUND).jsonErrorMsg(['User not found.']);
 		}
-		
+
 		res.jsonData(userData);
 	} catch (error) {
 		logger.error('Fetch Profile Error %o', error);
@@ -253,7 +253,7 @@ accountController.updateProfilePicture = async (req, res) => {
 		const userId = req.session.user.id;
 		const role = req.session.user.role;
 		const filename = req.file.filename;
-		
+
 		if (role === accountHelper.role.VENDOR) {
 			await Vendor.findByIdAndUpdate(userId, { profilePicture: filename });
 		} else if (role === accountHelper.role.CUSTOMER) {
@@ -261,7 +261,7 @@ accountController.updateProfilePicture = async (req, res) => {
 		} else if (role === accountHelper.role.SHIPPER) {
 			await Shipper.findByIdAndUpdate(userId, { profilePicture: filename });
 		}
-		
+
 		res.jsonOk();
 	} catch (error) {
 		logger.error('Update Profile Picture Error %o', error);

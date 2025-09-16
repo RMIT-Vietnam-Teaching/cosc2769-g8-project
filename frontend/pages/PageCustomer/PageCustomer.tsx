@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
+import { FaFilter, FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router';
 import Select from 'react-select';
@@ -113,23 +113,28 @@ const PageCustomer = () => {
 	}
 
 	return (
-		<div className='d-flex justify-content-center align-items-center flex-wrap gap-3 my-4'>
-			<form className='row align-self-end' method='GET'>
-				<label className='col-auto col-form-label'>Price</label>
-				<div className='col-auto'>
-					<input
-						type='number' className='form-control' name='priceFrom' placeholder='from price'
-						value={priceFrom} onChange={handlePriceFrom}
-					/>
-					<div className='position-absolute end-0 top-50 translate-middle-x'>x</div>
+		<div className='container-fluid my-4 d-flex flex-column gap-4'>
+
+			<form className='row align-self-end g-2' method='GET'>
+				<div className='col-12 col-sm-6 col-md-4 col-xl-auto'>
+					<div className='input-group'>
+						<span className='input-group-text'>Min $</span>
+						<input
+							type='number' className='form-control customer-product__price-input' name='priceFrom' placeholder='min price'
+							value={priceFrom} onChange={handlePriceFrom}
+						/>
+					</div>
 				</div>
-				<div className='col-auto'>
-					<input
-						type='number' className='form-control' name='priceTo' placeholder='from price'
-						value={priceTo} onChange={handlePriceTo}
-					/>
+				<div className='col-12 col-sm-6 col-md-4 col-xl-auto'>
+					<div className='input-group'>
+						<span className='input-group-text'>Max $</span>
+						<input
+							type='number' className='form-control customer-product__price-input' name='priceTo' placeholder='max price'
+							value={priceTo} onChange={handlePriceTo}
+						/>
+					</div>
 				</div>
-				<div className='col-auto'>
+				<div className='col-12 col-md-3 col-xl-auto'>
 					<Select
 						isSearchable={false}
 						className='react-select__container'
@@ -141,8 +146,15 @@ const PageCustomer = () => {
 						name='sort'
 					/>
 				</div>
-				<div className='col-auto'>
-					<input type='submit' className='btn btn-primary' value='submit' />
+				<div className='col-12 col-md-1 col-xl-auto'>
+					<button type='submit' className='btn btn-primary w-100' value='submit'>
+						<span className='d-none d-md-inline-block d-xl-none'>
+							<FaFilter />
+						</span>
+						<span className='d-inline-block d-md-none d-xl-inline-block'>
+							Submit
+						</span>
+					</button>
 				</div>
 			</form>
 

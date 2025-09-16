@@ -4,7 +4,6 @@ import { accountHelper } from './helpers/account';
 import { Layout } from './layout/Layout';
 import PageCustomer from './pages/PageCustomer/PageCustomer.js';
 import ProductDetail from './pages/PageCustomer/ProductDetail.js';
-import { PageIndex } from './pages/PageIndex/PageIndex';
 import { PageLogin } from './pages/PageLogin/PageLogin';
 import { PageMyAccount } from './pages/PageMyAccount/PageMyAccount';
 import PageShipper from './pages/PageShipper/PageShipper';
@@ -26,15 +25,10 @@ export const appRouter = createBrowserRouter([
 			defaultRouteForRole: {
 				[accountHelper.role.CUSTOMER]: '/customer',
 				[accountHelper.role.SHIPPER]: '/shipper',
-				[accountHelper.role.VENDOR]: '/index',
+				[accountHelper.role.VENDOR]: '/vendor',
 			},
 		},
 		children: [
-			{
-				handle: { requireAuth: true },
-				path: '/index',
-				Component: PageIndex,
-			},
 			{
 				handle: { requireAuth: true },
 				path: '/my-account',

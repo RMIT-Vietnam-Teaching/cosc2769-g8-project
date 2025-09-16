@@ -1,7 +1,8 @@
 import { useActionState, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { FaCamera, FaUser } from 'react-icons/fa';
-import { useNavigate } from 'react-router';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { Link, useNavigate } from 'react-router';
 import { clsx } from 'clsx';
 
 import './PageMyAccount.css';
@@ -65,11 +66,34 @@ export const PageMyAccount = () => {
 		profilePictureRef.current?.click();
 	};
 
+	const backButton = (
+		<div className='row'>
+			<div className='col d-flex flex-row justify-content-start'>
+				<Link
+					to='/'
+					className='align-items-center border-0 btn btn-outline-secondary d-flex flex-row gap-3 pe-3 ps-2 py-2'
+				>
+					<IoMdArrowRoundBack className='fs-5' />
+					<span className='position-relative'>
+						{user.info?.role === accountHelper.role.SHIPPER ? 'View Orders' : 'View Products'}
+					</span>
+				</Link>
+			</div>
+		</div>
+	);
+
 	if (loading) {
 		return (
-			<div className='loading-container'>
-				<div className='spinner-border text-primary loading-spinner' role='status'>
-					<span className='visually-hidden'>Loading...</span>
+			<div className='container d-flex flex-column gap-3 my-4 h-100'>
+				{backButton}
+				<div className='row flex-grow-1'>
+					<div className='col h-100'>
+						<div className='loading-container'>
+							<div className='spinner-border text-primary loading-spinner' role='status'>
+								<span className='visually-hidden'>Loading...</span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		);
@@ -77,9 +101,16 @@ export const PageMyAccount = () => {
 
 	if (error) {
 		return (
-			<div className='error-container'>
-				<div className='alert alert-danger error-alert' role='alert'>
-					{error}
+			<div className='container d-flex flex-column gap-3 my-4 h-100'>
+				{backButton}
+				<div className='row flex-grow-1'>
+					<div className='col h-100'>
+						<div className='error-container'>
+							<div className='alert alert-danger error-alert' role='alert'>
+								{error}
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		);
@@ -104,7 +135,10 @@ export const PageMyAccount = () => {
 	return (<>
 		<title>My Account</title>
 		<div className='my-account-container'>
-			<div className='my-account-card'>
+			<div className='my-account-card position-relative' style={{ top: 50 }}>
+				<div className='position-absolute start-0 end-0 container-fluid' style={{ top: -60 }}>
+					{backButton}
+				</div>
 				{/* Header */}
 				<div className='my-account-header d-flex justify-content-between align-items-center'>
 					<h3 className='my-account-title mb-0'>
