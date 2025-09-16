@@ -14,22 +14,27 @@ export function initSocket(server) {
   });
 
   io.on('connection', (socket) => {
-    const userId = socket.handshake.auth?.userId || socket.id;
-    socket.join(`user:${userId}`);
+    const roomId = socket.handshake.auth?.roomId || socket.id;
+    const room = `cart:${roomId}`;
+    socket.join(room);
 
-    socket.emit('cart:hello', { message: 'Connected to cart socket', userId });
+    socket.emit('cart:hello', { message: 'Connected to cart socket', roomId });
 
     // Basic cart events
     socket.on('cart:add', (item) => {
-      io.to(`user:${userId}`).emit('cart:updated', { type: 'add', item });
+      socket.to(room).emit('cart:updated', { type: 'add', item });
     });
 
     socket.on('cart:remove', (itemId) => {
-      io.to(`user:${userId}`).emit('cart:updated', { type: 'remove', itemId });
+      socket.to(room).emit('cart:updated', { type: 'remove', itemId });
     });
 
     socket.on('cart:update', (payload) => {
-      io.to(`user:${userId}`).emit('cart:updated', { type: 'update', ...payload });
+      socket.to(room).emit('cart:updated', { type: 'update', ...payload });
+    });
+
+    socket.on('cart:clear', () => {
+      socket.to(room).emit('cart:updated', { type: 'clear' });
     });
 
     socket.on('disconnect', () => {

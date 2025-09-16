@@ -2,7 +2,36 @@
  * Order Controller - Handles all order-related operations for shipper dashboard
  */
 
-import { Order } from '#root/models.js';
+import { DistributionHub, Order } from '#root/models.js';
+import { z } from 'zod';
+
+const objectIdRegex = /^[0-9a-fA-F]{24}$/;
+
+const OrderItemInputSchema = z.object({
+	productId: z.string().regex(objectIdRegex, 'Invalid product id'),
+	price: z.preprocess((v) => Number(v), z.number().nonnegative()),
+});
+
+const NewOrderBodySchema = z.object({
+	items: z.array(OrderItemInputSchema).min(1, 'Cart is empty.'),
+	hubId: z.string().optional(),
+});
+
+/**
+ * Validate and parse new-order request body.
+ * @param {import('express').Request} req
+ * @returns {{ ok: true, data: { items: Array<{productId: string, price: number}>, hubId?: string } } | { ok: false, errors: string[] }}
+ */
+function parseCustomerNewOrderBody(req) {
+	const itemsInput = Array.isArray(req.body?.items) ? req.body.items : [];
+	const hubId = req.body?.hubId;
+	const parsed = NewOrderBodySchema.safeParse({ items: itemsInput, hubId });
+	if (!parsed.success) {
+		const messages = parsed.error.errors.map((e) => e.message || 'Invalid input');
+		return { ok: false, errors: messages };
+	}
+	return { ok: true, data: parsed.data };
+}
 
 const orderController = {};
 
@@ -150,6 +179,54 @@ orderController.getOrderStats = async (_req, res) => {
 		console.error('Error fetching order stats:', error);
 		res.jsonErrorMsg(['Failed to fetch order statistics']);
 	}
+};
+
+/**
+ * Create a new order from customer cart
+ * POST /api/customer/new-order
+ * Body: { items: [{ productId: string, price: number }], hubId?: string }
+ * @type {app.AsyncRequestHandler}
+ */
+orderController.createCustomerOrder = async (req, res) => {
+    try {
+        const user = req.session.user;
+        if (!user || !user.id) {
+        return res.jsonErrorMsg(['Unauthenticated.']);
+    }
+
+    const parsed = parseCustomerNewOrderBody(req);
+    if (!parsed.ok) {
+        return res.jsonErrorMsg(parsed.errors);
+    }
+
+    const { items: itemsInput, hubId: inputHubId } = parsed.data;
+
+    const items = itemsInput.map((it) => ({ product: it.productId, quantity: 1, price: it.price }));
+
+    const totalPrice = items.reduce((sum, it) => sum + it.price, 0);
+
+    let hubId = inputHubId;
+    if (!hubId) {
+        const hub = await DistributionHub.findOne({}, { _id: 1 });
+        if (!hub) {
+            return res.jsonErrorMsg(['No distribution hub configured.']);
+        }
+        hubId = hub._id;
+    }
+
+    const order = await Order.create({
+        customer: user.id,
+        hub: hubId,
+        items,
+        totalPrice,
+        status: 'active',
+    });
+
+    return res.jsonData(order);
+    } catch (error) {
+        console.error('Error creating customer order:', error);
+        return res.jsonErrorMsg(['Failed to create order']);
+    }
 };
 
 export default orderController;

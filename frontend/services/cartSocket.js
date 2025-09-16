@@ -8,8 +8,18 @@ class CartSocket {
         this.socket = null;
   }
 
-    connect(auth = {}) {
+    getOrCreateRoomId() {
+        let id = localStorage.getItem('cartRoomId');
+        if (!id) {
+            id = Math.random().toString(36).slice(2) + Date.now().toString(36);
+            localStorage.setItem('cartRoomId', id);
+        }
+        return id;
+    }
+
+    connect() {
         if (this.socket?.connected) return this.socket;
+        const auth = { roomId: this.getOrCreateRoomId() };
         this.socket = io(SOCKET_URL, {
             path: SOCKET_PATH,
             transports: ['websocket'],
@@ -42,6 +52,10 @@ class CartSocket {
     update(payload) {
         this.socket?.emit('cart:update', payload);
   }
+
+    clear() {
+        this.socket?.emit('cart:clear');
+    }
 }
 
 const cartSocket = new CartSocket();
