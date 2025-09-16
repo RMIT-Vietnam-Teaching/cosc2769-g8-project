@@ -1,29 +1,70 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from "react-router";
-import seedProductData from "./SeedProductData";
 import { displayPrice } from "./ProductCard";
 import {useDispatch, useSelector} from "react-redux";
-import {productsActions, productsReducer, productsSelectors} from "#/redux/slices/productSlice";
+import {productsActions, productsSelectors} from "#/redux/slices/productSlice";
+import productService from "#/services/productService";
+import cartSocket from "#/services/cartSocket";
 
 interface ProductType {
 	id: string;
 	name: string;
 	price: number;
 	description: string;
-	image: string[];
+	image: string | string[];
 }
 
 const ProductDetail = () => {
 	const { id } = useParams();
-	const product = seedProductData.find(product => product.id === id);
 	const dispatch = useDispatch();
 	const currentState = useSelector(productsSelectors.products);
-	const isNotAvailable = currentState.find(product => product.id === id) === undefined;
+	const isNotAvailable = useMemo(() => currentState.find((p: any) => String(p.id) === String(id)) === undefined, [currentState, id]);
 
-	if (!product) {
+	const [product, setProduct] = useState<ProductType | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (!id) return;
+		let mounted = true;
+		(async () => {
+			try {
+				setLoading(true);
+				const data = await productService.getById(id);
+				const mapped: ProductType = {
+					id: data._id ?? data.id,
+					name: data.name,
+					price: data.price,
+					description: data.description,
+					image: Array.isArray(data.image) ? data.image : [data.image],
+				};
+				if (mounted) setProduct(mapped);
+				setError(null);
+			} catch (e: any) {
+				setError(e?.message ?? 'Failed to load product');
+			} finally {
+				if (mounted) setLoading(false);
+			}
+		})();
+		return () => { mounted = false };
+	}, [id]);
+
+	useEffect(() => {
+		cartSocket.connect();
+	}, []);
+
+	if (loading) {
 		return (
 			<div className='container py-5'>
-				<div className='alert alert-warning mb-0'>Product not found.</div>
+				<div className='alert alert-info mb-0'>Loading product...</div>
+			</div>
+		);
+	}
+
+	if (error || !product) {
+		return (
+			<div className='container py-5'>
+				<div className='alert alert-warning mb-0'>{error ?? 'Product not found.'}</div>
 			</div>
 		);
 	}
@@ -74,7 +115,7 @@ const ProductDetail = () => {
 					<button
 						type='button'
 						className='btn btn-dark btn-lg rounded-5 w-50'
-						onClick={() => (dispatch(productsActions.addToCard(product)))}
+						onClick={() => { dispatch(productsActions.addToCard(product)); cartSocket.add(product); }}
 						disabled={!isNotAvailable}
 					>Add to cart</button>
 				</div>
