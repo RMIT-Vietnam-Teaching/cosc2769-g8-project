@@ -1,13 +1,15 @@
 import { Link } from 'react-router';
 
 import { NavItems } from './NavItems/NavItems';
+import { ProductSearch } from './ProductSearch/ProductSearch';
 
 export const Nav = () => (<>
 	<nav className='layout__nav navbar navbar-expand d-none d-md-flex shadow'>
-		<div className='container-fluid'>
+		<div className='container-fluid gap-3'>
 			<Link className='navbar-brand' to='/'>
 				🛒 Shop
 			</Link>
+			<ProductSearch />
 			<ul className='navbar-nav'>
 				<NavItems />
 			</ul>
@@ -15,10 +17,13 @@ export const Nav = () => (<>
 	</nav>
 
 	<nav className='layout__nav navbar d-md-none shadow'>
-		<div className='container-fluid'>
+		<div className='container-fluid gap-3'>
 			<Link className='navbar-brand' to='/'>
 				🛒 Shop
 			</Link>
+
+			<ProductSearch />
+
 			<button className='navbar-toggler' type='button' data-bs-toggle='offcanvas' data-bs-target='#offcanvasNavbar' data-bs-theme='dark' aria-controls='offcanvasNavbar' aria-label='Toggle navigation'>
 				<span className='navbar-toggler-icon'></span>
 			</button>
