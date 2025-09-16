@@ -19,7 +19,7 @@ export const productService = {
 
   // GET: /api/customers/product/:id
     async getById(id) {
-      try {
+        try {
             const response = await fetch(`${API_BASE_URL}/customers/product/${id}`);
             const result = await response.json();
             if (result.success && result.data) {

@@ -35,6 +35,7 @@ apiRouter.get('/orders-stats', orderController.getOrderStats);
 // Customer product routes
 apiRouter.get('/customers/products', customerProductController.list);
 apiRouter.get('/customers/product/:id', customerProductController.getById);
+apiRouter.post('/customer/new-order', orderController.createCustomerOrder);
 
 // Vendors
 apiRouter.get('/vendor/products', middleware.isVendor, vendorController.allProducts);

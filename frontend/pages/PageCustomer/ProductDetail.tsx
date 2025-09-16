@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from "react-router";
 import { displayPrice } from "./ProductCard";
-import {useDispatch, useSelector} from "react-redux";
-import {productsActions, productsSelectors} from "#/redux/slices/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { productsActions, productsSelectors } from "#/redux/slices/productSlice";
 import productService from "#/services/productService";
 import cartSocket from "#/services/cartSocket";
 
@@ -18,7 +18,7 @@ const ProductDetail = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const currentState = useSelector(productsSelectors.products);
-	const isNotAvailable = useMemo(() => currentState.find((p: any) => String(p.id) === String(id)) === undefined, [currentState, id]);
+	const isNotAvailable = useMemo(() => currentState.find((p: ProductType) => String(p.id) === String(id)) === undefined, [currentState, id]);
 
 	const [product, setProduct] = useState<ProductType | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -40,18 +40,34 @@ const ProductDetail = () => {
 				};
 				if (mounted) setProduct(mapped);
 				setError(null);
-			} catch (e: any) {
+			} catch (e) {
 				setError(e?.message ?? 'Failed to load product');
 			} finally {
 				if (mounted) setLoading(false);
 			}
 		})();
-		return () => { mounted = false };
+		return () => {
+			mounted = false
+		};
 	}, [id]);
 
-	useEffect(() => {
+ useEffect(() => {
 		cartSocket.connect();
-	}, []);
+		const onUpdated = (evt: any) => {
+			if (evt?.type === 'add' && evt.item) {
+				const item = { ...evt.item, image: Array.isArray(evt.item.image) ? evt.item.image : [evt.item.image] };
+				dispatch(productsActions.addToCard(item));
+			} else if (evt?.type === 'remove' && evt.itemId) {
+				dispatch(productsActions.removeToCard(evt.itemId));
+			} else if (evt?.type === 'clear') {
+				dispatch(productsActions.clearCard());
+			}
+		};
+		cartSocket.on('cart:updated', onUpdated);
+		return () => {
+			cartSocket.off('cart:updated', onUpdated);
+		};
+	}, [dispatch]);
 
 	if (loading) {
 		return (

@@ -9,7 +9,7 @@ interface ProductType {
 }
 
 const initialState = {
-	products: []  as ProductType[],
+	products: [] as ProductType[],
 };
 
 export const productsSlice = createSlice({
@@ -20,7 +20,10 @@ export const productsSlice = createSlice({
 			state.products.push(action.payload);
         },
         removeToCard: (state, action) => {
-			state.products = state.products.filter(product => product.id !== action.payload);
+            state.products = state.products.filter(product => String(product.id) !== String(action.payload));
+        },
+        clearCard: (state) => {
+            state.products = [] as ProductType[];
         },
     },
 	selectors: {
