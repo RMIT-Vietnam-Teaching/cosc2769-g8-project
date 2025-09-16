@@ -17,6 +17,8 @@ import { PageVendorProductDetails } from './pages/PageVendorProductDetails/PageV
 import { vendorService } from './services/vendorService';
 
 import ShoppingCart from '#/pages/PageCustomer/ShoppingCart.js';
+import PageAbout from './pages/PageAbout/PageAbout.jsx';
+import PagePrivacy from './pages/PagePrivacy/PagePrivacy.jsx';
 
 export const appRouter = createBrowserRouter([
 	{
@@ -78,6 +80,16 @@ export const appRouter = createBrowserRouter([
 				handle: { requireAuth: true, roles: [accountHelper.role.CUSTOMER] },
 				path: '/cart',
 				Component: ShoppingCart,
+			},
+			{
+				handle: { requireAuth: false },
+				path: '/about',
+				Component: PageAbout,
+			},
+			{
+				handle: { requireAuth: false },
+				path: '/privacy',
+				Component: PagePrivacy,
 			},
 			{
 				handle: { requireAuth: true, roles: [accountHelper.role.VENDOR] },
