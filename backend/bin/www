@@ -2,6 +2,7 @@
 
 // Module dependencies.
 import { createServer } from 'node:http';
+import { initSocket } from '#root/socket.js';
 
 import ViteExpress from 'vite-express';
 
@@ -69,6 +70,8 @@ const onListening = () => {
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+initSocket(server);
 
 if (process.env.NODE_ENV === 'development') {
 	// Bind Vite with express

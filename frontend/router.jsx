@@ -2,8 +2,8 @@ import { createBrowserRouter } from "react-router";
 
 import { accountHelper } from "./helpers/account";
 import { Layout } from "./layout/Layout";
-import PageCustomer from "./pages/PageCustomer/pageCustomer";
-import ProductDetail from "./pages/PageCustomer/productDetail";
+import PageCustomer from './pages/PageCustomer/PageCustomer.js';
+import ProductDetail from './pages/PageCustomer/ProductDetail.js';
 import { PageIndex } from "./pages/PageIndex/PageIndex";
 import { PageLogin } from "./pages/PageLogin/PageLogin";
 import { PageMyAccount } from "./pages/PageMyAccount/PageMyAccount";
@@ -16,6 +16,7 @@ import { PageVendor } from "./pages/PageVendor/PageVendor";
 import { PageVendorNewProduct } from "./pages/PageVendorNewProduct/PageVendorNewProduct";
 import { PageVendorProductDetails } from "./pages/PageVendorProductDetails/PageVendorProductDetails";
 import { vendorService } from "./services/vendorService";
+import ShoppingCart from "#/pages/PageCustomer/ShoppingCart.js";
 
 export const appRouter = createBrowserRouter([
   {
@@ -78,6 +79,11 @@ export const appRouter = createBrowserRouter([
         path: "/product/:id",
         Component: ProductDetail,
       },
+        {
+            handle: { requireAuth: true, roles: [accountHelper.role.CUSTOMER] },
+            path: '/cart',
+            Component: ShoppingCart,
+        },
       {
         handle: { requireAuth: true, roles: [accountHelper.role.VENDOR] },
         path: "/vendor",
