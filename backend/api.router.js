@@ -4,6 +4,7 @@ import accountController from './controllers/account.controller.js';
 import hubController from './controllers/hub.controller.js';
 import orderController from './controllers/order.controller.js';
 import seedDataController from './controllers/seedData.controller.js';
+import customerProductController from './controllers/customerProduct.controller.js';
 import middleware from './middleware.js';
 
 const apiRouter = Router();
@@ -29,5 +30,9 @@ apiRouter.get('/orders/:orderId', orderController.getOrderById);
 apiRouter.patch('/orders/:orderId/delivered', orderController.markAsDelivered);
 apiRouter.patch('/orders/:orderId/cancel', orderController.cancelOrder);
 apiRouter.get('/orders-stats', orderController.getOrderStats);
+
+// Customer product routes
+apiRouter.get('/customers/products', customerProductController.list);
+apiRouter.get('/customers/product/:id', customerProductController.getById);
 
 export default apiRouter;

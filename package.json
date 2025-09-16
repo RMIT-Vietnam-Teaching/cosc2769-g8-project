@@ -14,7 +14,7 @@
 		"check:backend": "tsc -b tsconfig.backend.json",
 		"check:frontend": "tsc -b tsconfig.frontend.json"
 	},
-	"dependencies": {
+ "dependencies": {
 		"@reduxjs/toolkit": "^2.8.2",
 		"@types/bootstrap": "^5.2.10",
 		"bcrypt": "^6.0.0",
@@ -34,6 +34,8 @@
 		"react-redux": "^9.2.0",
 		"react-router": "^7.9.1",
 		"react-select": "^5.10.2",
+		"socket.io": "^4.7.5",
+		"socket.io-client": "^4.7.5",
 		"vite-express": "^0.21.1",
 		"winston": "^3.17.0",
 		"zod": "^4.0.16"
