@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 import Select from 'react-select';
 
 import ProductCard from './ProductCard';
@@ -30,8 +30,20 @@ const PageCustomer = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [queries, setQueries] = useSearchParams();
-	const [priceFrom, _setPriceFrom, handlePriceFrom] = useNumberInput(0);
-	const [priceTo, _setPriceTo, handlePriceTo] = useNumberInput(100000);
+
+	const priceFilter = useMemo(() => {
+		const fromStr = (queries.get('priceFrom') ?? '').trim();
+		const toStr = (queries.get('priceTo') ?? '').trim();
+		const from = fromStr === '' ? 0 : Number(fromStr);
+		const to = toStr === '' ? 100000 : Number(toStr);
+		return {
+			from: isNaN(from) ? 0 : from,
+			to: isNaN(to) ? 100000 : to,
+		};
+	}, [queries]);
+
+	const [priceFrom, _setPriceFrom, handlePriceFrom] = useNumberInput(priceFilter.from);
+	const [priceTo, _setPriceTo, handlePriceTo] = useNumberInput(priceFilter.to);
 	const [sort, _setSort, handleSort] = useSelect(
 		sortOptions.find(o => o.value === queries.get('sort')) ?? sortOptions[0],
 	);
@@ -87,6 +99,7 @@ const PageCustomer = () => {
 						type='number' className='form-control' name='priceFrom' placeholder='from price'
 						value={priceFrom} onChange={handlePriceFrom}
 					/>
+					<div className='position-absolute end-0 top-50 translate-middle-x'>x</div>
 				</div>
 				<div className='col-auto'>
 					<input
@@ -97,7 +110,7 @@ const PageCustomer = () => {
 				<div className='col-auto'>
 					<Select
 						isSearchable={false}
-						className='react-select__container z-3'
+						className='react-select__container'
 						classNames={reactSelectHelper.classNames}
 						options={sortOptions}
 						value={sort}
