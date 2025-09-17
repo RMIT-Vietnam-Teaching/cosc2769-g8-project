@@ -21,6 +21,39 @@
 | s4136776 | Trần Phan Anh Khoa | Sign up/in/out Pages | 5.0 |
 
 
+## User Credentials
+All users have the same password: `P@ssword987`
+
+- Customer:
+	- Username:
+	```
+	customer01
+	```
+	- Password:
+	```
+	P@ssword987
+	```
+
+- Shipper:
+	- Username:
+	```
+	shipper01
+	```
+	- Password:
+	```
+	P@ssword987
+	```
+
+- Vendor:
+	- Username:
+	```
+	vendor1
+	```
+	- Password:
+	```
+	P@ssword987
+	```
+
 ## Start server
 1. Install dependencies
 	```bash
