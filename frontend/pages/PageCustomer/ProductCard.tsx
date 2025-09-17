@@ -31,6 +31,7 @@ const ProductCard = ({ product, showDelete = false, onDelete }: ProductCardProps
 	const imgSrc = Array.isArray(product.image) ? product.image[0] : product.image;
 
 	const handleDelete: MouseEventHandler = (e) => {
+		e.preventDefault();
 		e.stopPropagation();
 		if (onDelete) {
 			onDelete(product.id);
@@ -48,8 +49,8 @@ const ProductCard = ({ product, showDelete = false, onDelete }: ProductCardProps
 					<p className='card-title'>{productHelper.displayPrice(product.price)}</p>
 				</div>
 				{showDelete && (
-					<div className='card-footer bg-transparent border-0'>
-						<button type='button' className='btn btn-outline-danger w-100 z-3' onClick={handleDelete}>
+					<div className='card-footer bg-transparent border-0 z-3'>
+						<button type='button' className='btn btn-outline-danger w-100' onClick={handleDelete}>
 							Delete
 						</button>
 					</div>
