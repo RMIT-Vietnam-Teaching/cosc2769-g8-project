@@ -53,16 +53,17 @@ export const ProductSearch = () => {
 
 	const handleSelect = (/** @type {any} */ option, /** @type {any} */ action) => {
 		setCurrentOption(option);
+		const newSearchParams = new URLSearchParams(searchParams);
 		if (action.action === 'select-option') {
 			if (option.value == null) {
-				navigate(`/customer?search=${option.search}`);
+				newSearchParams.set('search', option.search);
+				navigate(`/customer?${newSearchParams.toString()}`);
 			} else {
 				navigate(`/product/${option.value}?search=${option.search}`);
 			}
 		} else if (action.action === 'clear') {
 			setCurrentOption(null);
 			setSearch('');
-			const newSearchParams = new URLSearchParams(searchParams);
 			newSearchParams.delete('search');
 			navigate(`?${newSearchParams.toString()}`);
 		}
