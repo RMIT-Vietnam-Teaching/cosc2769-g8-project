@@ -8,11 +8,12 @@
 */
 import { useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { BsCart4 } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
-import { FaCartShopping } from 'react-icons/fa6';
 import { MdAccountCircle, MdOutlineLogin, MdOutlineLogout, MdPerson } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router';
+import { clsx } from 'clsx';
 
 import { accountHelper } from '#/helpers/account';
 import { fetchHelper } from '#/helpers/fetch';
@@ -74,28 +75,40 @@ export const NavItems = () => {
 
 			{user.role === accountHelper.role.CUSTOMER && (
 				<li className='nav-item'>
-					<NavLink className='nav-link' to='/cart'>
-						<FaCartShopping />
-						{(() => {
-							return cartCount > 0 ? (
-								<span
-									className='badge rounded-pill bg-danger ms-2'
-									style={{ fontSize: '0.75rem', lineHeight: 1, padding: '0.35rem 0.5rem' }}
-									aria-label={`Items in cart: ${cartCount}`}
-								>
-									{cartCount}
-								</span>
-							) : null;
-						})()}
+					<NavLink
+						className={clsx(
+							'nav-link position-relative',
+							cartCount > 0 && cartCount < 10 && 'me-1',
+							cartCount >= 10 && 'me-2',
+						)}
+						to='/cart'
+					>
+						<BsCart4 className='nav__icon text-light' />
+						{cartCount > 0 ? (
+							<span
+								className='position-absolute translate-middle badge rounded-pill bg-danger fs-6 py-1'
+								style={{ top: 10, left: 'calc(100% - 10px)' }}
+								aria-label={`Items in cart: ${cartCount}`}
+							>
+								{cartCount}
+							</span>
+						) : null}
 					</NavLink>
 				</li>
 			)}
 
 			<li className='nav-item dropdown'>
-				<a className='nav-link active dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
-					<MdAccountCircle /> {user.name}
+				<a className='nav-link active d-flex flex-row align-items-center gap-2' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
+					{user.img == null ? <MdAccountCircle className='nav__icon' /> : (
+						<img src={user.img} alt='user profile picture' className='nav__icon object-fit-cover rounded-circle' />
+					)}
+
+					<div className='text-truncate nav__display-name d-none d-lg-block'>{user.name}</div>
 				</a>
 				<ul className='dropdown-menu dropdown-menu-end'>
+					<li className='dropdown-item pe-none pb-2 d-lg-none'>
+						<div className='text-truncate nav__display-name-long'>Welcome {user.name}!</div>
+					</li>
 					<li>
 						<NavLink className='dropdown-item' to='/my-account'>
 							<MdPerson /> My Account

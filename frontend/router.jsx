@@ -3,8 +3,8 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Trần Phan Anh Khoa
-# ID: s4136776
+# Author: Trần Phan Anh Khoa, Đoàn Đắc Nguyên, Nguyễn Hoàng Long, Lê Đạt Nhơn, Đỗ Phúc Danh
+# ID: s4136776, S4131473, s4131459, s4076839, s4133678
 */
 import { createBrowserRouter } from 'react-router';
 

@@ -3,8 +3,8 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Trần Phan Anh Khoa
-# ID: s4136776
+# Author: Nguyễn Hoàng Long
+# ID: s4131459
 */
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { Link, useLoaderData } from 'react-router';
@@ -38,7 +38,7 @@ export const PageVendorProductDetails = () => {
 				</div>
 			</div>
 			<div className='row g-4 align-items-start'>
-				<div className='col-6'>
+				<div className='col-12 col-lg-6'>
 					<div id='productCarousel' className='carousel slide'>
 						<div className='carousel-indicators'>
 							{product.image.map((_, i) => (
@@ -90,7 +90,7 @@ export const PageVendorProductDetails = () => {
 						</button>
 					</div>
 				</div>
-				<div className='col-6'>
+				<div className='col-12 col-lg-6'>
 					<h1 className='display-10 mb-3'>{product.name}</h1>
 					<div className='h3 text-secondary mb-4'>
 						{productHelper.displayPrice(product.price)}

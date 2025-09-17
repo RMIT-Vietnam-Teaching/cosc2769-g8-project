@@ -3,8 +3,8 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Trần Phan Anh Khoa
-# ID: s4136776
+# Author: Trần Phan Anh Khoa, Đỗ Phúc Danh
+# ID: s4136776, s4133678
 */
 import { millisecondsInDay } from 'date-fns/constants';
 import { z } from 'zod/v4';
@@ -179,18 +179,21 @@ accountController.login = async (req, res) => {
 					id: user._id.toHexString(),
 					name: customer.name,
 					role: accountHelper.role.CUSTOMER,
+					img: customer.profilePicture,
 				};
 			} else if (vendor != null) {
 				req.session.user = {
 					id: user._id.toHexString(),
 					name: vendor.businessName,
 					role: accountHelper.role.VENDOR,
+					img: vendor.profilePicture,
 				};
 			} else if (shipper != null) {
 				req.session.user = {
 					id: user._id.toHexString(),
 					name: shipper.username,
 					role: accountHelper.role.SHIPPER,
+					img: shipper.profilePicture,
 				};
 			}
 

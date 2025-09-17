@@ -1,0 +1,12 @@
+.nav__icon {
+	width: 30px;
+	height: 30px;
+}
+
+.nav__display-name {
+	max-width: 200px;
+}
+
+.nav__display-name-long {
+	max-width: 300px;
+}

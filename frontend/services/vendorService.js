@@ -3,8 +3,8 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Trần Phan Anh Khoa, Nguyễn Hoàng Long
-# ID: s4136776, s4131459
+# Author: Nguyễn Hoàng Long
+# ID: s4131459
 */
 import { fetchHelper } from '#/helpers/fetch';
 
