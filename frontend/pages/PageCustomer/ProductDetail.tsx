@@ -10,12 +10,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router';
+import { clsx } from 'clsx';
 
 import { productHelper } from '#/helpers/product';
 import { productsActions, productsSelectors } from '#/redux/slices/productSlice';
 import cartSocket from '#/services/cartSocket';
 import productService from '#/services/productService';
-import { clsx } from 'clsx';
 
 interface ProductType {
 	id: string;
@@ -161,7 +161,7 @@ const ProductDetail = () => {
 						type='button'
 						className={clsx(
 							'btn btn-lg rounded-5 w-50',
-							isNotAvailable ? 'btn-dark' : 'btn-outline-dark pe-none'
+							isNotAvailable ? 'btn-dark' : 'btn-outline-dark opacity-100',
 						)}
 						onClick={handleAddToCard}
 						disabled={!isNotAvailable}
