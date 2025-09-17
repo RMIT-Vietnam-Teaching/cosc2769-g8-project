@@ -14,7 +14,7 @@ import { productHelper } from '#/helpers/product';
 
 export const ProductCard = ({ product }: { product: VendorProduct }) => {
 	return (
-		<div className='col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2'>
+		<div className='col-12 col-md-6 col-lg-4'>
 			<Link
 				className='card shadow-sm h-100 text-decoration-none stretched-link m-0'
 				to={`/vendor/product/${product._id}`}
