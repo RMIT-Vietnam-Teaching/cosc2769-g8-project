@@ -6,10 +6,17 @@
 # Author: Đoàn Đắc Nguyên
 # ID: s4131473
 */
-import { Link } from 'react-router';
+import { NavLink, useMatches } from 'react-router';
+
+import { useAppSelector } from '#/hooks/redux';
+import { userSelect } from '#/redux/slices/userSlice';
 
 // Simple Bootstrap-only footer shared across pages
 export const Footer = () => {
+	const role = useAppSelector(userSelect.role);
+	const layoutRoute = /** @type {app.AppLayoutUIMatch} */(useMatches().at(0));
+	const mainUrl = role == null ? '/login' : layoutRoute.handle.defaultRouteForRole[role];
+
 	return (
 		<footer className='bg-body-secondary mt-auto border-top'>
 			<div className='container py-4'>
@@ -20,13 +27,13 @@ export const Footer = () => {
 					<div className='col-12 col-md-6'>
 						<ul className='nav nav-underline justify-content-center justify-content-md-end'>
 							<li className='nav-item'>
-								<Link to='/' className='nav-link px-2 text-body-secondary'>Main</Link>
+								<NavLink to={mainUrl} className='nav-link px-2 text-body-secondary'>Main</NavLink>
 							</li>
 							<li className='nav-item'>
-								<Link to='/about#top' className='nav-link px-2 text-body-secondary'>About</Link>
+								<NavLink to='/about#top' className='nav-link px-2 text-body-secondary'>About</NavLink>
 							</li>
 							<li className='nav-item'>
-								<Link to='/privacy#top' className='nav-link px-2 text-body-secondary'>Privacy</Link>
+								<NavLink to='/privacy#top' className='nav-link px-2 text-body-secondary'>Privacy</NavLink>
 							</li>
 						</ul>
 					</div>
