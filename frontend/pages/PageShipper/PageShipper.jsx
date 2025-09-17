@@ -63,7 +63,27 @@ const PageShipper = () => {
 			setLoading(true);
 			setError(null);
 			console.log('Attempting to fetch orders...'); // Debug log
-			const ordersData = await orderService.getAllOrders();
+
+			// Fetch logged-in profile to determine shipper hub
+			let hubId = null;
+			try {
+				const profileRes = await fetch('http://localhost:3000/api/account/profile');
+				const profile = await profileRes.json();
+				if (profile?.success && profile?.data?.hub?._id) {
+					hubId = profile.data.hub._id;
+					console.log('Detected shipper hubId:', hubId);
+				} else {
+					console.log('No hubId found in profile; falling back to all orders.');
+				}
+			} catch (e) {
+				console.warn('Unable to fetch profile; falling back to all orders.', e);
+			}
+
+			// If we have a hubId (shipper), filter orders by hub; otherwise load all
+			const ordersData = hubId
+				? await orderService.getOrdersByHub(hubId)
+				: await orderService.getAllOrders();
+
 			console.log('Fetched orders:', ordersData); // Debug log
 			console.log('Orders data type:', typeof ordersData); // Debug log
 			console.log('Is orders data an array?', Array.isArray(ordersData)); // Debug log
@@ -203,9 +223,6 @@ const PageShipper = () => {
 								<option value='delivered'>Delivered</option>
 								<option value='canceled'>Canceled</option>
 							</select>
-							<button className='btn btn-outline-primary' onClick={loadOrders}>
-								Refresh Orders
-							</button>
 						</div>
 					</div>
 					{!sortedOrders.length ? (
@@ -224,7 +241,7 @@ const PageShipper = () => {
 											<th>Customer</th>
 											<th>Created Date</th>
 											<th>Total</th>
-											<th>Actions</th>
+											<th className='text-center'>Actions</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -235,7 +252,7 @@ const PageShipper = () => {
 												<td>{order.customer?.name || 'N/A'}</td>
 												<td>{order.createdAt ? new Date(order.createdAt).toLocaleString() : 'N/A'}</td>
 												<td>{formatCurrency(order.totalPrice)}</td>
-												<td>
+												<td className='text-center'>
 													<div className='btn-group'>
 														<button
 															type='button'
