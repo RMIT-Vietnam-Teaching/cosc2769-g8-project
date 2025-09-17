@@ -7,7 +7,7 @@
 # ID: s4131473
 */
 import { MouseEventHandler } from 'react';
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 
 import './PageCustomer.css';
 
@@ -28,7 +28,6 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, showDelete = false, onDelete }: ProductCardProps) => {
-	const navigate = useNavigate();
 	const imgSrc = Array.isArray(product.image) ? product.image[0] : product.image;
 
 	const handleDelete: MouseEventHandler = (e) => {
@@ -39,8 +38,8 @@ const ProductCard = ({ product, showDelete = false, onDelete }: ProductCardProps
 	};
 
 	return (
-		<div className='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 link-underline link-underline-opacity-0' onClick={() => { navigate(`/product/${product.id}`); }}>
-			<div className='card shadow-sm h-100'>
+		<div className='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 '>
+			<Link className='card shadow-sm h-100 text-decoration-none stretched-link' to={`/product/${product.id}`}>
 				<div className='ratio ratio-4x3'>
 					<img src={imgSrc} className='w-100 h-100 object-fit-cover' alt='' />
 				</div>
@@ -56,7 +55,7 @@ const ProductCard = ({ product, showDelete = false, onDelete }: ProductCardProps
 					</div>
 				)}
 
-			</div>
+			</Link>
 		</div>
 	);
 };

@@ -51,7 +51,7 @@ export const ProductSearch = () => {
 		}
 	};
 
-	const handleSelect = (/** @type {any} */ option, action) => {
+	const handleSelect = (/** @type {any} */ option, /** @type {any} */ action) => {
 		setCurrentOption(option);
 		if (action.action === 'select-option') {
 			if (option.value == null) {
@@ -59,11 +59,18 @@ export const ProductSearch = () => {
 			} else {
 				navigate(`/product/${option.value}?search=${option.search}`);
 			}
+		} else if (action.action === 'clear') {
+			setCurrentOption(null);
+			setSearch('');
+			const newSearchParams = new URLSearchParams(searchParams);
+			newSearchParams.delete('search');
+			navigate(`?${newSearchParams.toString()}`);
 		}
 	};
 
 	return (
 		<Select
+			isClearable
 			placeholder='products'
 			className='react-select__container z-3 product-search__select'
 			classNames={reactSelectHelper.classNames}
