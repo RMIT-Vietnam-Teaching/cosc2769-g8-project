@@ -62,3 +62,12 @@ input.form-check-input:hover:not(:active, :focus) {
 body>div:has(sup) {
 	display: none;
 }
+
+label.required::after {
+	content: '*';
+	font-size: .5rem;
+	position: relative;
+	top: -3px;
+	right: -1px;
+	color: var(--bs-danger);
+}

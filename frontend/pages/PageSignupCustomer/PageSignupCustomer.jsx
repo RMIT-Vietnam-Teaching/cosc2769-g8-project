@@ -58,7 +58,7 @@ export const PageSignupCustomer = () => {
 							<input type='hidden' name='role' value='Customer' readOnly />
 
 							<div className='px-3'>
-								<label className='form-label fw-medium' htmlFor='name'>Name:</label>
+								<label className='form-label fw-medium required' htmlFor='name'>Name</label>
 								<input
 									id='name' type='text' name='name' placeholder='At least 5 characters'
 									className={clsx('form-control', !isSigningUp && state.error.name != null && 'is-invalid')}
@@ -74,7 +74,7 @@ export const PageSignupCustomer = () => {
 							</div>
 
 							<div className='px-3'>
-								<label className='form-label fw-medium' htmlFor='address'>Address:</label>
+								<label className='form-label fw-medium required' htmlFor='address'>Address</label>
 								<input
 									type='text' name='address' placeholder='At least 5 characters'
 									className={clsx('form-control', !isSigningUp && state.error.address != null && 'is-invalid')}
@@ -90,12 +90,12 @@ export const PageSignupCustomer = () => {
 							</div>
 
 							<div className='px-3'>
-								<label htmlFor='profilePicture' className='form-label fw-medium'>Profile Picture:</label>
+								<label htmlFor='profilePicture' className='form-label fw-medium'>Profile Picture</label>
 								<input className='form-control' type='file' id='profilePicture' name='profilePicture' />
 							</div>
 
 							<div className='px-3'>
-								<label className='form-label fw-medium' htmlFor='username'>Username:</label>
+								<label className='form-label fw-medium required' htmlFor='username'>Username</label>
 								<input
 									id='username' type='username' name='username' placeholder='8 - 15 letters/digits'
 									className={clsx('form-control', !isSigningUp && state.error.username != null && 'is-invalid')}
@@ -111,7 +111,7 @@ export const PageSignupCustomer = () => {
 							</div>
 
 							<div className='px-3'>
-								<label className='form-label fw-medium' htmlFor='password'>Password:</label>
+								<label className='form-label fw-medium required' htmlFor='password'>Password</label>
 								<div className={clsx('input-group', !isSigningUp && state.error.password != null && 'has-validation')}>
 									<input
 										name='password' id='password' aria-describedby='passwordHelp'
@@ -143,7 +143,7 @@ export const PageSignupCustomer = () => {
 							</div>
 
 							<div className='px-3'>
-								<label className='form-label fw-medium' htmlFor='confirmPassword'>Confirm Password:</label>
+								<label className='form-label fw-medium required' htmlFor='confirmPassword'>Confirm Password</label>
 								<div className={clsx('input-group', !isSigningUp && state.error.confirmPassword != null && 'has-validation')}>
 									<input
 										name='confirmPassword' id='confirmPassword' placeholder='Enter your password again'

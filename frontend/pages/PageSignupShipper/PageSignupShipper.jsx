@@ -68,11 +68,14 @@ export const PageSignupShipper = () => {
 							<input type='hidden' name='role' value='Shipper' readOnly />
 
 							<div className='px-3'>
-								<label htmlFor='hub' className='form-label fw-medium'>Distribution Hub:</label>
+								<label htmlFor='hub' className='form-label fw-medium required'>Distribution Hub</label>
 
 								<Select
 									name='hub' inputId='hub'
-									className='react-select__container'
+									className={clsx(
+										'react-select__container',
+										!isSigningUp && state.error.hub != null && 'is-invalid',
+									)}
 									classNames={reactSelectHelper.classNames}
 									isLoading={isHubLoading}
 									options={hubOptions} value={hub}
@@ -86,15 +89,23 @@ export const PageSignupShipper = () => {
 										</div>
 									)}
 								/>
+
+								{isSigningUp || state.error.hub == null ? null : (
+									<ul className='ps-4 invalid-feedback m-0'>
+										{(state.error.hub ?? []).map((e, i) => (
+											<li key={i}>{e}</li>
+										))}
+									</ul>
+								)}
 							</div>
 
 							<div className='px-3'>
-								<label htmlFor='profilePicture' className='form-label fw-medium'>Profile Picture:</label>
+								<label htmlFor='profilePicture' className='form-label fw-medium'>Profile Picture</label>
 								<input className='form-control' type='file' id='profilePicture' name='profilePicture' />
 							</div>
 
 							<div className='px-3'>
-								<label className='form-label fw-medium' htmlFor='username'>Username:</label>
+								<label className='form-label fw-medium required' htmlFor='username'>Username</label>
 								<input
 									id='username' type='text' name='username' placeholder='8 - 15 letters/digits'
 									className={clsx('form-control', !isSigningUp && state.error.username != null && 'is-invalid')}
@@ -110,7 +121,7 @@ export const PageSignupShipper = () => {
 							</div>
 
 							<div className='px-3'>
-								<label className='form-label fw-medium' htmlFor='password'>Password:</label>
+								<label className='form-label fw-medium required' htmlFor='password'>Password</label>
 								<div className={clsx('input-group', !isSigningUp && state.error.password != null && 'has-validation')}>
 									<input
 										name='password' id='password' aria-describedby='passwordHelp'
@@ -142,7 +153,7 @@ export const PageSignupShipper = () => {
 							</div>
 
 							<div className='px-3'>
-								<label className='form-label fw-medium' htmlFor='confirmPassword'>Confirm Password:</label>
+								<label className='form-label fw-medium required' htmlFor='confirmPassword'>Confirm Password</label>
 								<div className={clsx('input-group', !isSigningUp && state.error.confirmPassword != null && 'has-validation')}>
 									<input
 										name='confirmPassword' id='confirmPassword' placeholder='Enter your password again'
