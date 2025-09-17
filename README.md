@@ -49,7 +49,7 @@ Backend:
 - `connect-mongo`: Save session to mongodb
 - `multer`: Upload file middleware
 - `vite-express`: to use vite with express for hot module reloading
-`socket.io`: socket.io on server
+- `socket.io`: socket.io on server
 
 - `morgan`: server logger
 - `winston`: error logger
@@ -66,9 +66,9 @@ Frontend:
 - `@reduxjs/toolkit`: For redux (include redux-thunk already)
 - `react-redux`: Connectiing redux store with react component along with useDispatch and useSelector hook.
 - `clsx`: conditionally adding css classes
-- `react-icons`: "^5.5.0",
-- `react-select`: "^5.10.2",
-- `socket.io-client`: "^4.7.5",
+- `react-icons`: free icons from various packages
+- `react-select`: react dropdown
+- `socket.io-client`: socket.io for browser
 
 ## Scripts
 - `npm run dev`: Start a dev server at 3000 with HMR
