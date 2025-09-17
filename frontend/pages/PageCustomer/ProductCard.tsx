@@ -49,7 +49,7 @@ const ProductCard = ({ product, showDelete = false, onDelete }: ProductCardProps
 				</div>
 				{showDelete && (
 					<div className='card-footer bg-transparent border-0'>
-						<button type='button' className='btn btn-outline-danger w-100' onClick={handleDelete}>
+						<button type='button' className='btn btn-outline-danger w-100 z-3' onClick={handleDelete}>
 							Delete
 						</button>
 					</div>
