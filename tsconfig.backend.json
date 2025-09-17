@@ -14,5 +14,6 @@
 	"include": [
 		"./backend/**/*.js",
 		"./backend/types/**/*.d.ts",
+		"./backend/seed/*.json",
 	],
 }

@@ -7,7 +7,6 @@
 	"main": "./backend/bin/www",
 	"scripts": {
 		"postinstall": "node ./envCheck.js",
-
 		"dev": "nodemon --exec \"node -r dotenv/config\" --ext js,json ./backend/bin/www",
 		"build": "vite build",
 		"lint": "eslint .",
@@ -25,6 +24,7 @@
 		"dotenv": "^17.2.1",
 		"express": "^5.1.0",
 		"express-session": "^1.18.2",
+		"mongodb": "^6.19.0",
 		"mongoose": "^8.17.1",
 		"morgan": "^1.10.1",
 		"multer": "^2.0.2",
@@ -48,6 +48,7 @@
 		"@types/debug": "^4.1.12",
 		"@types/express": "^5.0.3",
 		"@types/express-session": "^1.18.2",
+		"@types/mongodb": "^4.0.6",
 		"@types/mongoose": "^5.11.96",
 		"@types/morgan": "^1.9.10",
 		"@types/multer": "^2.0.0",
@@ -55,7 +56,7 @@
 		"@types/react": "^19.1.9",
 		"@types/react-dom": "^19.1.7",
 		"@vitejs/plugin-react": "^5.0.0",
-		"eslint": "^9.32.0",
+		"eslint": "^9.35.0",
 		"eslint-plugin-react": "^7.37.5",
 		"eslint-plugin-react-hooks": "^5.2.0",
 		"eslint-plugin-react-refresh": "^0.4.20",

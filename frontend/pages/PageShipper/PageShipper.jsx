@@ -80,9 +80,7 @@ const PageShipper = () => {
 			}
 
 			// If we have a hubId (shipper), filter orders by hub; otherwise load all
-			const ordersData = hubId
-				? await orderService.getOrdersByHub(hubId)
-				: await orderService.getAllOrders();
+			const ordersData = hubId ? await orderService.getOrdersByHub(hubId) : await orderService.getAllOrders();
 
 			console.log('Fetched orders:', ordersData); // Debug log
 			console.log('Orders data type:', typeof ordersData); // Debug log

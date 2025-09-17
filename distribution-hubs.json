@@ -1,0 +1,17 @@
+[
+  {
+    "_id": { "$oid": "661111111111111111111111" },
+    "name": "Saigon Central Hub",
+    "address": "11 Cong Quynh, D1, HCMC"
+  },
+  {
+    "_id": { "$oid": "662222222222222222222222" },
+    "name": "Thu Duc Hub",
+    "address": "88 Pham Van Dong, Thu Duc, HCMC"
+  },
+  {
+    "_id": { "$oid": "663333333333333333333333" },
+    "name": "Newport Hub",
+    "address": "77 Nguyen Van Linh, D7, HCMC"
+  }
+]

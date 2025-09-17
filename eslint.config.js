@@ -20,7 +20,6 @@ import stylistic from '@stylistic/eslint-plugin';
 
 export default defineConfig([
 	globalIgnores(['**/dist']),
-
 	{
 		files: ['**/*.{js,jsx}', './backend/bin/www', './frontend/**/*.{ts,tsx}'],
 		ignores: ['node_modules/'],
