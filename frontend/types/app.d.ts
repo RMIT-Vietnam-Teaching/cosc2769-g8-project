@@ -48,6 +48,7 @@ declare global {
 			id: number;
 			name: string;
 			role: UserRole;
+			img?: string | null;
 		}
 
 		interface Hub {

@@ -3,8 +3,8 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Trần Phan Anh Khoa, Đoàn Đắc Nguyên
-# ID: s4136776, s4131473
+# Author: Đoàn Đắc Nguyên, Trần Phan Anh Khoa
+# ID: s4131473, s4136776
 */
 import { useEffect, useMemo, useState } from 'react';
 import { FaFilter, FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
@@ -166,7 +166,7 @@ const PageCustomer = () => {
 				</div>
 			</form>
 
-			<div className='row'>
+			<div className='row g-4'>
 				{
 					products.map((product: ProductType) => (
 						<ProductCard

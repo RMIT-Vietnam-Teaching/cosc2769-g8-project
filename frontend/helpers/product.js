@@ -3,8 +3,8 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Nguyễn Hoàng Long
-# ID: s4131459
+# Author: Đoàn Đắc Nguyên
+# ID: s4131473
 */
 const helper = {};
 

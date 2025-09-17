@@ -6,6 +6,12 @@
 # Author: Trần Phan Anh Khoa
 # ID: s4136776
 */
-.product-search__select {
+.product-search__select.react-select__container {
 	flex-grow: 999;
+	border-radius: var(--bs-border-radius-pill);
+
+	.react-select__control {
+		border-radius: var(--bs-border-radius-pill);
+		padding-left: .5rem;
+	}
 }

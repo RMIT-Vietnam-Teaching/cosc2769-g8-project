@@ -3,8 +3,8 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Đoàn Đắc Nguyên, Trần Phan Anh Khoa
-# ID: s4131473, s4136776
+# Author: Đoàn Đắc Nguyên
+# ID: s4131473
 */
 import { MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router';
@@ -39,7 +39,7 @@ const ProductCard = ({ product, showDelete = false, onDelete }: ProductCardProps
 	};
 
 	return (
-		<div className='col-12 col-sm-6 col-md-4 col-lg-3 mb-4 link-underline link-underline-opacity-0' onClick={() => { navigate(`/product/${product.id}`); }}>
+		<div className='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 link-underline link-underline-opacity-0' onClick={() => { navigate(`/product/${product.id}`); }}>
 			<div className='card shadow-sm h-100'>
 				<div className='ratio ratio-4x3'>
 					<img src={imgSrc} className='w-100 h-100 object-fit-cover' alt='' />

@@ -6,6 +6,8 @@
 	"type": "module",
 	"main": "./backend/bin/www",
 	"scripts": {
+		"postinstall": "node ./envCheck.js",
+
 		"dev": "nodemon --exec \"node -r dotenv/config\" --ext js,json ./backend/bin/www",
 		"build": "vite build",
 		"lint": "eslint .",

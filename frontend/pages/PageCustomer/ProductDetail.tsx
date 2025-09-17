@@ -3,13 +3,14 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Đoàn Đắc Nguyên, Trần Phan Anh Khoa
-# ID: s4131473, s4136776
+# Author: Đoàn Đắc Nguyên
+# ID: s4131473
 */
 import { useEffect, useMemo, useState } from 'react';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router';
+import { clsx } from 'clsx';
 
 import { productHelper } from '#/helpers/product';
 import { productsActions, productsSelectors } from '#/redux/slices/productSlice';
@@ -118,7 +119,7 @@ const ProductDetail = () => {
 			</div>
 
 			<div className='row g-4 align-items-start'>
-				<div className='col-6'>
+				<div className='col-12 col-lg-6'>
 					<div id='productCarousel' className='carousel slide'>
 						<div className='carousel-indicators'>
 							{images.map((_, i) => (
@@ -152,16 +153,20 @@ const ProductDetail = () => {
 						</button>
 					</div>
 				</div>
-				<div className='col-6'>
+				<div className='col-12 col-lg-6'>
 					<h1 className='display-10 mb-3'>{product.name}</h1>
 					<div className='h3 text-secondary mb-4'>{productHelper.displayPrice(product.price)}</div>
 					<p className='fs-5 text-muted mb-4'>{product.description}</p>
 					<button
 						type='button'
-						className='btn btn-dark btn-lg rounded-5 w-50'
+						className={clsx(
+							'btn btn-lg rounded-5 w-50',
+							isNotAvailable ? 'btn-dark' : 'btn-outline-dark opacity-100',
+						)}
 						onClick={handleAddToCard}
 						disabled={!isNotAvailable}
-					>Add to cart
+					>
+						{isNotAvailable ? 'Add to cart' : 'Added'}
 					</button>
 				</div>
 			</div>

@@ -17,7 +17,7 @@ export const PageVendor = () => {
 	const products: VendorProduct[] = useLoaderData() ?? [];
 	return (
 		<div className='container-fluid my-4 d-flex flex-column gap-4'>
-			<div className='row'>
+			<div className='row g-4'>
 				{
 					products.map(product => (
 						<ProductCard

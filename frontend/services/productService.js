@@ -3,12 +3,12 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Trần Phan Anh Khoa
-# ID: s4136776
+# Author: Đoàn Đắc Nguyên, Trần Phan Anh Khoa
+# ID: s4131473, s4136776
 */
 import { fetchHelper } from '#/helpers/fetch';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = '/api';
 
 export const productService = {
 	/**

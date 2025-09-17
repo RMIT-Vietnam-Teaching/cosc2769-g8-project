@@ -7,13 +7,24 @@
 # ID: s4136776
 */
 import { startTransition, useActionState, useEffect, useState } from 'react';
+import { MdSearch } from 'react-icons/md';
 import { useNavigate, useSearchParams } from 'react-router';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 
 import './ProductSearch.css';
 
 import { reactSelectHelper } from '#/helpers/reactSelect';
 import productService from '#/services/productService';
+
+const DropdownIndicator = (/** @type {any} */props) => {
+	return (
+		<components.DropdownIndicator {...props}>
+			<div className='px-1'>
+				<MdSearch size={24} />
+			</div>
+		</components.DropdownIndicator>
+	);
+};
 
 export const ProductSearch = () => {
 	const [searchParams] = useSearchParams();
@@ -21,6 +32,14 @@ export const ProductSearch = () => {
 	const navigate = useNavigate();
 	const [options, getOptions, isSearching] = useActionState(searchByName, []);
 	const [currentOption, setCurrentOption] = useState(null);
+
+	const searchKeyword = searchParams.get('search') ?? '';
+	useEffect(() => {
+		if (searchKeyword === '') {
+			setCurrentOption(null);
+			setSearch('');
+		}
+	}, [searchKeyword]);
 
 	useEffect(() => {
 		startTransition(() => getOptions(search));
@@ -32,12 +51,14 @@ export const ProductSearch = () => {
 		}
 	};
 
-	const handleSelect = (/** @type {any} */ option) => {
+	const handleSelect = (/** @type {any} */ option, action) => {
 		setCurrentOption(option);
-		if (option.value == null) {
-			navigate(`/customer?search=${option.search}`);
-		} else {
-			navigate(`/product/${option.value}?search=${option.search}`);
+		if (action.action === 'select-option') {
+			if (option.value == null) {
+				navigate(`/customer?search=${option.search}`);
+			} else {
+				navigate(`/product/${option.value}?search=${option.search}`);
+			}
 		}
 	};
 
@@ -57,6 +78,8 @@ export const ProductSearch = () => {
 			onChange={handleSelect}
 
 			onInputChange={handleInputChange}
+
+			components={{ DropdownIndicator }}
 		/>
 	);
 };

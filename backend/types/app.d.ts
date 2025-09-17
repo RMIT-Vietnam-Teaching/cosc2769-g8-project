@@ -30,6 +30,7 @@ declare global {
 			id: string;
 			name: string;
 			role: UserRole;
+			img?: string | null;
 		};
 	}
 }

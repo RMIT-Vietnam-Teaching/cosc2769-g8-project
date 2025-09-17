@@ -3,8 +3,8 @@
 # Course: COSC2769 - Full Stack Development
 # Semester: 2025B
 # Assessment: Assignment 02
-# Author: Đỗ Phúc Danh, Trần Phan Anh Khoa
-# ID: s4133678, s4136776
+# Author: Đỗ Phúc Danh
+# ID: s4133678
 */
 import { useActionState, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -130,12 +130,7 @@ export const PageMyAccount = () => {
 
 	const getProfilePictureUrl = () => {
 		if (profileData.profilePicture) {
-			// Handle both old format (with /uploads/ prefix) and new format (filename only)
-			if (profileData.profilePicture.startsWith('/uploads/')) {
-				return profileData.profilePicture; // Old format, use as is
-			} else {
-				return `/uploads/${profileData.profilePicture}`; // New format, add prefix
-			}
+			return profileData.profilePicture;
 		}
 		return '/vite.svg'; // Default image
 	};
